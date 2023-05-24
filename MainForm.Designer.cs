@@ -33,9 +33,16 @@
             tablesListBox = new ListBox();
             panel2 = new Panel();
             label1 = new Label();
+            panel4 = new Panel();
+            label2 = new Label();
+            panel5 = new Panel();
+            dataGridView1 = new DataGridView();
             panel1.SuspendLayout();
             panel3.SuspendLayout();
             panel2.SuspendLayout();
+            panel4.SuspendLayout();
+            panel5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // panel1
@@ -86,11 +93,53 @@
             label1.TabIndex = 1;
             label1.Text = "Tables:";
             // 
+            // panel4
+            // 
+            panel4.Controls.Add(label2);
+            panel4.Dock = DockStyle.Top;
+            panel4.Location = new Point(200, 0);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(780, 33);
+            panel4.TabIndex = 3;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(6, 9);
+            label2.Name = "label2";
+            label2.Size = new Size(40, 15);
+            label2.TabIndex = 2;
+            label2.Text = "Fields:";
+            // 
+            // panel5
+            // 
+            panel5.Controls.Add(dataGridView1);
+            panel5.Dock = DockStyle.Fill;
+            panel5.Location = new Point(200, 33);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(780, 629);
+            panel5.TabIndex = 4;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Dock = DockStyle.Fill;
+            dataGridView1.Location = new Point(0, 0);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.ReadOnly = true;
+            dataGridView1.RowTemplate.Height = 25;
+            dataGridView1.Size = new Size(780, 629);
+            dataGridView1.TabIndex = 3;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(980, 662);
+            Controls.Add(panel5);
+            Controls.Add(panel4);
             Controls.Add(panel1);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
@@ -100,6 +149,10 @@
             panel3.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            panel4.ResumeLayout(false);
+            panel4.PerformLayout();
+            panel5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
@@ -109,5 +162,9 @@
         private Panel panel2;
         private Label label1;
         private Panel panel3;
+        private Panel panel4;
+        private Label label2;
+        private Panel panel5;
+        private DataGridView dataGridView1;
     }
 }

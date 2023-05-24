@@ -1,4 +1,5 @@
 using codegenerator.BLL;
+using codegenerator.Models;
 using System.Diagnostics;
 
 namespace codegenerator
@@ -36,24 +37,28 @@ namespace codegenerator
 
         private void populateTables()
         {
-            List<string> tableList = null;
+            List<SQLTableModel> tableList = null;
             tableList = DatabaseUtilities.GetDatabaseTables(connectionString);
             if (tableList == null)
             {
                 MessageBox.Show("No tables were fround on current database", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            foreach (string table in tableList)
+            foreach (SQLTableModel table in tableList)
             {
-                tablesListBox.Items.Add(table);
+                KeyValueItem item = new KeyValueItem();
+                item.Text = table.name;
+                item.Value = table.id;
+                tablesListBox.Items.Add(item);
             }
             tablesListBox.SelectedIndex = 0;
         }
 
         private void tablesListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            List<SQLTableFieldModel> fieldList;
+            KeyValueItem item = (KeyValueItem)tablesListBox.SelectedItem;
+            fieldList = DatabaseUtilities.GetTableFields(connectionString, Convert.ToInt32(item.Value));
         }
     }
 }
