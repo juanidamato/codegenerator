@@ -15,7 +15,7 @@ namespace codegenerator.BLL
 
             try
             {
-                SqlConnection conn = new SqlConnection();
+                 SqlConnection conn = new SqlConnection();
                 conn.ConnectionString = connectionString;
                 conn.Open();
                 if (conn.State==System.Data.ConnectionState.Open)
