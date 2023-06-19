@@ -8,12 +8,29 @@ namespace codegenerator
     {
         private bool bolLoading;
         private string connectionString;
+        private DatabaseUtilities _dbUtil;
+        private ODBCConnect _odbcForm;
 
-        public MainForm()
+        public MainForm(DatabaseUtilities dbUtil,ODBCConnect odbcForm)
         {
+            _dbUtil=dbUtil;
+            _odbcForm=odbcForm;
+
             bolLoading = true;
             connectionString = "";
             InitializeComponent();
+
+            DataGridViewColumn col1=new DataGridViewColumn();
+            col1.Name="Name";
+            dataGridView1.Columns.Add(col1);
+
+            DataGridViewColumn col2=new DataGridViewColumn();
+            col2.Name="Type";
+            dataGridView1.Columns.Add(col2);
+
+            DataGridViewColumn col3=new DataGridViewColumn();
+            col3.Name="Length";
+            dataGridView1.Columns.Add(col3);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -21,15 +38,15 @@ namespace codegenerator
             if (bolLoading)
             {
                 bolLoading = false;
-                ODBCConnect connectForm = new ODBCConnect();
-                connectForm.ShowDialog();
+                
+                _odbcForm.ShowDialog();
 
-                if (!connectForm.returnCode)
+                if (!_odbcForm.returnCode)
                 {
                     System.Windows.Forms.Application.Exit();
                     return;
                 }
-                connectionString = connectForm.connectionString;
+                connectionString = _odbcForm.connectionString;
                 populateTables();
             }
 
@@ -38,7 +55,7 @@ namespace codegenerator
         private void populateTables()
         {
             List<SQLTableModel> tableList = null;
-            tableList = DatabaseUtilities.GetDatabaseTables(connectionString);
+            tableList = _dbUtil.GetDatabaseTables(connectionString);
             if (tableList == null)
             {
                 MessageBox.Show("No tables were fround on current database", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -58,7 +75,7 @@ namespace codegenerator
         {
             List<SQLTableFieldModel> fieldList;
             KeyValueItem item = (KeyValueItem)tablesListBox.SelectedItem;
-            fieldList = DatabaseUtilities.GetTableFields(connectionString, Convert.ToInt32(item.Value));
+            fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value));
         }
     }
 }

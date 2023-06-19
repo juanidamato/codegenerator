@@ -111,7 +111,7 @@
         private Label ConnectionStringLabel;
         private TextBox ConnectionStringTextBox;
         private CheckBox PreserveConnectionStringCheckBox;
-        private Button AcceptButton;
-        private Button CancelButton;
+        private new Button AcceptButton;
+        private new Button CancelButton;
     }
 }

@@ -5,14 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using codegenerator.Models;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Logging;
+
 namespace codegenerator.BLL
 {
     public class DatabaseUtilities
     {
-
-        public static bool TestConnection(string connectionString)
+        private ILogger<DatabaseUtilities> _logger;
+        public DatabaseUtilities(ILogger<DatabaseUtilities> logger)
         {
-
+            _logger=logger;
+        }
+        public  bool TestConnection(string connectionString)
+        {
             try
             {
                 SqlConnection conn = new SqlConnection();
@@ -29,11 +34,12 @@ namespace codegenerator.BLL
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex,"Error in TestConnection");
                 return false;
             }
         }
 
-        public static List<SQLTableModel> GetDatabaseTables(string connectionString)
+        public  List<SQLTableModel> GetDatabaseTables(string connectionString)
         {
             SqlConnection conn = new SqlConnection();
             List<SQLTableModel> tableList = null;
@@ -67,6 +73,7 @@ namespace codegenerator.BLL
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex,"Error in GetDatabaseTables");
                 tableList = null;
                 return tableList;
             }
@@ -80,7 +87,7 @@ namespace codegenerator.BLL
             }
         }
 
-        public static List<SQLTableFieldModel> GetTableFields(string connectionString,int tableId)
+        public  List<SQLTableFieldModel> GetTableFields(string connectionString,int tableId)
         {
             SqlConnection conn = new SqlConnection();
             List<SQLTableFieldModel> fieldList = null;
@@ -117,6 +124,7 @@ namespace codegenerator.BLL
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex,"Error in GetTableFields");
                 fieldList = null;
                 return fieldList;
             }

@@ -8,16 +8,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using codegenerator.BLL;
+using Microsoft.Extensions.Logging;
+
 namespace codegenerator
 {
     public partial class ODBCConnect : Form
     {
-
+        private ILogger<ODBCConnect> _logger;
+        private DatabaseUtilities _dbUtil;
         public bool returnCode { get; set; }
         public string connectionString { get; set; }
 
-        public ODBCConnect()
+        public ODBCConnect(
+            ILogger<ODBCConnect> logger,
+            DatabaseUtilities dbUtil)
         {
+            _logger=logger;
+            _dbUtil=dbUtil;
+
             InitializeComponent();
 
             returnCode = false;
@@ -35,6 +43,7 @@ namespace codegenerator
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex,"Error in ODBCConnect constructor");
             }
 
             ConnectionStringTextBox.Text = connectionString;
@@ -56,7 +65,7 @@ namespace codegenerator
                 MessageBox.Show("Must supply a connection string", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (!DatabaseUtilities.TestConnection(ConnectionStringTextBox.Text))
+            if (!_dbUtil.TestConnection(ConnectionStringTextBox.Text))
             {
                 MessageBox.Show("Invalid connection string", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
