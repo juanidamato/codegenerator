@@ -51,7 +51,9 @@ namespace codegenerator.BLL
                 {
                     command.Connection = conn;
                     command.CommandType = System.Data.CommandType.Text;
-                    command.CommandText = "select id,name from sys.sysobjects where xtype='U' order by name";
+                    command.CommandText = "select id,name from sys.sysobjects " +
+                                          "where xtype='U' and name not in ('sysdiagrams') " +
+                                          "order by name";
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.HasRows)
@@ -99,7 +101,10 @@ namespace codegenerator.BLL
                 {
                     command.Connection = conn;
                     command.CommandType = System.Data.CommandType.Text;
-                    command.CommandText = "select cols.name, types.name as 'fieldType', cols.isnullable from sys.syscolumns cols inner join sys.systypes types  on cols.xusertype=types.xusertype where cols.id=@P1 order by colorder";
+                    command.CommandText = "select cols.name, types.name as 'fieldType', cols.isnullable,cols.length,cols.xprec,cols.xscale " +
+                                          "from sys.syscolumns cols inner join sys.systypes types  " +
+                                          "on cols.xusertype=types.xusertype where cols.id=@P1 " +
+                                          "order by colorder";
                     SqlParameter p1 = new SqlParameter("@P1",tableId);
                     command.Parameters.Add(p1);
                     
@@ -114,6 +119,9 @@ namespace codegenerator.BLL
                                 field.name = (string)reader.GetString(0);
                                 field.fieldType = (string)reader.GetString(1);
                                 field.isnullable = (int)reader.GetInt32(2);
+                                field.length = (int)reader.GetInt16(3);
+                                field.xprec = (byte)reader.GetByte(4);
+                                field.xscale = (byte)reader.GetByte(5);
                                 fieldList.Add(field);
                             }
                             reader.Close();

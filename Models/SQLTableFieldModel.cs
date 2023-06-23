@@ -11,6 +11,9 @@ namespace codegenerator.Models
         public string name { get; set; }
         public string fieldType { get; set; }
         public int isnullable { get; set; }
+        public int length { get; set; }
+        public byte xprec { get; set; }
+        public byte xscale { get; set; }
     }
 }
 
