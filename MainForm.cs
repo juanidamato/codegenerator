@@ -2,6 +2,7 @@ using codegenerator.BLL;
 using codegenerator.Models;
 using codegenerator.Models.ViewModels;
 using System.Diagnostics;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace codegenerator
@@ -28,6 +29,12 @@ namespace codegenerator
             if (bolLoading)
             {
                 bolLoading = false;
+                panel6.Dock = DockStyle.Fill;
+                panel5.Dock = DockStyle.Top;
+                panel5.Height = 250;
+                dataGridView1.Dock = DockStyle.Fill;
+                panel7.Dock = DockStyle.Fill;
+                tabControl1.Dock = DockStyle.Fill;
 
                 SetupNewGrid();
 
@@ -81,6 +88,10 @@ namespace codegenerator
             dataGridView1.Columns.Add(col5);
         }
 
+        private void SetupOtherValues()
+        {
+            EntityNameTextBox.Text =((KeyValueItem) tablesListBox.SelectedItem).Text;
+        }
 
         private void populateTables()
         {
@@ -107,6 +118,7 @@ namespace codegenerator
             KeyValueItem item;
 
             SetupNewGrid();
+            SetupOtherValues();
             item = (KeyValueItem)tablesListBox.SelectedItem;
             fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value));
             if (fieldList != null)
@@ -119,7 +131,9 @@ namespace codegenerator
                         CalculateFieldSizeString(field),
                         field.isnullable == 0 ? false : true,
                         false);
-                    if (dataGridView1.Rows.Count % 2 ==0)
+                    //todo remove
+                    //just poc
+                    if (dataGridView1.Rows.Count % 2 == 0)
                     {
                         dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[4].Value = null;
                         dataGridView1.Rows[dataGridView1.Rows.Count - 1].Cells[4] = new DataGridViewTextBoxCell();
@@ -143,12 +157,90 @@ namespace codegenerator
                     size = field.length == -1 ? "max" : (field.length / 2).ToString();
                     break;
                 case "decimal":
-                    size = "xx";
+                case "numeric":
+                    size = "("+field.xprec.ToString() + "," + field.xscale.ToString()+")";
                     break;
+                  
+                default:
+                    break;
+                    //todo
             }
             return size;
         }
+        
+        private string MapSQLTypeToCType(SQLTableFieldModel field)
+        {
+            string map = "";
+            switch (field.fieldType)
+            {
+                case "char":
+                case "varchar":
+                case "nchar":
+                case "nvarchar":
+                    map = "string";
+                    break;
+                case "int":
+                    map = "int";
+                    break;
+                case "bigint":
+                    map = "long";
+                    break;
+                case "smallint":
+                    map = "short";
+                    break;
+                case "tinyint":
+                    map = "byte";
+                    break;
+                case "bit":
+                    map = "bool";
+                    break;
+                case "decimal":
+                    map = "decimal";
+                    break;
+                case "float":
+                    map = "float";
+                    break;
+                case "double":
+                    map = "double";
+                    break;
+                default:
+                    break;
+                    //todo
+            }
+            return map;
+        }
+        private void GenerateEntityButton_Click(object sender, EventArgs e)
+        {
+            string code;
+            List<SQLTableFieldModel> fieldList;
+            KeyValueItem item;
+            GeneratedCodeForm form = new GeneratedCodeForm();
 
-       
+            code = $"namespace {GeneralNamespaceTextBox.Text}.{EntitiesNamespaceSuffixTextBox.Text}" + Environment.NewLine;
+            code = code + "{" + Environment.NewLine;
+            code = code + $"    public class {EntityNameTextBox.Text}";
+            if (!string.IsNullOrWhiteSpace(EntityInherithsFromTextBox.Text))
+            {
+                code = code + $" : {EntityInherithsFromTextBox.Text}" + Environment.NewLine;
+            }
+            else
+            {
+                code = code  + Environment.NewLine;
+            }
+            code = code + "    {" + Environment.NewLine;
+            item = (KeyValueItem)tablesListBox.SelectedItem;
+            fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value));
+            if (fieldList != null)
+            {
+                foreach (var field in fieldList)
+                {
+                    code = code + $"         public {MapSQLTypeToCType(field)} {field.name}"+" {get;set;}" + Environment.NewLine;
+                }
+            }
+            code = code + "    }" + Environment.NewLine;
+            code = code + "}" + Environment.NewLine;
+            form.GeneratedCodeText = code;
+            form.Show();
+        }
     }
 }
