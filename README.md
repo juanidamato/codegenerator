@@ -4,13 +4,13 @@
 <p>Code generator generates some artifacts from database tables. Generated artifacts can be used on C# projects with a clean architecture aproach</p>
 
 <p>
-  Generated artifacts are:
+  Right now generated artifacts are:
   <li>Stored procedures for CRUD operations</li>
   <li>Entity Domain models</li>
 </p>
 
 <p>
-  Pending elements to generate:
+  Pending artifacts to generate:
   <li>Repository Interfaces</li>
   <li>Repository Implementations</li>
   <li>Manager BLL Interfaces</li>
