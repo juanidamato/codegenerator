@@ -7,6 +7,7 @@
   Right now generated artifacts are:
   <li>Stored procedures for CRUD operations</li>
   <li>Entity Domain models</li>
+
 </p>
 
 <p>
@@ -22,6 +23,10 @@
   <li>Dependency Injection</li>
   <li>Controller endpoints</li>
 </p>
+
+# Screen shots
+
+![Screen Shot 2023-07-07 at 2 48 51 PM](https://github.com/juanidamato/codegenerator/assets/16365314/4c70baef-ed0e-4c0d-bb31-94023956196e)
 
 
 
