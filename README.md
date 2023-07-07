@@ -1,7 +1,7 @@
 # codegenerator
 <p>Work in progress... not ready yet:( </p>
 
-<p>Code generator generates some artifacts from database tables. Generated artifacts can be used on C# projects with a clean architecture aproach</p>
+<p>Code generator generates some artifacts from database tables. Generated artifacts can be used on C# projects with a clean architecture aproach.</p>
 
 <p>
   Right now generated artifacts are:
