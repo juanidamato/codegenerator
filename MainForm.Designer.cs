@@ -41,17 +41,25 @@
             panel7 = new Panel();
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            AuthorTextBox = new TextBox();
+            label7 = new Label();
             GeneralNamespaceTextBox = new TextBox();
             label3 = new Label();
             tabPage2 = new TabPage();
+            EntityNameTextBox = new TextBox();
+            label6 = new Label();
             GenerateEntityButton = new Button();
             EntityInherithsFromTextBox = new TextBox();
             label5 = new Label();
             EntitiesNamespaceSuffixTextBox = new TextBox();
             label4 = new Label();
+            tabPage4 = new TabPage();
+            SelectByPKButton = new Button();
+            spSelectAllButton = new Button();
             tabPage3 = new TabPage();
-            EntityNameTextBox = new TextBox();
-            label6 = new Label();
+            spInsertButton = new Button();
+            spUpdateByPKButton = new Button();
+            spDeleteByPKButton = new Button();
             panel1.SuspendLayout();
             panel3.SuspendLayout();
             panel2.SuspendLayout();
@@ -63,6 +71,7 @@
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
+            tabPage4.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -173,8 +182,9 @@
             // 
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
+            tabControl1.Controls.Add(tabPage4);
             tabControl1.Controls.Add(tabPage3);
-            tabControl1.Location = new Point(20, 16);
+            tabControl1.Location = new Point(13, 16);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(642, 371);
@@ -182,6 +192,8 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(AuthorTextBox);
+            tabPage1.Controls.Add(label7);
             tabPage1.Controls.Add(GeneralNamespaceTextBox);
             tabPage1.Controls.Add(label3);
             tabPage1.Location = new Point(4, 24);
@@ -191,6 +203,22 @@
             tabPage1.TabIndex = 0;
             tabPage1.Text = "General";
             tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // AuthorTextBox
+            // 
+            AuthorTextBox.Location = new Point(119, 43);
+            AuthorTextBox.Name = "AuthorTextBox";
+            AuthorTextBox.Size = new Size(413, 23);
+            AuthorTextBox.TabIndex = 3;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(8, 43);
+            label7.Name = "label7";
+            label7.Size = new Size(47, 15);
+            label7.TabIndex = 2;
+            label7.Text = "Author:";
             // 
             // GeneralNamespaceTextBox
             // 
@@ -224,6 +252,22 @@
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Domain";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // EntityNameTextBox
+            // 
+            EntityNameTextBox.Location = new Point(217, 42);
+            EntityNameTextBox.Name = "EntityNameTextBox";
+            EntityNameTextBox.Size = new Size(363, 23);
+            EntityNameTextBox.TabIndex = 4;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(18, 42);
+            label6.Name = "label6";
+            label6.Size = new Size(80, 15);
+            label6.TabIndex = 7;
+            label6.Text = "Entitity name:";
             // 
             // GenerateEntityButton
             // 
@@ -267,6 +311,40 @@
             label4.TabIndex = 2;
             label4.Text = "Entities namespace suffix:";
             // 
+            // tabPage4
+            // 
+            tabPage4.Controls.Add(spDeleteByPKButton);
+            tabPage4.Controls.Add(spUpdateByPKButton);
+            tabPage4.Controls.Add(spInsertButton);
+            tabPage4.Controls.Add(SelectByPKButton);
+            tabPage4.Controls.Add(spSelectAllButton);
+            tabPage4.Location = new Point(4, 24);
+            tabPage4.Name = "tabPage4";
+            tabPage4.Size = new Size(634, 343);
+            tabPage4.TabIndex = 3;
+            tabPage4.Text = "Stored Procedures";
+            tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // SelectByPKButton
+            // 
+            SelectByPKButton.Location = new Point(16, 53);
+            SelectByPKButton.Name = "SelectByPKButton";
+            SelectByPKButton.Size = new Size(136, 25);
+            SelectByPKButton.TabIndex = 1;
+            SelectByPKButton.Text = "Select by PK";
+            SelectByPKButton.UseVisualStyleBackColor = true;
+            SelectByPKButton.Click += spSelectByPKButton_Click;
+            // 
+            // spSelectAllButton
+            // 
+            spSelectAllButton.Location = new Point(16, 22);
+            spSelectAllButton.Name = "spSelectAllButton";
+            spSelectAllButton.Size = new Size(136, 25);
+            spSelectAllButton.TabIndex = 0;
+            spSelectAllButton.Text = "Select All";
+            spSelectAllButton.UseVisualStyleBackColor = true;
+            spSelectAllButton.Click += spSelectAllButton_Click;
+            // 
             // tabPage3
             // 
             tabPage3.Location = new Point(4, 24);
@@ -276,21 +354,35 @@
             tabPage3.Text = "Features";
             tabPage3.UseVisualStyleBackColor = true;
             // 
-            // EntityNameTextBox
+            // spInsertButton
             // 
-            EntityNameTextBox.Location = new Point(217, 42);
-            EntityNameTextBox.Name = "EntityNameTextBox";
-            EntityNameTextBox.Size = new Size(363, 23);
-            EntityNameTextBox.TabIndex = 4;
+            spInsertButton.Location = new Point(176, 22);
+            spInsertButton.Name = "spInsertButton";
+            spInsertButton.Size = new Size(136, 25);
+            spInsertButton.TabIndex = 2;
+            spInsertButton.Text = "Insert";
+            spInsertButton.UseVisualStyleBackColor = true;
+            spInsertButton.Click += spInsertButton_Click;
             // 
-            // label6
+            // spUpdateByPKButton
             // 
-            label6.AutoSize = true;
-            label6.Location = new Point(18, 42);
-            label6.Name = "label6";
-            label6.Size = new Size(80, 15);
-            label6.TabIndex = 7;
-            label6.Text = "Entitity name:";
+            spUpdateByPKButton.Location = new Point(176, 53);
+            spUpdateByPKButton.Name = "spUpdateByPKButton";
+            spUpdateByPKButton.Size = new Size(136, 25);
+            spUpdateByPKButton.TabIndex = 3;
+            spUpdateByPKButton.Text = "Update by PK";
+            spUpdateByPKButton.UseVisualStyleBackColor = true;
+            spUpdateByPKButton.Click += spUpdateByPKButton_Click;
+            // 
+            // spDeleteByPKButton
+            // 
+            spDeleteByPKButton.Location = new Point(318, 22);
+            spDeleteByPKButton.Name = "spDeleteByPKButton";
+            spDeleteByPKButton.Size = new Size(136, 25);
+            spDeleteByPKButton.TabIndex = 4;
+            spDeleteByPKButton.Text = "Delete by PK";
+            spDeleteByPKButton.UseVisualStyleBackColor = true;
+            spDeleteByPKButton.Click += spDeleteByPKButton_Click;
             // 
             // MainForm
             // 
@@ -319,6 +411,7 @@
             tabPage1.PerformLayout();
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
+            tabPage4.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -347,5 +440,13 @@
         private Button GenerateEntityButton;
         private TextBox EntityNameTextBox;
         private Label label6;
+        private TextBox AuthorTextBox;
+        private Label label7;
+        private TabPage tabPage4;
+        private Button spSelectAllButton;
+        private Button SelectByPKButton;
+        private Button spInsertButton;
+        private Button spDeleteByPKButton;
+        private Button spUpdateByPKButton;
     }
 }

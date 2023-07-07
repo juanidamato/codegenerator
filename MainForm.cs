@@ -90,7 +90,7 @@ namespace codegenerator
 
         private void SetupOtherValues()
         {
-            EntityNameTextBox.Text =((KeyValueItem) tablesListBox.SelectedItem).Text;
+            EntityNameTextBox.Text = ((KeyValueItem)tablesListBox.SelectedItem).Text;
         }
 
         private void populateTables()
@@ -115,6 +115,7 @@ namespace codegenerator
         private void tablesListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             List<SQLTableFieldModel> fieldList;
+            List<SQLTableKeyFieldModel> keyFieldList;
             KeyValueItem item;
 
             SetupNewGrid();
@@ -123,10 +124,25 @@ namespace codegenerator
             fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value));
             if (fieldList != null)
             {
+                keyFieldList = _dbUtil.GetTableKeyFields(connectionString, item.Text);
+                if (keyFieldList != null)
+                {
+                    for (int i = 0; i <= fieldList.Count - 1; i++)
+                    {
+                        foreach (var keyfield in keyFieldList)
+                        {
+                            if (keyfield.COLUMN_NAME == fieldList[i].name)
+                            {
+                                fieldList[i].isPrimaryKey = true;
+                            }
+                        }
+                    }
+                }
+
                 foreach (var field in fieldList)
                 {
                     dataGridView1.Rows.Add(
-                        field.name,
+                        field.isPrimaryKey ? "*" + field.name : field.name,
                         field.fieldType,
                         CalculateFieldSizeString(field),
                         field.isnullable == 0 ? false : true,
@@ -158,16 +174,40 @@ namespace codegenerator
                     break;
                 case "decimal":
                 case "numeric":
-                    size = "("+field.xprec.ToString() + "," + field.xscale.ToString()+")";
+                    size = "(" + field.xprec.ToString() + "," + field.xscale.ToString() + ")";
                     break;
-                  
+
                 default:
                     break;
                     //todo
             }
             return size;
         }
-        
+
+        private string CalculateFieldTypeString(SQLTableFieldModel field)
+        {
+            string fieldType = "";
+            string size;
+            size = CalculateFieldSizeString(field);
+
+            switch (field.fieldType)
+            {
+                case "char":
+                case "varchar":
+                case "nchar":
+                case "nvarchar":
+                case "decimal":
+                case "numeric":
+                    fieldType = field.fieldType + "(" + size + ")";
+                    break;
+                default:
+                    fieldType = field.fieldType;
+                    break;
+                    //todo
+            }
+            return fieldType;
+        }
+
         private string MapSQLTypeToCType(SQLTableFieldModel field)
         {
             string map = "";
@@ -209,6 +249,7 @@ namespace codegenerator
             }
             return map;
         }
+
         private void GenerateEntityButton_Click(object sender, EventArgs e)
         {
             string code;
@@ -225,7 +266,7 @@ namespace codegenerator
             }
             else
             {
-                code = code  + Environment.NewLine;
+                code = code + Environment.NewLine;
             }
             code = code + "    {" + Environment.NewLine;
             item = (KeyValueItem)tablesListBox.SelectedItem;
@@ -234,13 +275,170 @@ namespace codegenerator
             {
                 foreach (var field in fieldList)
                 {
-                    code = code + $"         public {MapSQLTypeToCType(field)} {field.name}"+" {get;set;}" + Environment.NewLine;
+                    code = code + $"         public {MapSQLTypeToCType(field)} {field.name}" + " {get;set;}" + Environment.NewLine;
                 }
             }
             code = code + "    }" + Environment.NewLine;
             code = code + "}" + Environment.NewLine;
             form.GeneratedCodeText = code;
             form.Show();
+        }
+
+        private void spSelectAllButton_Click(object sender, EventArgs e)
+        {
+            string code;
+            string orderby;
+            List<SQLTableFieldModel> fieldList;
+            List<SQLTableKeyFieldModel> keyFieldList;
+            KeyValueItem item;
+            GeneratedCodeForm form = new GeneratedCodeForm();
+            DateTime Today = DateTime.Now;
+            item = (KeyValueItem)tablesListBox.SelectedItem;
+            fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value));
+            orderby = "";
+            if (fieldList != null)
+            {
+                keyFieldList = _dbUtil.GetTableKeyFields(connectionString, item.Text);
+                if (keyFieldList != null)
+                {
+                    for (int i = 0; i <= fieldList.Count - 1; i++)
+                    {
+                        foreach (var keyfield in keyFieldList)
+                        {
+                            if (keyfield.COLUMN_NAME == fieldList[i].name)
+                            {
+                                fieldList[i].isPrimaryKey = true;
+                            }
+                        }
+                    }
+                }
+                foreach (var field in fieldList)
+                {
+                    if (field.isPrimaryKey)
+                    {
+                        if (orderby != "")
+                        {
+                            orderby = orderby + ",";
+                        }
+                        orderby = orderby + $"{field.name}";
+                    }
+                }
+            }
+            code = "SET ANSI_NULLS ON" + Environment.NewLine;
+            code = code + "GO" + Environment.NewLine;
+            code = code + "SET QUOTED_IDENTIFIER ON" + Environment.NewLine;
+            code = code + "GO" + Environment.NewLine;
+            code = code + "-- =============================================" + Environment.NewLine;
+            code = code + "-- Author:" + AuthorTextBox.Text.Trim() + Environment.NewLine;
+            code = code + "-- Create date:" + Today.Year.ToString() + "-" + Today.Month.ToString("00") + "-" + Today.Day.ToString("00") + Environment.NewLine;
+            code = code + "-- Description:Select all records from table " + item.Text + Environment.NewLine;
+            code = code + "-- Generated code by juanidamato/codegenerator" + Environment.NewLine;
+            code = code + $"CREATE PROCEDURE [dbo].[{item.Text}_Select_All]" + Environment.NewLine;
+            code = code + "AS" + Environment.NewLine;
+            code = code + "BEGIN" + Environment.NewLine;
+            code = code + "" + Environment.NewLine;
+            code = code + "     SET NOCOUNT OFF;" + Environment.NewLine;
+            code = code + "" + Environment.NewLine;
+            code = code + $"     select * from [{item.Text}]" + Environment.NewLine;
+            if (orderby != "")
+            {
+                code = code + "     order by " + orderby + Environment.NewLine;
+            }
+            code = code + "END" + Environment.NewLine;
+            form.GeneratedCodeText = code;
+            form.Show();
+        }
+
+        private void spSelectByPKButton_Click(object sender, EventArgs e)
+        {
+            string code;
+            string parametersKey;
+            string whereClause = "";
+            List<SQLTableFieldModel> fieldList;
+            List<SQLTableKeyFieldModel> keyFieldList = null;
+            KeyValueItem item;
+            GeneratedCodeForm form = new GeneratedCodeForm();
+            DateTime Today = DateTime.Now;
+            item = (KeyValueItem)tablesListBox.SelectedItem;
+            fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value));
+            parametersKey = "";
+            whereClause = "     where ";
+            if (fieldList != null)
+            {
+                keyFieldList = _dbUtil.GetTableKeyFields(connectionString, item.Text);
+                if (keyFieldList != null)
+                {
+                    for (int i = 0; i <= fieldList.Count - 1; i++)
+                    {
+                        foreach (var keyfield in keyFieldList)
+                        {
+                            if (keyfield.COLUMN_NAME == fieldList[i].name)
+                            {
+                                fieldList[i].isPrimaryKey = true;
+                            }
+                        }
+                    }
+                }
+                foreach (var field in fieldList)
+                {
+                    if (field.isPrimaryKey)
+                    {
+                        if (parametersKey != "")
+                        {
+                            parametersKey = parametersKey + "," + Environment.NewLine;
+                        }
+                        parametersKey = parametersKey + $"      @{field.name} {CalculateFieldTypeString(field)}";
+                        if (whereClause != "     where ")
+                        {
+                            whereClause = whereClause + Environment.NewLine;
+                            whereClause = whereClause + "     and ";
+                        }
+                        whereClause = whereClause + $"{field.name}=@{field.name}";
+                    }
+                }
+                parametersKey = parametersKey + Environment.NewLine;
+            }
+            if (keyFieldList == null)
+            {
+                MessageBox.Show("This table does not contains primary keys", "Error", MessageBoxButtons.OK);
+                return;
+            }
+            code = "SET ANSI_NULLS ON" + Environment.NewLine;
+            code = code + "GO" + Environment.NewLine;
+            code = code + "SET QUOTED_IDENTIFIER ON" + Environment.NewLine;
+            code = code + "GO" + Environment.NewLine;
+            code = code + "-- =============================================" + Environment.NewLine;
+            code = code + "-- Author:" + AuthorTextBox.Text.Trim() + Environment.NewLine;
+            code = code + "-- Create date:" + Today.Year.ToString() + "-" + Today.Month.ToString("00") + "-" + Today.Day.ToString("00") + Environment.NewLine;
+            code = code + "-- Description:Select one record by primary key from table " + item.Text + Environment.NewLine;
+            code = code + "-- Generated code by juanidamato/codegenerator" + Environment.NewLine;
+            code = code + $"CREATE PROCEDURE [dbo].[{item.Text}_Select_ByPK]" + Environment.NewLine;
+            code = code + parametersKey;
+            code = code + "AS" + Environment.NewLine;
+            code = code + "BEGIN" + Environment.NewLine;
+            code = code + "" + Environment.NewLine;
+            code = code + "     SET NOCOUNT OFF;" + Environment.NewLine;
+            code = code + "" + Environment.NewLine;
+            code = code + $"     select * from [{item.Text}]" + Environment.NewLine;
+            code = code + $"{whereClause}" + Environment.NewLine;
+            code = code + "END" + Environment.NewLine;
+            form.GeneratedCodeText = code;
+            form.Show();
+        }
+
+        private void spInsertButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void spUpdateByPKButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void spDeleteByPKButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

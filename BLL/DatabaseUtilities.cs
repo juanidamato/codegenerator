@@ -122,6 +122,61 @@ namespace codegenerator.BLL
                                 field.length = (int)reader.GetInt16(3);
                                 field.xprec = (byte)reader.GetByte(4);
                                 field.xscale = (byte)reader.GetByte(5);
+                                field.isPrimaryKey = false; //populate it later
+                                fieldList.Add(field);
+                            }
+                            reader.Close();
+                        }
+                    }
+                }
+
+                return fieldList;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex,"Error in GetTableFields");
+                fieldList = null;
+                return fieldList;
+            }
+            finally
+            {
+                if (conn.State == System.Data.ConnectionState.Open)
+                {
+                    conn.Close();
+                    conn.Dispose();
+                }
+            }
+        }
+
+        public List<SQLTableKeyFieldModel> GetTableKeyFields(string connectionString, string tableName)
+        {
+            SqlConnection conn = new SqlConnection();
+            List<SQLTableKeyFieldModel> fieldList = null;
+            try
+            {
+                conn.ConnectionString = connectionString;
+                conn.Open();
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = conn;
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.CommandText = "SELECT COLUMN_NAME " +
+                                          "FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE " +
+                                          "WHERE OBJECTPROPERTY(OBJECT_ID(CONSTRAINT_SCHEMA + '.' + QUOTENAME(CONSTRAINT_NAME)), 'IsPrimaryKey') = 1 " +
+                                          "AND TABLE_NAME = @P1";
+                    SqlParameter p1 = new SqlParameter("@P1", tableName);
+                    command.Parameters.Add(p1);
+
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            fieldList = new List<SQLTableKeyFieldModel>();
+                            while (reader.Read())
+                            {
+                                SQLTableKeyFieldModel field = new SQLTableKeyFieldModel();
+                                field.COLUMN_NAME = (string)reader.GetString(0);
+                                
                                 fieldList.Add(field);
                             }
                             reader.Close();
@@ -132,7 +187,7 @@ namespace codegenerator.BLL
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex,"Error in GetTableFields");
+                _logger.LogError(ex, "Error in GetTableKeyFields");
                 fieldList = null;
                 return fieldList;
             }
