@@ -26,11 +26,17 @@
 
 # Screen shots
 
+Connection
 ![Screen Shot 2023-07-07 at 2 48 51 PM](https://github.com/juanidamato/codegenerator/assets/16365314/4c70baef-ed0e-4c0d-bb31-94023956196e)
 
-
+Tables and fields
 ![Screen Shot 2023-07-07 at 2 54 24 PM](https://github.com/juanidamato/codegenerator/assets/16365314/a4671ff3-7c5f-4109-8e39-602bdbc5344b)
 
+Domain entities
+![Screen Shot 2023-07-07 at 2 58 29 PM](https://github.com/juanidamato/codegenerator/assets/16365314/751399ce-facd-48b5-b8a7-d607f67784c8)
+
+Stored Procedures
+![Screen Shot 2023-07-07 at 3 00 16 PM](https://github.com/juanidamato/codegenerator/assets/16365314/89e2c10f-1d8e-4581-9582-74d475bf5350)
 
 
 #### See my other project CodeGeneratorSample in order to check how generated artifacts are connected between each other
