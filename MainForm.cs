@@ -275,7 +275,7 @@ namespace codegenerator
             {
                 foreach (var field in fieldList)
                 {
-                    code = code + $"         public {MapSQLTypeToCType(field)} {field.name}" + " {get;set;}" + Environment.NewLine;
+                    code = code + $"         public {MapSQLTypeToCType(field)}"+ (field.isnullable == 1 ? "?" : "")+$" {field.name}" + " {get;set;}" + Environment.NewLine;
                 }
             }
             code = code + "    }" + Environment.NewLine;
