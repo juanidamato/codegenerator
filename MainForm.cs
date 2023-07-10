@@ -554,7 +554,109 @@ namespace codegenerator
 
         private void spDeleteByPKButton_Click(object sender, EventArgs e)
         {
+            string code;
+            string parametersKey;
+            string whereClause = "";
+            int KeyCount;
+            List<SQLTableFieldModel> fieldList;
+            KeyValueItem item;
+            GeneratedCodeForm form = new GeneratedCodeForm();
+            DateTime Today = DateTime.Now;
+            item = (KeyValueItem)tablesListBox.SelectedItem;
+            fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value), item.Text);
+            parametersKey = "";
+            whereClause = "     where ";
+            if (fieldList != null)
+            {
+                foreach (var field in fieldList)
+                {
+                    if (field.isPrimaryKey)
+                    {
+                        if (parametersKey != "")
+                        {
+                            parametersKey = parametersKey + "," + Environment.NewLine;
+                        }
+                        parametersKey = parametersKey + $"      @{field.name} {CalculateFieldTypeString(field)}";
+                        if (whereClause != "     where ")
+                        {
+                            whereClause = whereClause + Environment.NewLine;
+                            whereClause = whereClause + "     and ";
+                        }
+                        whereClause = whereClause + $"{field.name}=@{field.name}";
+                    }
+                }
+                parametersKey = parametersKey + Environment.NewLine;
+            }
+            KeyCount = (from oneField in fieldList
+                        where oneField.isPrimaryKey == true
+                        select oneField).Count();
+            if (KeyCount == 0)
+            {
+                MessageBox.Show("This table does not contains primary keys", "Error", MessageBoxButtons.OK);
+                return;
+            }
+            code = "SET ANSI_NULLS ON" + Environment.NewLine;
+            code = code + "GO" + Environment.NewLine;
+            code = code + "SET QUOTED_IDENTIFIER ON" + Environment.NewLine;
+            code = code + "GO" + Environment.NewLine;
+            code = code + "-- =============================================" + Environment.NewLine;
+            code = code + "-- Author:" + AuthorTextBox.Text.Trim() + Environment.NewLine;
+            code = code + "-- Create date:" + Today.Year.ToString() + "-" + Today.Month.ToString("00") + "-" + Today.Day.ToString("00") + Environment.NewLine;
+            code = code + "-- Description:Delete one record by primary key from table " + item.Text + Environment.NewLine;
+            code = code + "-- Generated code by juanidamato/codegenerator" + Environment.NewLine;
+            code = code + $"CREATE PROCEDURE [dbo].[{item.Text}_Delete_ByPK]" + Environment.NewLine;
+            code = code + parametersKey;
+            code = code + "AS" + Environment.NewLine;
+            code = code + "BEGIN" + Environment.NewLine;
+            code = code + "" + Environment.NewLine;
+            code = code + "     SET NOCOUNT OFF;" + Environment.NewLine;
+            code = code + "" + Environment.NewLine;
+            code = code + $"     delete [{item.Text}]" + Environment.NewLine;
+            code = code + $"{whereClause}" + Environment.NewLine;
+            code = code + Environment.NewLine;
+            code = code + "     SET NOCOUNT OFF;" + Environment.NewLine;
+            code = code + Environment.NewLine;
+            code = code + $"     IF @@ROWCOUNT=1" + Environment.NewLine;
+            code = code + $"     BEGIN" + Environment.NewLine;
+            code = code + $"        select 1 as 'R'" + Environment.NewLine;
+            code = code + $"     END" + Environment.NewLine;
+            code = code + $"     ELSE" + Environment.NewLine;
+            code = code + $"     BEGIN" + Environment.NewLine;
+            code = code + $"        select -1 as 'R'" + Environment.NewLine;
+            code = code + $"     END" + Environment.NewLine;
+            code = code + "END" + Environment.NewLine;
+            form.GeneratedCodeText = code;
+            form.Show();
+        }
 
+        private void spAuditTableButton_Click(object sender, EventArgs e)
+        {
+            string code;
+            GeneratedCodeForm form = new GeneratedCodeForm();
+            DateTime Today = DateTime.Now;
+
+            code = "SET ANSI_NULLS ON" + Environment.NewLine;
+            code = code + "GO" + Environment.NewLine;
+            code = code + "SET QUOTED_IDENTIFIER ON" + Environment.NewLine;
+            code = code + "GO" + Environment.NewLine;
+            code = code + $"CREATE TABLE [dbo].[AuditLogs]" + Environment.NewLine;
+            code = code + "(" + Environment.NewLine;
+            code = code + "     [IdAudit] [int] IDENTITY(1,1) NOT NULL," + Environment.NewLine;
+            code = code + "     [InsertDate] [datetime] NOT NULL," + Environment.NewLine;
+            code = code + "     [CurrentUser] [nvarchar](50) NOT NULL," + Environment.NewLine;
+            code = code + "     [AuditTable] [nvarchar](50) NOT NULL," + Environment.NewLine;
+            code = code + "     [Operation] [nvarchar](20) NOT NULL," + Environment.NewLine;
+            code = code + "     [recordId] [nvarchar](20) NOT NULL," + Environment.NewLine;
+            code = code + "     [NewData] [nvarchar](max) NULL," + Environment.NewLine;
+            code = code + "     [OldData] [nvarchar](max) NULL," + Environment.NewLine;
+            code = code + "     CONSTRAINT [PK_AuditLogs] PRIMARY KEY CLUSTERED " + Environment.NewLine;
+            code = code + "     (" + Environment.NewLine;
+            code = code + "         [IdAudit] ASC" + Environment.NewLine;
+            code = code + "     )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]" + Environment.NewLine;
+            code = code + ") ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]" + Environment.NewLine;
+            code = code + "GO" + Environment.NewLine;
+            form.GeneratedCodeText = code;
+            form.Show();
         }
     }
 }

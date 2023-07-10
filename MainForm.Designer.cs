@@ -54,6 +54,9 @@
             EntitiesNamespaceSuffixTextBox = new TextBox();
             label4 = new Label();
             tabPage4 = new TabPage();
+            spAuditTableButton = new Button();
+            label9 = new Label();
+            label8 = new Label();
             spDeleteByPKButton = new Button();
             spUpdateByPKButton = new Button();
             spInsertButton = new Button();
@@ -313,6 +316,9 @@
             // 
             // tabPage4
             // 
+            tabPage4.Controls.Add(spAuditTableButton);
+            tabPage4.Controls.Add(label9);
+            tabPage4.Controls.Add(label8);
             tabPage4.Controls.Add(spDeleteByPKButton);
             tabPage4.Controls.Add(spUpdateByPKButton);
             tabPage4.Controls.Add(spInsertButton);
@@ -325,9 +331,37 @@
             tabPage4.Text = "Stored Procedures/Audit logs";
             tabPage4.UseVisualStyleBackColor = true;
             // 
+            // spAuditTableButton
+            // 
+            spAuditTableButton.Location = new Point(19, 144);
+            spAuditTableButton.Name = "spAuditTableButton";
+            spAuditTableButton.Size = new Size(136, 25);
+            spAuditTableButton.TabIndex = 7;
+            spAuditTableButton.Text = "Audit table";
+            spAuditTableButton.UseVisualStyleBackColor = true;
+            spAuditTableButton.Click += spAuditTableButton_Click;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(19, 126);
+            label9.Name = "label9";
+            label9.Size = new Size(36, 15);
+            label9.TabIndex = 6;
+            label9.Text = "Audit";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(19, 26);
+            label8.Name = "label8";
+            label8.Size = new Size(38, 15);
+            label8.TabIndex = 5;
+            label8.Text = "CRUD";
+            // 
             // spDeleteByPKButton
             // 
-            spDeleteByPKButton.Location = new Point(318, 22);
+            spDeleteByPKButton.Location = new Point(303, 75);
             spDeleteByPKButton.Name = "spDeleteByPKButton";
             spDeleteByPKButton.Size = new Size(136, 25);
             spDeleteByPKButton.TabIndex = 4;
@@ -337,7 +371,7 @@
             // 
             // spUpdateByPKButton
             // 
-            spUpdateByPKButton.Location = new Point(176, 53);
+            spUpdateByPKButton.Location = new Point(161, 75);
             spUpdateByPKButton.Name = "spUpdateByPKButton";
             spUpdateByPKButton.Size = new Size(136, 25);
             spUpdateByPKButton.TabIndex = 3;
@@ -347,7 +381,7 @@
             // 
             // spInsertButton
             // 
-            spInsertButton.Location = new Point(176, 22);
+            spInsertButton.Location = new Point(19, 75);
             spInsertButton.Name = "spInsertButton";
             spInsertButton.Size = new Size(136, 25);
             spInsertButton.TabIndex = 2;
@@ -357,7 +391,7 @@
             // 
             // SelectByPKButton
             // 
-            SelectByPKButton.Location = new Point(16, 53);
+            SelectByPKButton.Location = new Point(161, 44);
             SelectByPKButton.Name = "SelectByPKButton";
             SelectByPKButton.Size = new Size(136, 25);
             SelectByPKButton.TabIndex = 1;
@@ -367,7 +401,7 @@
             // 
             // spSelectAllButton
             // 
-            spSelectAllButton.Location = new Point(16, 22);
+            spSelectAllButton.Location = new Point(19, 44);
             spSelectAllButton.Name = "spSelectAllButton";
             spSelectAllButton.Size = new Size(136, 25);
             spSelectAllButton.TabIndex = 0;
@@ -412,6 +446,7 @@
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
             tabPage4.ResumeLayout(false);
+            tabPage4.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -448,5 +483,8 @@
         private Button spInsertButton;
         private Button spDeleteByPKButton;
         private Button spUpdateByPKButton;
+        private Label label9;
+        private Label label8;
+        private Button spAuditTableButton;
     }
 }
