@@ -54,12 +54,12 @@
             EntitiesNamespaceSuffixTextBox = new TextBox();
             label4 = new Label();
             tabPage4 = new TabPage();
+            spDeleteByPKButton = new Button();
+            spUpdateByPKButton = new Button();
+            spInsertButton = new Button();
             SelectByPKButton = new Button();
             spSelectAllButton = new Button();
             tabPage3 = new TabPage();
-            spInsertButton = new Button();
-            spUpdateByPKButton = new Button();
-            spDeleteByPKButton = new Button();
             panel1.SuspendLayout();
             panel3.SuspendLayout();
             panel2.SuspendLayout();
@@ -322,8 +322,38 @@
             tabPage4.Name = "tabPage4";
             tabPage4.Size = new Size(634, 343);
             tabPage4.TabIndex = 3;
-            tabPage4.Text = "Stored Procedures";
+            tabPage4.Text = "Stored Procedures/Audit logs";
             tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // spDeleteByPKButton
+            // 
+            spDeleteByPKButton.Location = new Point(318, 22);
+            spDeleteByPKButton.Name = "spDeleteByPKButton";
+            spDeleteByPKButton.Size = new Size(136, 25);
+            spDeleteByPKButton.TabIndex = 4;
+            spDeleteByPKButton.Text = "Delete by PK";
+            spDeleteByPKButton.UseVisualStyleBackColor = true;
+            spDeleteByPKButton.Click += spDeleteByPKButton_Click;
+            // 
+            // spUpdateByPKButton
+            // 
+            spUpdateByPKButton.Location = new Point(176, 53);
+            spUpdateByPKButton.Name = "spUpdateByPKButton";
+            spUpdateByPKButton.Size = new Size(136, 25);
+            spUpdateByPKButton.TabIndex = 3;
+            spUpdateByPKButton.Text = "Update by PK";
+            spUpdateByPKButton.UseVisualStyleBackColor = true;
+            spUpdateByPKButton.Click += spUpdateByPKButton_Click;
+            // 
+            // spInsertButton
+            // 
+            spInsertButton.Location = new Point(176, 22);
+            spInsertButton.Name = "spInsertButton";
+            spInsertButton.Size = new Size(136, 25);
+            spInsertButton.TabIndex = 2;
+            spInsertButton.Text = "Insert";
+            spInsertButton.UseVisualStyleBackColor = true;
+            spInsertButton.Click += spInsertButton_Click;
             // 
             // SelectByPKButton
             // 
@@ -353,36 +383,6 @@
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Features";
             tabPage3.UseVisualStyleBackColor = true;
-            // 
-            // spInsertButton
-            // 
-            spInsertButton.Location = new Point(176, 22);
-            spInsertButton.Name = "spInsertButton";
-            spInsertButton.Size = new Size(136, 25);
-            spInsertButton.TabIndex = 2;
-            spInsertButton.Text = "Insert";
-            spInsertButton.UseVisualStyleBackColor = true;
-            spInsertButton.Click += spInsertButton_Click;
-            // 
-            // spUpdateByPKButton
-            // 
-            spUpdateByPKButton.Location = new Point(176, 53);
-            spUpdateByPKButton.Name = "spUpdateByPKButton";
-            spUpdateByPKButton.Size = new Size(136, 25);
-            spUpdateByPKButton.TabIndex = 3;
-            spUpdateByPKButton.Text = "Update by PK";
-            spUpdateByPKButton.UseVisualStyleBackColor = true;
-            spUpdateByPKButton.Click += spUpdateByPKButton_Click;
-            // 
-            // spDeleteByPKButton
-            // 
-            spDeleteByPKButton.Location = new Point(318, 22);
-            spDeleteByPKButton.Name = "spDeleteByPKButton";
-            spDeleteByPKButton.Size = new Size(136, 25);
-            spDeleteByPKButton.TabIndex = 4;
-            spDeleteByPKButton.Text = "Delete by PK";
-            spDeleteByPKButton.UseVisualStyleBackColor = true;
-            spDeleteByPKButton.Click += spDeleteByPKButton_Click;
             // 
             // MainForm
             // 

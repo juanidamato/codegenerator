@@ -49,7 +49,7 @@ namespace codegenerator
 
         private void GeneratedCodeForm_Resize(object sender, EventArgs e)
         {
-            if (this.WindowState!=FormWindowState.Minimized)
+            if (this.WindowState != FormWindowState.Minimized)
             {
                 ResizeTextBox();
             }

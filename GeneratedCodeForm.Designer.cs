@@ -46,6 +46,7 @@
             GeneratedCodeTextBox.Location = new Point(26, 29);
             GeneratedCodeTextBox.Multiline = true;
             GeneratedCodeTextBox.Name = "GeneratedCodeTextBox";
+            GeneratedCodeTextBox.ScrollBars = ScrollBars.Both;
             GeneratedCodeTextBox.Size = new Size(106, 59);
             GeneratedCodeTextBox.TabIndex = 0;
             // 

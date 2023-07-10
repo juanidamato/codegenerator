@@ -15,6 +15,7 @@ namespace codegenerator.Models
         public byte xprec { get; set; }
         public byte xscale { get; set; }
         public bool isPrimaryKey { get; set; }
+        public bool isIdentity { get; set; }
     }
 }
 
