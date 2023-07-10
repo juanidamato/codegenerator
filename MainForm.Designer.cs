@@ -63,6 +63,7 @@
             SelectByPKButton = new Button();
             spSelectAllButton = new Button();
             tabPage3 = new TabPage();
+            spAuditInsertButton = new Button();
             panel1.SuspendLayout();
             panel3.SuspendLayout();
             panel2.SuspendLayout();
@@ -316,6 +317,7 @@
             // 
             // tabPage4
             // 
+            tabPage4.Controls.Add(spAuditInsertButton);
             tabPage4.Controls.Add(spAuditTableButton);
             tabPage4.Controls.Add(label9);
             tabPage4.Controls.Add(label8);
@@ -361,7 +363,7 @@
             // 
             // spDeleteByPKButton
             // 
-            spDeleteByPKButton.Location = new Point(303, 75);
+            spDeleteByPKButton.Location = new Point(303, 44);
             spDeleteByPKButton.Name = "spDeleteByPKButton";
             spDeleteByPKButton.Size = new Size(136, 25);
             spDeleteByPKButton.TabIndex = 4;
@@ -417,6 +419,16 @@
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Features";
             tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // spAuditInsertButton
+            // 
+            spAuditInsertButton.Location = new Point(161, 144);
+            spAuditInsertButton.Name = "spAuditInsertButton";
+            spAuditInsertButton.Size = new Size(136, 25);
+            spAuditInsertButton.TabIndex = 8;
+            spAuditInsertButton.Text = "Insert audit trigger";
+            spAuditInsertButton.UseVisualStyleBackColor = true;
+            spAuditInsertButton.Click += spAuditInsertButton_Click;
             // 
             // MainForm
             // 
@@ -486,5 +498,6 @@
         private Label label9;
         private Label label8;
         private Button spAuditTableButton;
+        private Button spAuditInsertButton;
     }
 }
