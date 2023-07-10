@@ -673,7 +673,7 @@ namespace codegenerator
             KeyCount = (from oneField in fieldList
                         where oneField.isPrimaryKey == true
                         select oneField).Count();
-            if (KeyCount !=1)
+            if (KeyCount != 1)
             {
                 MessageBox.Show("This table does contains more than one primary key field", "Error", MessageBoxButtons.OK);
                 return;
@@ -690,12 +690,12 @@ namespace codegenerator
                     }
                 }
             }
-           
+
             code = "SET ANSI_NULLS ON" + Environment.NewLine;
             code = code + "GO" + Environment.NewLine;
             code = code + "SET QUOTED_IDENTIFIER ON" + Environment.NewLine;
             code = code + "GO" + Environment.NewLine;
-            code = code + $"CREATE TRIGGER [dbo].[TR_{item.Text}_Insert_AuditLog]" + Environment.NewLine;
+            code = code + $"CREATE TRIGGER [dbo].[TR_{item.Text}_Insert_AuditLog] ON {item.Text}" + Environment.NewLine;
             code = code + "FOR INSERT AS" + Environment.NewLine;
             code = code + "BEGIN" + Environment.NewLine;
             code = code + "" + Environment.NewLine;
@@ -722,11 +722,159 @@ namespace codegenerator
             code = code + $"     (" + Environment.NewLine;
             code = code + $"        GETUTCDATE()," + Environment.NewLine;
             code = code + $"        @CurrentUser," + Environment.NewLine;
-            code = code + $"        '{item.Text}'" + Environment.NewLine;
-            code = code + $"        'INSERT'" + Environment.NewLine;
+            code = code + $"        '{item.Text}'," + Environment.NewLine;
+            code = code + $"        'INSERT'," + Environment.NewLine;
             code = code + $"        (SELECT  {selectClause} FROM Inserted)," + Environment.NewLine;
             code = code + $"        (SELECT * FROM Inserted FOR JSON PATH, WITHOUT_ARRAY_WRAPPER)," + Environment.NewLine;
             code = code + $"        null" + Environment.NewLine;
+            code = code + $"     )" + Environment.NewLine;
+            code = code + "END" + Environment.NewLine;
+            form.GeneratedCodeText = code;
+            form.Show();
+        }
+
+        private void spAuditDeleteButton_Click(object sender, EventArgs e)
+        {
+            string code;
+            string selectClause = "";
+            int KeyCount;
+            List<SQLTableFieldModel> fieldList;
+            KeyValueItem item;
+            GeneratedCodeForm form = new GeneratedCodeForm();
+            DateTime Today = DateTime.Now;
+            item = (KeyValueItem)tablesListBox.SelectedItem;
+            fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value), item.Text);
+            KeyCount = (from oneField in fieldList
+                        where oneField.isPrimaryKey == true
+                        select oneField).Count();
+            if (KeyCount != 1)
+            {
+                MessageBox.Show("This table does contains more than one primary key field", "Error", MessageBoxButtons.OK);
+                return;
+            }
+            selectClause = "";
+            if (fieldList != null)
+            {
+                foreach (var field in fieldList)
+                {
+                    if (field.isPrimaryKey)
+                    {
+                        selectClause = selectClause + $"{field.name}";
+                        break;
+                    }
+                }
+            }
+
+            code = "SET ANSI_NULLS ON" + Environment.NewLine;
+            code = code + "GO" + Environment.NewLine;
+            code = code + "SET QUOTED_IDENTIFIER ON" + Environment.NewLine;
+            code = code + "GO" + Environment.NewLine;
+            code = code + $"CREATE TRIGGER [dbo].[TR_{item.Text}_Delete_AuditLog] ON {item.Text}" + Environment.NewLine;
+            code = code + "FOR DELETE AS" + Environment.NewLine;
+            code = code + "BEGIN" + Environment.NewLine;
+            code = code + "" + Environment.NewLine;
+            code = code + "     SET NOCOUNT OFF;" + Environment.NewLine;
+            code = code + "" + Environment.NewLine;
+            code = code + $"     DECLARE @CurrentUser nvarchar(50)" + Environment.NewLine;
+            code = code + $"     SELECT @CurrentUser = CAST(SESSION_CONTEXT(N'CurrentUser') AS nvarchar(50))" + Environment.NewLine;
+            code = code + Environment.NewLine;
+            code = code + $"     IF  @CurrentUser is null" + Environment.NewLine;
+            code = code + $"     BEGIN" + Environment.NewLine;
+            code = code + $"        SET @CurrentUser=''" + Environment.NewLine;
+            code = code + $"     END" + Environment.NewLine;
+            code = code + Environment.NewLine;
+            code = code + $"     INSERT into AuditLogs (" + Environment.NewLine;
+            code = code + $"        InsertDate," + Environment.NewLine;
+            code = code + $"        CurrentUser," + Environment.NewLine;
+            code = code + $"        AuditTable," + Environment.NewLine;
+            code = code + $"        Operation," + Environment.NewLine;
+            code = code + $"        recordId," + Environment.NewLine;
+            code = code + $"        NewData," + Environment.NewLine;
+            code = code + $"        OldData" + Environment.NewLine;
+            code = code + $"     )" + Environment.NewLine;
+            code = code + $"     values" + Environment.NewLine;
+            code = code + $"     (" + Environment.NewLine;
+            code = code + $"        GETUTCDATE()," + Environment.NewLine;
+            code = code + $"        @CurrentUser," + Environment.NewLine;
+            code = code + $"        '{item.Text}'," + Environment.NewLine;
+            code = code + $"        'DELETE'," + Environment.NewLine;
+            code = code + $"        (SELECT  {selectClause} FROM Deleted)," + Environment.NewLine;
+            code = code + $"        null," + Environment.NewLine;
+            code = code + $"        (SELECT * FROM Deleted FOR JSON PATH, WITHOUT_ARRAY_WRAPPER)" + Environment.NewLine;
+            code = code + $"     )" + Environment.NewLine;
+            code = code + "END" + Environment.NewLine;
+            form.GeneratedCodeText = code;
+            form.Show();
+        }
+
+        private void spAuditUpdateButton_Click(object sender, EventArgs e)
+        {
+            string code;
+            string selectClause = "";
+            int KeyCount;
+            List<SQLTableFieldModel> fieldList;
+            KeyValueItem item;
+            GeneratedCodeForm form = new GeneratedCodeForm();
+            DateTime Today = DateTime.Now;
+            item = (KeyValueItem)tablesListBox.SelectedItem;
+            fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value), item.Text);
+            KeyCount = (from oneField in fieldList
+                        where oneField.isPrimaryKey == true
+                        select oneField).Count();
+            if (KeyCount != 1)
+            {
+                MessageBox.Show("This table does contains more than one primary key field", "Error", MessageBoxButtons.OK);
+                return;
+            }
+            selectClause = "";
+            if (fieldList != null)
+            {
+                foreach (var field in fieldList)
+                {
+                    if (field.isPrimaryKey)
+                    {
+                        selectClause = selectClause + $"{field.name}";
+                        break;
+                    }
+                }
+            }
+
+            code = "SET ANSI_NULLS ON" + Environment.NewLine;
+            code = code + "GO" + Environment.NewLine;
+            code = code + "SET QUOTED_IDENTIFIER ON" + Environment.NewLine;
+            code = code + "GO" + Environment.NewLine;
+            code = code + $"CREATE TRIGGER [dbo].[TR_{item.Text}_Update_AuditLog] ON {item.Text}" + Environment.NewLine;
+            code = code + "FOR UPDATE AS" + Environment.NewLine;
+            code = code + "BEGIN" + Environment.NewLine;
+            code = code + "" + Environment.NewLine;
+            code = code + "     SET NOCOUNT OFF;" + Environment.NewLine;
+            code = code + "" + Environment.NewLine;
+            code = code + $"     DECLARE @CurrentUser nvarchar(50)" + Environment.NewLine;
+            code = code + $"     SELECT @CurrentUser = CAST(SESSION_CONTEXT(N'CurrentUser') AS nvarchar(50))" + Environment.NewLine;
+            code = code + Environment.NewLine;
+            code = code + $"     IF  @CurrentUser is null" + Environment.NewLine;
+            code = code + $"     BEGIN" + Environment.NewLine;
+            code = code + $"        SET @CurrentUser=''" + Environment.NewLine;
+            code = code + $"     END" + Environment.NewLine;
+            code = code + Environment.NewLine;
+            code = code + $"     INSERT into AuditLogs (" + Environment.NewLine;
+            code = code + $"        InsertDate," + Environment.NewLine;
+            code = code + $"        CurrentUser," + Environment.NewLine;
+            code = code + $"        AuditTable," + Environment.NewLine;
+            code = code + $"        Operation," + Environment.NewLine;
+            code = code + $"        recordId," + Environment.NewLine;
+            code = code + $"        NewData," + Environment.NewLine;
+            code = code + $"        OldData" + Environment.NewLine;
+            code = code + $"     )" + Environment.NewLine;
+            code = code + $"     values" + Environment.NewLine;
+            code = code + $"     (" + Environment.NewLine;
+            code = code + $"        GETUTCDATE()," + Environment.NewLine;
+            code = code + $"        @CurrentUser," + Environment.NewLine;
+            code = code + $"        '{item.Text}'," + Environment.NewLine;
+            code = code + $"        'UPDATE'," + Environment.NewLine;
+            code = code + $"        (SELECT  {selectClause} FROM Inserted)," + Environment.NewLine;
+            code = code + $"        (SELECT * FROM Inserted FOR JSON PATH, WITHOUT_ARRAY_WRAPPER)," + Environment.NewLine;
+            code = code + $"        (SELECT * FROM Deleted FOR JSON PATH, WITHOUT_ARRAY_WRAPPER)" + Environment.NewLine;
             code = code + $"     )" + Environment.NewLine;
             code = code + "END" + Environment.NewLine;
             form.GeneratedCodeText = code;

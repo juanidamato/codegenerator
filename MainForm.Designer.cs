@@ -54,6 +54,8 @@
             EntitiesNamespaceSuffixTextBox = new TextBox();
             label4 = new Label();
             tabPage4 = new TabPage();
+            spAuditDeleteButton = new Button();
+            spAuditInsertButton = new Button();
             spAuditTableButton = new Button();
             label9 = new Label();
             label8 = new Label();
@@ -63,7 +65,7 @@
             SelectByPKButton = new Button();
             spSelectAllButton = new Button();
             tabPage3 = new TabPage();
-            spAuditInsertButton = new Button();
+            spAuditUpdateButton = new Button();
             panel1.SuspendLayout();
             panel3.SuspendLayout();
             panel2.SuspendLayout();
@@ -317,6 +319,8 @@
             // 
             // tabPage4
             // 
+            tabPage4.Controls.Add(spAuditUpdateButton);
+            tabPage4.Controls.Add(spAuditDeleteButton);
             tabPage4.Controls.Add(spAuditInsertButton);
             tabPage4.Controls.Add(spAuditTableButton);
             tabPage4.Controls.Add(label9);
@@ -332,6 +336,26 @@
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Stored Procedures/Audit logs";
             tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // spAuditDeleteButton
+            // 
+            spAuditDeleteButton.Location = new Point(303, 144);
+            spAuditDeleteButton.Name = "spAuditDeleteButton";
+            spAuditDeleteButton.Size = new Size(136, 25);
+            spAuditDeleteButton.TabIndex = 9;
+            spAuditDeleteButton.Text = "Delete audit trigger";
+            spAuditDeleteButton.UseVisualStyleBackColor = true;
+            spAuditDeleteButton.Click += spAuditDeleteButton_Click;
+            // 
+            // spAuditInsertButton
+            // 
+            spAuditInsertButton.Location = new Point(161, 144);
+            spAuditInsertButton.Name = "spAuditInsertButton";
+            spAuditInsertButton.Size = new Size(136, 25);
+            spAuditInsertButton.TabIndex = 8;
+            spAuditInsertButton.Text = "Insert audit trigger";
+            spAuditInsertButton.UseVisualStyleBackColor = true;
+            spAuditInsertButton.Click += spAuditInsertButton_Click;
             // 
             // spAuditTableButton
             // 
@@ -420,15 +444,15 @@
             tabPage3.Text = "Features";
             tabPage3.UseVisualStyleBackColor = true;
             // 
-            // spAuditInsertButton
+            // spAuditUpdateButton
             // 
-            spAuditInsertButton.Location = new Point(161, 144);
-            spAuditInsertButton.Name = "spAuditInsertButton";
-            spAuditInsertButton.Size = new Size(136, 25);
-            spAuditInsertButton.TabIndex = 8;
-            spAuditInsertButton.Text = "Insert audit trigger";
-            spAuditInsertButton.UseVisualStyleBackColor = true;
-            spAuditInsertButton.Click += spAuditInsertButton_Click;
+            spAuditUpdateButton.Location = new Point(445, 144);
+            spAuditUpdateButton.Name = "spAuditUpdateButton";
+            spAuditUpdateButton.Size = new Size(136, 25);
+            spAuditUpdateButton.TabIndex = 10;
+            spAuditUpdateButton.Text = "Update audit trigger";
+            spAuditUpdateButton.UseVisualStyleBackColor = true;
+            spAuditUpdateButton.Click += spAuditUpdateButton_Click;
             // 
             // MainForm
             // 
@@ -499,5 +523,7 @@
         private Label label8;
         private Button spAuditTableButton;
         private Button spAuditInsertButton;
+        private Button spAuditDeleteButton;
+        private Button spAuditUpdateButton;
     }
 }
