@@ -43,29 +43,43 @@
             tabPage1 = new TabPage();
             AuthorTextBox = new TextBox();
             label7 = new Label();
-            GeneralNamespaceTextBox = new TextBox();
-            label3 = new Label();
+            tabPage4 = new TabPage();
             tabPage2 = new TabPage();
+            groupBox3 = new GroupBox();
+            DomainCommonsOperationStatusModelButton = new Button();
+            CommonsNamespaceSuffixTextBox = new TextBox();
+            label11 = new Label();
+            DomainCommonsOperationResultModelButton = new Button();
+            groupBox2 = new GroupBox();
+            DomainEnumsOperationResultCodesButton = new Button();
+            EnumsNamespaceSuffixTextBox = new TextBox();
+            label10 = new Label();
+            groupBox1 = new GroupBox();
+            DomainGenerateEntityButton = new Button();
             EntityNameTextBox = new TextBox();
             label6 = new Label();
-            GenerateEntityButton = new Button();
             EntityInherithsFromTextBox = new TextBox();
             label5 = new Label();
             EntitiesNamespaceSuffixTextBox = new TextBox();
             label4 = new Label();
-            tabPage4 = new TabPage();
-            spAuditDeleteButton = new Button();
-            spAuditInsertButton = new Button();
-            spAuditTableButton = new Button();
-            label9 = new Label();
-            label8 = new Label();
+            DomainNamespaceTextBox = new TextBox();
+            label3 = new Label();
+            tabPage3 = new TabPage();
+            ApplicationNamespaceTextBox = new TextBox();
+            label12 = new Label();
+            groupBox4 = new GroupBox();
+            ApplicationGlobalVariablesBLLAndConstantsButton = new Button();
+            groupBox5 = new GroupBox();
             spDeleteByPKButton = new Button();
             spUpdateByPKButton = new Button();
             spInsertButton = new Button();
             SelectByPKButton = new Button();
             spSelectAllButton = new Button();
-            tabPage3 = new TabPage();
+            groupBox6 = new GroupBox();
             spAuditUpdateButton = new Button();
+            spAuditDeleteButton = new Button();
+            spAuditInsertButton = new Button();
+            spAuditTableButton = new Button();
             panel1.SuspendLayout();
             panel3.SuspendLayout();
             panel2.SuspendLayout();
@@ -76,8 +90,15 @@
             panel7.SuspendLayout();
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
-            tabPage2.SuspendLayout();
             tabPage4.SuspendLayout();
+            tabPage2.SuspendLayout();
+            groupBox3.SuspendLayout();
+            groupBox2.SuspendLayout();
+            groupBox1.SuspendLayout();
+            tabPage3.SuspendLayout();
+            groupBox4.SuspendLayout();
+            groupBox5.SuspendLayout();
+            groupBox6.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -134,7 +155,7 @@
             panel4.Dock = DockStyle.Top;
             panel4.Location = new Point(200, 0);
             panel4.Name = "panel4";
-            panel4.Size = new Size(780, 33);
+            panel4.Size = new Size(873, 33);
             panel4.TabIndex = 3;
             // 
             // label2
@@ -173,7 +194,7 @@
             panel6.Controls.Add(panel5);
             panel6.Location = new Point(206, 39);
             panel6.Name = "panel6";
-            panel6.Size = new Size(762, 611);
+            panel6.Size = new Size(855, 611);
             panel6.TabIndex = 5;
             // 
             // panel7
@@ -181,38 +202,36 @@
             panel7.Controls.Add(tabControl1);
             panel7.Location = new Point(6, 50);
             panel7.Name = "panel7";
-            panel7.Size = new Size(742, 538);
+            panel7.Size = new Size(833, 538);
             panel7.TabIndex = 5;
             // 
             // tabControl1
             // 
             tabControl1.Controls.Add(tabPage1);
-            tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage4);
+            tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage3);
-            tabControl1.Location = new Point(13, 16);
+            tabControl1.Location = new Point(3, 3);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(642, 371);
+            tabControl1.Size = new Size(827, 479);
             tabControl1.TabIndex = 0;
             // 
             // tabPage1
             // 
             tabPage1.Controls.Add(AuthorTextBox);
             tabPage1.Controls.Add(label7);
-            tabPage1.Controls.Add(GeneralNamespaceTextBox);
-            tabPage1.Controls.Add(label3);
             tabPage1.Location = new Point(4, 24);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(634, 343);
+            tabPage1.Size = new Size(819, 451);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "General";
             tabPage1.UseVisualStyleBackColor = true;
             // 
             // AuthorTextBox
             // 
-            AuthorTextBox.Location = new Point(119, 43);
+            AuthorTextBox.Location = new Point(70, 17);
             AuthorTextBox.Name = "AuthorTextBox";
             AuthorTextBox.Size = new Size(413, 23);
             AuthorTextBox.TabIndex = 3;
@@ -220,251 +239,385 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(8, 43);
+            label7.Location = new Point(17, 17);
             label7.Name = "label7";
             label7.Size = new Size(47, 15);
             label7.TabIndex = 2;
             label7.Text = "Author:";
             // 
-            // GeneralNamespaceTextBox
-            // 
-            GeneralNamespaceTextBox.Location = new Point(119, 14);
-            GeneralNamespaceTextBox.Name = "GeneralNamespaceTextBox";
-            GeneralNamespaceTextBox.Size = new Size(413, 23);
-            GeneralNamespaceTextBox.TabIndex = 1;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(8, 14);
-            label3.Name = "label3";
-            label3.Size = new Size(72, 15);
-            label3.TabIndex = 0;
-            label3.Text = "Namespace:";
-            // 
-            // tabPage2
-            // 
-            tabPage2.Controls.Add(EntityNameTextBox);
-            tabPage2.Controls.Add(label6);
-            tabPage2.Controls.Add(GenerateEntityButton);
-            tabPage2.Controls.Add(EntityInherithsFromTextBox);
-            tabPage2.Controls.Add(label5);
-            tabPage2.Controls.Add(EntitiesNamespaceSuffixTextBox);
-            tabPage2.Controls.Add(label4);
-            tabPage2.Location = new Point(4, 24);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(634, 343);
-            tabPage2.TabIndex = 1;
-            tabPage2.Text = "Domain";
-            tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // EntityNameTextBox
-            // 
-            EntityNameTextBox.Location = new Point(217, 42);
-            EntityNameTextBox.Name = "EntityNameTextBox";
-            EntityNameTextBox.Size = new Size(363, 23);
-            EntityNameTextBox.TabIndex = 4;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(18, 42);
-            label6.Name = "label6";
-            label6.Size = new Size(80, 15);
-            label6.TabIndex = 7;
-            label6.Text = "Entitity name:";
-            // 
-            // GenerateEntityButton
-            // 
-            GenerateEntityButton.Location = new Point(18, 127);
-            GenerateEntityButton.Name = "GenerateEntityButton";
-            GenerateEntityButton.Size = new Size(72, 24);
-            GenerateEntityButton.TabIndex = 6;
-            GenerateEntityButton.Text = "Generate";
-            GenerateEntityButton.UseVisualStyleBackColor = true;
-            GenerateEntityButton.Click += GenerateEntityButton_Click;
-            // 
-            // EntityInherithsFromTextBox
-            // 
-            EntityInherithsFromTextBox.Location = new Point(217, 71);
-            EntityInherithsFromTextBox.Name = "EntityInherithsFromTextBox";
-            EntityInherithsFromTextBox.Size = new Size(363, 23);
-            EntityInherithsFromTextBox.TabIndex = 5;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(18, 71);
-            label5.Name = "label5";
-            label5.Size = new Size(173, 15);
-            label5.TabIndex = 4;
-            label5.Text = "Entitity inherits from (optional):";
-            // 
-            // EntitiesNamespaceSuffixTextBox
-            // 
-            EntitiesNamespaceSuffixTextBox.Location = new Point(217, 13);
-            EntitiesNamespaceSuffixTextBox.Name = "EntitiesNamespaceSuffixTextBox";
-            EntitiesNamespaceSuffixTextBox.Size = new Size(363, 23);
-            EntitiesNamespaceSuffixTextBox.TabIndex = 3;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(18, 13);
-            label4.Name = "label4";
-            label4.Size = new Size(143, 15);
-            label4.TabIndex = 2;
-            label4.Text = "Entities namespace suffix:";
-            // 
             // tabPage4
             // 
-            tabPage4.Controls.Add(spAuditUpdateButton);
-            tabPage4.Controls.Add(spAuditDeleteButton);
-            tabPage4.Controls.Add(spAuditInsertButton);
-            tabPage4.Controls.Add(spAuditTableButton);
-            tabPage4.Controls.Add(label9);
-            tabPage4.Controls.Add(label8);
-            tabPage4.Controls.Add(spDeleteByPKButton);
-            tabPage4.Controls.Add(spUpdateByPKButton);
-            tabPage4.Controls.Add(spInsertButton);
-            tabPage4.Controls.Add(SelectByPKButton);
-            tabPage4.Controls.Add(spSelectAllButton);
+            tabPage4.Controls.Add(groupBox6);
+            tabPage4.Controls.Add(groupBox5);
             tabPage4.Location = new Point(4, 24);
             tabPage4.Name = "tabPage4";
-            tabPage4.Size = new Size(634, 343);
+            tabPage4.Size = new Size(819, 451);
             tabPage4.TabIndex = 3;
             tabPage4.Text = "Stored Procedures/Audit logs";
             tabPage4.UseVisualStyleBackColor = true;
             // 
-            // spAuditDeleteButton
+            // tabPage2
             // 
-            spAuditDeleteButton.Location = new Point(303, 144);
-            spAuditDeleteButton.Name = "spAuditDeleteButton";
-            spAuditDeleteButton.Size = new Size(136, 25);
-            spAuditDeleteButton.TabIndex = 9;
-            spAuditDeleteButton.Text = "Delete audit trigger";
-            spAuditDeleteButton.UseVisualStyleBackColor = true;
-            spAuditDeleteButton.Click += spAuditDeleteButton_Click;
+            tabPage2.Controls.Add(groupBox3);
+            tabPage2.Controls.Add(groupBox2);
+            tabPage2.Controls.Add(groupBox1);
+            tabPage2.Controls.Add(DomainNamespaceTextBox);
+            tabPage2.Controls.Add(label3);
+            tabPage2.Location = new Point(4, 24);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new Padding(3);
+            tabPage2.Size = new Size(819, 451);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "Domain";
+            tabPage2.UseVisualStyleBackColor = true;
             // 
-            // spAuditInsertButton
+            // groupBox3
             // 
-            spAuditInsertButton.Location = new Point(161, 144);
-            spAuditInsertButton.Name = "spAuditInsertButton";
-            spAuditInsertButton.Size = new Size(136, 25);
-            spAuditInsertButton.TabIndex = 8;
-            spAuditInsertButton.Text = "Insert audit trigger";
-            spAuditInsertButton.UseVisualStyleBackColor = true;
-            spAuditInsertButton.Click += spAuditInsertButton_Click;
+            groupBox3.Controls.Add(DomainCommonsOperationStatusModelButton);
+            groupBox3.Controls.Add(CommonsNamespaceSuffixTextBox);
+            groupBox3.Controls.Add(label11);
+            groupBox3.Controls.Add(DomainCommonsOperationResultModelButton);
+            groupBox3.Location = new Point(15, 193);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new Size(368, 121);
+            groupBox3.TabIndex = 16;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Commons";
             // 
-            // spAuditTableButton
+            // DomainCommonsOperationStatusModelButton
             // 
-            spAuditTableButton.Location = new Point(19, 144);
-            spAuditTableButton.Name = "spAuditTableButton";
-            spAuditTableButton.Size = new Size(136, 25);
-            spAuditTableButton.TabIndex = 7;
-            spAuditTableButton.Text = "Audit table";
-            spAuditTableButton.UseVisualStyleBackColor = true;
-            spAuditTableButton.Click += spAuditTableButton_Click;
+            DomainCommonsOperationStatusModelButton.Location = new Point(191, 90);
+            DomainCommonsOperationStatusModelButton.Name = "DomainCommonsOperationStatusModelButton";
+            DomainCommonsOperationStatusModelButton.Size = new Size(161, 24);
+            DomainCommonsOperationStatusModelButton.TabIndex = 18;
+            DomainCommonsOperationStatusModelButton.Text = "OperationStatusModel";
+            DomainCommonsOperationStatusModelButton.UseVisualStyleBackColor = true;
+            DomainCommonsOperationStatusModelButton.Click += DomainCommonsOperationStatusModelButton_Click;
             // 
-            // label9
+            // CommonsNamespaceSuffixTextBox
             // 
-            label9.AutoSize = true;
-            label9.Location = new Point(19, 126);
-            label9.Name = "label9";
-            label9.Size = new Size(36, 15);
-            label9.TabIndex = 6;
-            label9.Text = "Audit";
+            CommonsNamespaceSuffixTextBox.Location = new Point(191, 31);
+            CommonsNamespaceSuffixTextBox.Name = "CommonsNamespaceSuffixTextBox";
+            CommonsNamespaceSuffixTextBox.Size = new Size(161, 23);
+            CommonsNamespaceSuffixTextBox.TabIndex = 17;
+            CommonsNamespaceSuffixTextBox.Text = "Commons";
             // 
-            // label8
+            // label11
             // 
-            label8.AutoSize = true;
-            label8.Location = new Point(19, 26);
-            label8.Name = "label8";
-            label8.Size = new Size(38, 15);
-            label8.TabIndex = 5;
-            label8.Text = "CRUD";
+            label11.AutoSize = true;
+            label11.Location = new Point(8, 31);
+            label11.Name = "label11";
+            label11.Size = new Size(161, 15);
+            label11.TabIndex = 16;
+            label11.Text = "Commons namespace suffix:";
             // 
-            // spDeleteByPKButton
+            // DomainCommonsOperationResultModelButton
             // 
-            spDeleteByPKButton.Location = new Point(303, 44);
-            spDeleteByPKButton.Name = "spDeleteByPKButton";
-            spDeleteByPKButton.Size = new Size(136, 25);
-            spDeleteByPKButton.TabIndex = 4;
-            spDeleteByPKButton.Text = "Delete by PK";
-            spDeleteByPKButton.UseVisualStyleBackColor = true;
-            spDeleteByPKButton.Click += spDeleteByPKButton_Click;
+            DomainCommonsOperationResultModelButton.Location = new Point(191, 60);
+            DomainCommonsOperationResultModelButton.Name = "DomainCommonsOperationResultModelButton";
+            DomainCommonsOperationResultModelButton.Size = new Size(161, 24);
+            DomainCommonsOperationResultModelButton.TabIndex = 8;
+            DomainCommonsOperationResultModelButton.Text = "OperationResultModel";
+            DomainCommonsOperationResultModelButton.UseVisualStyleBackColor = true;
+            DomainCommonsOperationResultModelButton.Click += DomainCommonsOperationResultModelButton_Click;
             // 
-            // spUpdateByPKButton
+            // groupBox2
             // 
-            spUpdateByPKButton.Location = new Point(161, 75);
-            spUpdateByPKButton.Name = "spUpdateByPKButton";
-            spUpdateByPKButton.Size = new Size(136, 25);
-            spUpdateByPKButton.TabIndex = 3;
-            spUpdateByPKButton.Text = "Update by PK";
-            spUpdateByPKButton.UseVisualStyleBackColor = true;
-            spUpdateByPKButton.Click += spUpdateByPKButton_Click;
+            groupBox2.Controls.Add(DomainEnumsOperationResultCodesButton);
+            groupBox2.Controls.Add(EnumsNamespaceSuffixTextBox);
+            groupBox2.Controls.Add(label10);
+            groupBox2.Location = new Point(390, 35);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(366, 152);
+            groupBox2.TabIndex = 15;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Enums";
             // 
-            // spInsertButton
+            // DomainEnumsOperationResultCodesButton
             // 
-            spInsertButton.Location = new Point(19, 75);
-            spInsertButton.Name = "spInsertButton";
-            spInsertButton.Size = new Size(136, 25);
-            spInsertButton.TabIndex = 2;
-            spInsertButton.Text = "Insert";
-            spInsertButton.UseVisualStyleBackColor = true;
-            spInsertButton.Click += spInsertButton_Click;
+            DomainEnumsOperationResultCodesButton.Location = new Point(189, 61);
+            DomainEnumsOperationResultCodesButton.Name = "DomainEnumsOperationResultCodesButton";
+            DomainEnumsOperationResultCodesButton.Size = new Size(161, 24);
+            DomainEnumsOperationResultCodesButton.TabIndex = 16;
+            DomainEnumsOperationResultCodesButton.Text = "OperationResultCodes";
+            DomainEnumsOperationResultCodesButton.UseVisualStyleBackColor = true;
+            DomainEnumsOperationResultCodesButton.Click += DomainEnumsOperationResultCodesButton_Click;
             // 
-            // SelectByPKButton
+            // EnumsNamespaceSuffixTextBox
             // 
-            SelectByPKButton.Location = new Point(161, 44);
-            SelectByPKButton.Name = "SelectByPKButton";
-            SelectByPKButton.Size = new Size(136, 25);
-            SelectByPKButton.TabIndex = 1;
-            SelectByPKButton.Text = "Select by PK";
-            SelectByPKButton.UseVisualStyleBackColor = true;
-            SelectByPKButton.Click += spSelectByPKButton_Click;
+            EnumsNamespaceSuffixTextBox.Location = new Point(189, 32);
+            EnumsNamespaceSuffixTextBox.Name = "EnumsNamespaceSuffixTextBox";
+            EnumsNamespaceSuffixTextBox.Size = new Size(161, 23);
+            EnumsNamespaceSuffixTextBox.TabIndex = 15;
+            EnumsNamespaceSuffixTextBox.Text = "Enums";
             // 
-            // spSelectAllButton
+            // label10
             // 
-            spSelectAllButton.Location = new Point(19, 44);
-            spSelectAllButton.Name = "spSelectAllButton";
-            spSelectAllButton.Size = new Size(136, 25);
-            spSelectAllButton.TabIndex = 0;
-            spSelectAllButton.Text = "Select All";
-            spSelectAllButton.UseVisualStyleBackColor = true;
-            spSelectAllButton.Click += spSelectAllButton_Click;
+            label10.AutoSize = true;
+            label10.Location = new Point(6, 32);
+            label10.Name = "label10";
+            label10.Size = new Size(141, 15);
+            label10.TabIndex = 14;
+            label10.Text = "Enums namespace suffix:";
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(DomainGenerateEntityButton);
+            groupBox1.Controls.Add(EntityNameTextBox);
+            groupBox1.Controls.Add(label6);
+            groupBox1.Controls.Add(EntityInherithsFromTextBox);
+            groupBox1.Controls.Add(label5);
+            groupBox1.Controls.Add(EntitiesNamespaceSuffixTextBox);
+            groupBox1.Controls.Add(label4);
+            groupBox1.Location = new Point(15, 35);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new Size(366, 152);
+            groupBox1.TabIndex = 14;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Entity";
+            // 
+            // DomainGenerateEntityButton
+            // 
+            DomainGenerateEntityButton.Location = new Point(189, 120);
+            DomainGenerateEntityButton.Name = "DomainGenerateEntityButton";
+            DomainGenerateEntityButton.Size = new Size(161, 24);
+            DomainGenerateEntityButton.TabIndex = 14;
+            DomainGenerateEntityButton.Text = "Generate Entity";
+            DomainGenerateEntityButton.UseVisualStyleBackColor = true;
+            DomainGenerateEntityButton.Click += DomainGenerateEntityButton_Click;
+            // 
+            // EntityNameTextBox
+            // 
+            EntityNameTextBox.Location = new Point(189, 61);
+            EntityNameTextBox.Name = "EntityNameTextBox";
+            EntityNameTextBox.Size = new Size(161, 23);
+            EntityNameTextBox.TabIndex = 10;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(6, 60);
+            label6.Name = "label6";
+            label6.Size = new Size(80, 15);
+            label6.TabIndex = 13;
+            label6.Text = "Entitity name:";
+            // 
+            // EntityInherithsFromTextBox
+            // 
+            EntityInherithsFromTextBox.Location = new Point(189, 91);
+            EntityInherithsFromTextBox.Name = "EntityInherithsFromTextBox";
+            EntityInherithsFromTextBox.Size = new Size(161, 23);
+            EntityInherithsFromTextBox.TabIndex = 12;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(6, 98);
+            label5.Name = "label5";
+            label5.Size = new Size(173, 15);
+            label5.TabIndex = 11;
+            label5.Text = "Entitity inherits from (optional):";
+            // 
+            // EntitiesNamespaceSuffixTextBox
+            // 
+            EntitiesNamespaceSuffixTextBox.Location = new Point(189, 28);
+            EntitiesNamespaceSuffixTextBox.Name = "EntitiesNamespaceSuffixTextBox";
+            EntitiesNamespaceSuffixTextBox.Size = new Size(161, 23);
+            EntitiesNamespaceSuffixTextBox.TabIndex = 9;
+            EntitiesNamespaceSuffixTextBox.Text = "Entities";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(6, 31);
+            label4.Name = "label4";
+            label4.Size = new Size(143, 15);
+            label4.TabIndex = 8;
+            label4.Text = "Entities namespace suffix:";
+            // 
+            // DomainNamespaceTextBox
+            // 
+            DomainNamespaceTextBox.Location = new Point(204, 6);
+            DomainNamespaceTextBox.Name = "DomainNamespaceTextBox";
+            DomainNamespaceTextBox.Size = new Size(363, 23);
+            DomainNamespaceTextBox.TabIndex = 11;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(21, 6);
+            label3.Name = "label3";
+            label3.Size = new Size(117, 15);
+            label3.TabIndex = 10;
+            label3.Text = "Domain Namespace:";
             // 
             // tabPage3
             // 
+            tabPage3.Controls.Add(groupBox4);
+            tabPage3.Controls.Add(ApplicationNamespaceTextBox);
+            tabPage3.Controls.Add(label12);
             tabPage3.Location = new Point(4, 24);
             tabPage3.Name = "tabPage3";
-            tabPage3.Size = new Size(634, 343);
+            tabPage3.Size = new Size(819, 451);
             tabPage3.TabIndex = 2;
-            tabPage3.Text = "Features";
+            tabPage3.Text = "Application";
             tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // ApplicationNamespaceTextBox
+            // 
+            ApplicationNamespaceTextBox.Location = new Point(196, 10);
+            ApplicationNamespaceTextBox.Name = "ApplicationNamespaceTextBox";
+            ApplicationNamespaceTextBox.Size = new Size(363, 23);
+            ApplicationNamespaceTextBox.TabIndex = 13;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(13, 10);
+            label12.Name = "label12";
+            label12.Size = new Size(136, 15);
+            label12.TabIndex = 12;
+            label12.Text = "Application Namespace:";
+            // 
+            // groupBox4
+            // 
+            groupBox4.Controls.Add(ApplicationGlobalVariablesBLLAndConstantsButton);
+            groupBox4.Location = new Point(13, 221);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Size = new Size(363, 111);
+            groupBox4.TabIndex = 14;
+            groupBox4.TabStop = false;
+            groupBox4.Text = "Miscellaneous";
+            // 
+            // ApplicationGlobalVariablesBLLAndConstantsButton
+            // 
+            ApplicationGlobalVariablesBLLAndConstantsButton.Location = new Point(6, 22);
+            ApplicationGlobalVariablesBLLAndConstantsButton.Name = "ApplicationGlobalVariablesBLLAndConstantsButton";
+            ApplicationGlobalVariablesBLLAndConstantsButton.Size = new Size(238, 24);
+            ApplicationGlobalVariablesBLLAndConstantsButton.TabIndex = 17;
+            ApplicationGlobalVariablesBLLAndConstantsButton.Text = "BLL  - Global variables and constants";
+            ApplicationGlobalVariablesBLLAndConstantsButton.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            groupBox5.Controls.Add(spDeleteByPKButton);
+            groupBox5.Controls.Add(spUpdateByPKButton);
+            groupBox5.Controls.Add(spInsertButton);
+            groupBox5.Controls.Add(SelectByPKButton);
+            groupBox5.Controls.Add(spSelectAllButton);
+            groupBox5.Location = new Point(19, 12);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Size = new Size(732, 96);
+            groupBox5.TabIndex = 11;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "CRUD";
+            // 
+            // spDeleteByPKButton
+            // 
+            spDeleteByPKButton.Location = new Point(302, 22);
+            spDeleteByPKButton.Name = "spDeleteByPKButton";
+            spDeleteByPKButton.Size = new Size(136, 25);
+            spDeleteByPKButton.TabIndex = 9;
+            spDeleteByPKButton.Text = "Delete by PK";
+            spDeleteByPKButton.UseVisualStyleBackColor = true;
+            // 
+            // spUpdateByPKButton
+            // 
+            spUpdateByPKButton.Location = new Point(586, 22);
+            spUpdateByPKButton.Name = "spUpdateByPKButton";
+            spUpdateByPKButton.Size = new Size(136, 25);
+            spUpdateByPKButton.TabIndex = 8;
+            spUpdateByPKButton.Text = "Update by PK";
+            spUpdateByPKButton.UseVisualStyleBackColor = true;
+            // 
+            // spInsertButton
+            // 
+            spInsertButton.Location = new Point(444, 22);
+            spInsertButton.Name = "spInsertButton";
+            spInsertButton.Size = new Size(136, 25);
+            spInsertButton.TabIndex = 7;
+            spInsertButton.Text = "Insert";
+            spInsertButton.UseVisualStyleBackColor = true;
+            // 
+            // SelectByPKButton
+            // 
+            SelectByPKButton.Location = new Point(160, 22);
+            SelectByPKButton.Name = "SelectByPKButton";
+            SelectByPKButton.Size = new Size(136, 25);
+            SelectByPKButton.TabIndex = 6;
+            SelectByPKButton.Text = "Select by PK";
+            SelectByPKButton.UseVisualStyleBackColor = true;
+            // 
+            // spSelectAllButton
+            // 
+            spSelectAllButton.Location = new Point(18, 22);
+            spSelectAllButton.Name = "spSelectAllButton";
+            spSelectAllButton.Size = new Size(136, 25);
+            spSelectAllButton.TabIndex = 5;
+            spSelectAllButton.Text = "Select All";
+            spSelectAllButton.UseVisualStyleBackColor = true;
+            // 
+            // groupBox6
+            // 
+            groupBox6.Controls.Add(spAuditUpdateButton);
+            groupBox6.Controls.Add(spAuditDeleteButton);
+            groupBox6.Controls.Add(spAuditInsertButton);
+            groupBox6.Controls.Add(spAuditTableButton);
+            groupBox6.Location = new Point(19, 114);
+            groupBox6.Name = "groupBox6";
+            groupBox6.Size = new Size(732, 90);
+            groupBox6.TabIndex = 12;
+            groupBox6.TabStop = false;
+            groupBox6.Text = "Audit";
             // 
             // spAuditUpdateButton
             // 
-            spAuditUpdateButton.Location = new Point(445, 144);
+            spAuditUpdateButton.Location = new Point(451, 32);
             spAuditUpdateButton.Name = "spAuditUpdateButton";
             spAuditUpdateButton.Size = new Size(136, 25);
-            spAuditUpdateButton.TabIndex = 10;
+            spAuditUpdateButton.TabIndex = 14;
             spAuditUpdateButton.Text = "Update audit trigger";
             spAuditUpdateButton.UseVisualStyleBackColor = true;
-            spAuditUpdateButton.Click += spAuditUpdateButton_Click;
+            // 
+            // spAuditDeleteButton
+            // 
+            spAuditDeleteButton.Location = new Point(309, 32);
+            spAuditDeleteButton.Name = "spAuditDeleteButton";
+            spAuditDeleteButton.Size = new Size(136, 25);
+            spAuditDeleteButton.TabIndex = 13;
+            spAuditDeleteButton.Text = "Delete audit trigger";
+            spAuditDeleteButton.UseVisualStyleBackColor = true;
+            // 
+            // spAuditInsertButton
+            // 
+            spAuditInsertButton.Location = new Point(167, 32);
+            spAuditInsertButton.Name = "spAuditInsertButton";
+            spAuditInsertButton.Size = new Size(136, 25);
+            spAuditInsertButton.TabIndex = 12;
+            spAuditInsertButton.Text = "Insert audit trigger";
+            spAuditInsertButton.UseVisualStyleBackColor = true;
+            // 
+            // spAuditTableButton
+            // 
+            spAuditTableButton.Location = new Point(25, 32);
+            spAuditTableButton.Name = "spAuditTableButton";
+            spAuditTableButton.Size = new Size(136, 25);
+            spAuditTableButton.TabIndex = 11;
+            spAuditTableButton.Text = "Audit table";
+            spAuditTableButton.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(980, 662);
+            ClientSize = new Size(1073, 662);
             Controls.Add(panel6);
             Controls.Add(panel4);
             Controls.Add(panel1);
             Name = "MainForm";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Code Generator";
+            WindowState = FormWindowState.Maximized;
             Load += MainForm_Load;
             panel1.ResumeLayout(false);
             panel3.ResumeLayout(false);
@@ -479,10 +632,20 @@
             tabControl1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
+            tabPage4.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
-            tabPage4.ResumeLayout(false);
-            tabPage4.PerformLayout();
+            groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
+            tabPage3.ResumeLayout(false);
+            tabPage3.PerformLayout();
+            groupBox4.ResumeLayout(false);
+            groupBox5.ResumeLayout(false);
+            groupBox6.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -501,29 +664,43 @@
         private TabControl tabControl1;
         private TabPage tabPage1;
         private TabPage tabPage2;
-        private TextBox GeneralNamespaceTextBox;
-        private Label label3;
         private TabPage tabPage3;
-        private TextBox EntitiesNamespaceSuffixTextBox;
-        private Label label4;
-        private TextBox EntityInherithsFromTextBox;
-        private Label label5;
-        private Button GenerateEntityButton;
-        private TextBox EntityNameTextBox;
-        private Label label6;
         private TextBox AuthorTextBox;
         private Label label7;
         private TabPage tabPage4;
-        private Button spSelectAllButton;
-        private Button SelectByPKButton;
-        private Button spInsertButton;
+        private Button DomainCommonsOperationResultModelButton;
+        private TextBox DomainNamespaceTextBox;
+        private Label label3;
+        private GroupBox groupBox1;
+        private Button DomainGenerateEntityButton;
+        private TextBox EntityNameTextBox;
+        private Label label6;
+        private TextBox EntityInherithsFromTextBox;
+        private Label label5;
+        private TextBox EntitiesNamespaceSuffixTextBox;
+        private Label label4;
+        private GroupBox groupBox3;
+        private GroupBox groupBox2;
+        private Button DomainEnumsOperationResultCodesButton;
+        private TextBox EnumsNamespaceSuffixTextBox;
+        private Label label10;
+        private TextBox CommonsNamespaceSuffixTextBox;
+        private Label label11;
+        private Button DomainCommonsOperationStatusModelButton;
+        private TextBox ApplicationNamespaceTextBox;
+        private Label label12;
+        private GroupBox groupBox4;
+        private Button ApplicationGlobalVariablesBLLAndConstantsButton;
+        private GroupBox groupBox5;
         private Button spDeleteByPKButton;
         private Button spUpdateByPKButton;
-        private Label label9;
-        private Label label8;
-        private Button spAuditTableButton;
-        private Button spAuditInsertButton;
-        private Button spAuditDeleteButton;
+        private Button spInsertButton;
+        private Button SelectByPKButton;
+        private Button spSelectAllButton;
+        private GroupBox groupBox6;
         private Button spAuditUpdateButton;
+        private Button spAuditDeleteButton;
+        private Button spAuditInsertButton;
+        private Button spAuditTableButton;
     }
 }
