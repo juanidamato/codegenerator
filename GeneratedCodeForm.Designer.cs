@@ -40,9 +40,9 @@
             // 
             // GeneratedCodeTextBox
             // 
-            GeneratedCodeTextBox.BackColor = Color.Black;
-            GeneratedCodeTextBox.Font = new Font("Courier New", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            GeneratedCodeTextBox.ForeColor = Color.Lime;
+            GeneratedCodeTextBox.BackColor = Color.White;
+            GeneratedCodeTextBox.Font = new Font("Consolas", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            GeneratedCodeTextBox.ForeColor = SystemColors.Highlight;
             GeneratedCodeTextBox.Location = new Point(26, 29);
             GeneratedCodeTextBox.Multiline = true;
             GeneratedCodeTextBox.Name = "GeneratedCodeTextBox";
@@ -94,6 +94,7 @@
             MinimizeBox = false;
             Name = "GeneratedCodeForm";
             Text = "GeneratedCodeForm";
+            WindowState = FormWindowState.Maximized;
             Load += GeneratedCodeForm_Load;
             Resize += GeneratedCodeForm_Resize;
             panel1.ResumeLayout(false);

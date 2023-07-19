@@ -1,4 +1,4 @@
-using codegenerator.BLL;
+﻿using codegenerator.BLL;
 using codegenerator.Models;
 using codegenerator.Models.ViewModels;
 using System.Diagnostics;
@@ -100,7 +100,8 @@ namespace codegenerator
 
         private void SetupOtherValues()
         {
-            EntityNameTextBox.Text = ((KeyValueItem)tablesListBox.SelectedItem).Text;
+            DomainEntityNameTextBox.Text = ((KeyValueItem)tablesListBox.SelectedItem).Text;
+            ApplicationEntityNameTextBox.Text = ((KeyValueItem)tablesListBox.SelectedItem).Text;
         }
 
         private void populateTables()
@@ -384,6 +385,7 @@ namespace codegenerator
             KeyValueItem item;
             GeneratedCodeForm form = new GeneratedCodeForm();
             DateTime Today = DateTime.Now;
+            bool HasIdentity = false;
             item = (KeyValueItem)tablesListBox.SelectedItem;
             fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value), item.Text);
 
@@ -392,6 +394,10 @@ namespace codegenerator
                 foreach (var field in fieldList)
                 {
                     //todo datefields
+                    if (field.isIdentity)
+                    {
+                        HasIdentity = true;
+                    }
                     if (!field.isIdentity)
                     {
                         if (parametersInsert.ToString() != "")
@@ -447,7 +453,14 @@ namespace codegenerator
             code.Append(Environment.NewLine);
             code.Append($"     IF @@ROWCOUNT=1" + Environment.NewLine);
             code.Append($"     BEGIN" + Environment.NewLine);
-            code.Append($"        select 1 as 'R'" + Environment.NewLine);
+            if(HasIdentity)
+            {
+                code.Append($"        select @@SCOPE_IDENTITY() as 'R'" + Environment.NewLine);
+            }
+            else
+            {
+                code.Append($"        select 1 as 'R'" + Environment.NewLine);
+            }
             code.Append($"     END" + Environment.NewLine);
             code.Append($"     ELSE" + Environment.NewLine);
             code.Append($"     BEGIN" + Environment.NewLine);
@@ -883,7 +896,7 @@ namespace codegenerator
 
             code.Append($"namespace {DomainNamespaceTextBox.Text}.{EntitiesNamespaceSuffixTextBox.Text}" + Environment.NewLine);
             code.Append("{" + Environment.NewLine);
-            code.Append($"    public class {EntityNameTextBox.Text}Entity");
+            code.Append($"    public class {DomainEntityNameTextBox.Text}Entity");
             if (!string.IsNullOrWhiteSpace(EntityInherithsFromTextBox.Text))
             {
                 code.Append($" : {EntityInherithsFromTextBox.Text}" + Environment.NewLine);
@@ -975,6 +988,195 @@ namespace codegenerator
 
         #region Application
 
+        private void ApplicationRepositoryInterfaceButton_Click(object sender, EventArgs e)
+        {
+            StringBuilder code = new StringBuilder("");
+            StringBuilder parametersKey = new StringBuilder("");
+            StringBuilder parametersInsert = new StringBuilder("");
+            StringBuilder parametersUpdate = new StringBuilder("");
+
+            GeneratedCodeForm form = new GeneratedCodeForm();
+            int KeyCount;
+            List<SQLTableFieldModel> fieldList;
+            KeyValueItem item;
+            item = (KeyValueItem)tablesListBox.SelectedItem;
+            fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value), item.Text);
+            if (fieldList != null)
+            {
+                foreach (var field in fieldList)
+                {
+                    if (field.isPrimaryKey)
+                    {
+                        if (parametersKey.ToString() != "")
+                        {
+                            parametersKey.Append(",");
+                        }
+                        parametersKey.Append($"{MapSQLTypeToCType(field)} {field.name}");
+                    }
+                    //todo dates
+                    if (!field.isIdentity)
+                    {
+                        if (parametersInsert.ToString() != "")
+                        {
+                            parametersInsert.Append(",");
+                        }
+                        parametersInsert.Append($"{MapSQLTypeToCType(field)} {field.name}");
+
+                        if (parametersUpdate.ToString() != "")
+                        {
+                            parametersUpdate.Append(",");
+                        }
+                        parametersUpdate.Append($"{MapSQLTypeToCType(field)} {field.name}");
+                    }
+                }
+            }
+            code.Append($"namespace {ApplicationNamespaceTextBox.Text}.Commons.Interfaces.Repositories" + Environment.NewLine);
+            code.Append("{" + Environment.NewLine);
+            code.Append($"       public interface I{ApplicationEntityNameTextBox.Text}Repository" + Environment.NewLine);
+            code.Append("       {" + Environment.NewLine);
+            KeyCount = (from oneField in fieldList
+                        where oneField.isPrimaryKey
+                        select oneField).Count();
+            if (KeyCount != 0)
+            {
+                code.Append($"           public Task<(bool,{ApplicationEntityNameTextBox.Text}Entity?)> GetByPrimaryKeyAsync(" + parametersKey + ");" + Environment.NewLine);
+            }
+            code.Append(""+Environment.NewLine);
+            code.Append($"           public Task<(bool,List<{ApplicationEntityNameTextBox.Text}Entity>)> GetAllAsync();" + Environment.NewLine);
+            code.Append(""+Environment.NewLine);
+            code.Append($"           public Task<(bool,int)> InsertAsync("+parametersInsert+");" + Environment.NewLine);
+            code.Append(""+Environment.NewLine);
+            code.Append($"           public Task<(bool,int)> UpdateAsync(" + parametersUpdate + ");" + Environment.NewLine);
+            code.Append(""+Environment.NewLine);
+            if (KeyCount != 0)
+            {
+                code.Append($"           public Task<(bool,int)> DeleteByPrimaryKeyAsync(" + parametersKey + ");" + Environment.NewLine);
+            }
+            code.Append(Environment.NewLine);
+            code.Append("       }" + Environment.NewLine);
+            code.Append("}" + Environment.NewLine);
+            form.GeneratedCodeText = code.ToString();
+            form.Show();
+        }
+
+        private void ApplicationGlobalVariablesBLLAndConstantsButton_Click(object sender, EventArgs e)
+        {
+            StringBuilder code = new StringBuilder("");
+            GeneratedCodeForm form = new GeneratedCodeForm();
+
+            code.Append($"namespace {ApplicationNamespaceTextBox.Text}.BLL" + Environment.NewLine);
+            code.Append("{" + Environment.NewLine);
+            code.Append("       public static class GlobalVariables" + Environment.NewLine);
+            code.Append("       {" + Environment.NewLine);
+            code.Append("           public static bool EnableTraceTime { get; set; } = true;" + Environment.NewLine);
+            code.Append("       }" + Environment.NewLine);
+            code.Append("}" + Environment.NewLine);
+            form.GeneratedCodeText = code.ToString();
+            form.Show();
+        }
+
+        private void ApplicationCommonsAttributeTraceAndTimeButton_Click(object sender, EventArgs e)
+        {
+            StringBuilder code = new StringBuilder("");
+            GeneratedCodeForm form = new GeneratedCodeForm();
+
+            code.Append($"namespace {ApplicationNamespaceTextBox.Text}.Commons.Attributes" + Environment.NewLine);
+            code.Append("{" + Environment.NewLine);
+            code.Append("       [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]" + Environment.NewLine);
+            code.Append("       public class TraceAndTimeAttribute:Attribute" + Environment.NewLine);
+            code.Append("       {" + Environment.NewLine);
+            code.Append(Environment.NewLine);
+            code.Append("       }" + Environment.NewLine);
+            code.Append("}" + Environment.NewLine);
+            form.GeneratedCodeText = code.ToString();
+            form.Show();
+        }
+
+        private void ApplicationCommonsAttributeTraceAndTimeInterceptorButton_Click(object sender, EventArgs e)
+        {
+            StringBuilder code = new StringBuilder("");
+            GeneratedCodeForm form = new GeneratedCodeForm();
+            code.Append("using AutoMapper.Configuration.Annotations;" + Environment.NewLine);
+            code.Append("using Castle.Core.Logging;" + Environment.NewLine);
+            code.Append("using Castle.DynamicProxy;" + Environment.NewLine);
+            code.Append("using Microsoft.Extensions.Logging;" + Environment.NewLine);
+            code.Append("using System;" + Environment.NewLine);
+            code.Append("using System.Collections.Generic;" + Environment.NewLine);
+            code.Append("using System.Linq;" + Environment.NewLine);
+            code.Append("using System.Text;" + Environment.NewLine);
+            code.Append("using System.Threading.Tasks;" + Environment.NewLine);
+            code.Append($"using {ApplicationNamespaceTextBox.Text}.BLL" + Environment.NewLine);
+            code.Append(Environment.NewLine);
+            code.Append($"namespace {ApplicationNamespaceTextBox.Text}.Commons.Attributes" + Environment.NewLine);
+            code.Append("{" + Environment.NewLine);
+            code.Append("       public class TraceAndTimeAttibuteInterceptor : IInterceptor" + Environment.NewLine);
+            code.Append("       {" + Environment.NewLine);
+            code.Append("           private readonly ILogger<TraceAndTimeAttibuteInterceptor> _logger;" + Environment.NewLine);
+            code.Append(Environment.NewLine);
+            code.Append("           public TraceAndTimeAttibuteInterceptor(ILogger<TraceAndTimeAttibuteInterceptor> logger)" + Environment.NewLine);
+            code.Append("           {" + Environment.NewLine);
+            code.Append("               _logger = logger;" + Environment.NewLine);
+            code.Append("           }" + Environment.NewLine);
+            code.Append(Environment.NewLine);
+            code.Append("           public void Intercept(IInvocation invocation)" + Environment.NewLine);
+            code.Append("           {" + Environment.NewLine);
+            code.Append("               string methodName=string.Empty();" + Environment.NewLine);
+            code.Append("               if (invocation.Method.ReflectedType is not null " + Environment.NewLine);
+            code.Append("                   && invocation.Method.ReflectedType.Name is not null)" + Environment.NewLine);
+            code.Append("               {" + Environment.NewLine);
+            code.Append("                   methodName = invocation.Method.ReflectedType.Name + \".\";" + Environment.NewLine);
+            code.Append("               }" + Environment.NewLine);
+            code.Append("               methodName = methodName+invocation.Method.Name;" + Environment.NewLine);
+            code.Append("               System.Diagnostics.Stopwatch? watch=null;" + Environment.NewLine);
+            code.Append("               try" + Environment.NewLine);
+            code.Append("               {" + Environment.NewLine);
+            code.Append("                   _logger.LogInformation(\"Enter to method:{@methodName}\", methodName);" + Environment.NewLine);
+            code.Append("                   if (GlobalVariables.EnableTraceTime)" + Environment.NewLine);
+            code.Append("                   {" + Environment.NewLine);
+            code.Append("                       watch = System.Diagnostics.Stopwatch.StartNew();" + Environment.NewLine);
+            code.Append("                       watch.Start();" + Environment.NewLine);
+            code.Append("                   }" + Environment.NewLine);
+            code.Append("                   invocation.Proceed();" + Environment.NewLine);
+            code.Append("               }" + Environment.NewLine);
+            code.Append("               catch (Exception ex)" + Environment.NewLine);
+            code.Append("               {" + Environment.NewLine);
+            code.Append("                   _logger.LogError(ex, \"Exception in method:{@methodName}\", methodName);" + Environment.NewLine);
+            code.Append("               }" + Environment.NewLine);
+            code.Append("               finally" + Environment.NewLine);
+            code.Append("               {" + Environment.NewLine);
+            code.Append("                   if (GlobalVariables.EnableTraceTime)" + Environment.NewLine);
+            code.Append("                   {" + Environment.NewLine);
+            code.Append("                       watch!.Stop();" + Environment.NewLine);
+            code.Append("                       var elapsedMs = watch.ElapsedMilliseconds;" + Environment.NewLine);
+            code.Append("                       _logger.LogInformation(\"Time taken for method:{@methodName} @{elapsedMs} ms\", methodName, elapsedMs);" + Environment.NewLine);
+            code.Append("                   }" + Environment.NewLine);
+            code.Append("                   _logger.LogInformation(\"Exit from method:{@methodName}\", methodName);" + Environment.NewLine);
+            code.Append("               }" + Environment.NewLine);
+            code.Append("           }" + Environment.NewLine);
+            code.Append("       }" + Environment.NewLine);
+            code.Append("}" + Environment.NewLine);
+
+            form.GeneratedCodeText = code.ToString();
+            form.Show();
+        }
+
+        private void ApplicatioConfigureServicesButton_Click(object sender, EventArgs e)
+        {
+            StringBuilder code = new StringBuilder("");
+            GeneratedCodeForm form = new GeneratedCodeForm();
+
+            code.Append($"namespace {ApplicationNamespaceTextBox.Text}" + Environment.NewLine);
+            code.Append("{" + Environment.NewLine);
+            code.Append("       public static class ConfigureServices" + Environment.NewLine);
+            code.Append("       {" + Environment.NewLine);
+            code.Append(Environment.NewLine);
+            code.Append("       }" + Environment.NewLine);
+            code.Append("}" + Environment.NewLine);
+            form.GeneratedCodeText = code.ToString();
+            form.Show();
+        }
         #endregion
+
+       
     }
 }

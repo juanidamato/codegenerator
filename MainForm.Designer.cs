@@ -44,6 +44,17 @@
             AuthorTextBox = new TextBox();
             label7 = new Label();
             tabPage4 = new TabPage();
+            groupBox6 = new GroupBox();
+            spAuditUpdateButton = new Button();
+            spAuditDeleteButton = new Button();
+            spAuditInsertButton = new Button();
+            spAuditTableButton = new Button();
+            groupBox5 = new GroupBox();
+            spDeleteByPKButton = new Button();
+            spUpdateByPKButton = new Button();
+            spInsertButton = new Button();
+            SelectByPKButton = new Button();
+            spSelectAllButton = new Button();
             tabPage2 = new TabPage();
             groupBox3 = new GroupBox();
             DomainCommonsOperationStatusModelButton = new Button();
@@ -56,7 +67,7 @@
             label10 = new Label();
             groupBox1 = new GroupBox();
             DomainGenerateEntityButton = new Button();
-            EntityNameTextBox = new TextBox();
+            DomainEntityNameTextBox = new TextBox();
             label6 = new Label();
             EntityInherithsFromTextBox = new TextBox();
             label5 = new Label();
@@ -65,21 +76,17 @@
             DomainNamespaceTextBox = new TextBox();
             label3 = new Label();
             tabPage3 = new TabPage();
+            groupBox7 = new GroupBox();
+            ApplicationRepositoryInterfaceButton = new Button();
+            ApplicationEntityNameTextBox = new TextBox();
+            label8 = new Label();
+            groupBox4 = new GroupBox();
+            ApplicatioConfigureServicesButton = new Button();
+            ApplicationCommonsAttributeTraceAndTimeInterceptorButton = new Button();
+            ApplicationCommonsAttributeTraceAndTimeButton = new Button();
+            ApplicationGlobalVariablesBLLAndConstantsButton = new Button();
             ApplicationNamespaceTextBox = new TextBox();
             label12 = new Label();
-            groupBox4 = new GroupBox();
-            ApplicationGlobalVariablesBLLAndConstantsButton = new Button();
-            groupBox5 = new GroupBox();
-            spDeleteByPKButton = new Button();
-            spUpdateByPKButton = new Button();
-            spInsertButton = new Button();
-            SelectByPKButton = new Button();
-            spSelectAllButton = new Button();
-            groupBox6 = new GroupBox();
-            spAuditUpdateButton = new Button();
-            spAuditDeleteButton = new Button();
-            spAuditInsertButton = new Button();
-            spAuditTableButton = new Button();
             panel1.SuspendLayout();
             panel3.SuspendLayout();
             panel2.SuspendLayout();
@@ -91,14 +98,15 @@
             tabControl1.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage4.SuspendLayout();
+            groupBox6.SuspendLayout();
+            groupBox5.SuspendLayout();
             tabPage2.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox1.SuspendLayout();
             tabPage3.SuspendLayout();
+            groupBox7.SuspendLayout();
             groupBox4.SuspendLayout();
-            groupBox5.SuspendLayout();
-            groupBox6.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
@@ -256,6 +264,114 @@
             tabPage4.Text = "Stored Procedures/Audit logs";
             tabPage4.UseVisualStyleBackColor = true;
             // 
+            // groupBox6
+            // 
+            groupBox6.Controls.Add(spAuditUpdateButton);
+            groupBox6.Controls.Add(spAuditDeleteButton);
+            groupBox6.Controls.Add(spAuditInsertButton);
+            groupBox6.Controls.Add(spAuditTableButton);
+            groupBox6.Location = new Point(19, 114);
+            groupBox6.Name = "groupBox6";
+            groupBox6.Size = new Size(732, 90);
+            groupBox6.TabIndex = 12;
+            groupBox6.TabStop = false;
+            groupBox6.Text = "Audit";
+            // 
+            // spAuditUpdateButton
+            // 
+            spAuditUpdateButton.Location = new Point(451, 32);
+            spAuditUpdateButton.Name = "spAuditUpdateButton";
+            spAuditUpdateButton.Size = new Size(136, 25);
+            spAuditUpdateButton.TabIndex = 14;
+            spAuditUpdateButton.Text = "Update audit trigger";
+            spAuditUpdateButton.UseVisualStyleBackColor = true;
+            // 
+            // spAuditDeleteButton
+            // 
+            spAuditDeleteButton.Location = new Point(309, 32);
+            spAuditDeleteButton.Name = "spAuditDeleteButton";
+            spAuditDeleteButton.Size = new Size(136, 25);
+            spAuditDeleteButton.TabIndex = 13;
+            spAuditDeleteButton.Text = "Delete audit trigger";
+            spAuditDeleteButton.UseVisualStyleBackColor = true;
+            // 
+            // spAuditInsertButton
+            // 
+            spAuditInsertButton.Location = new Point(167, 32);
+            spAuditInsertButton.Name = "spAuditInsertButton";
+            spAuditInsertButton.Size = new Size(136, 25);
+            spAuditInsertButton.TabIndex = 12;
+            spAuditInsertButton.Text = "Insert audit trigger";
+            spAuditInsertButton.UseVisualStyleBackColor = true;
+            // 
+            // spAuditTableButton
+            // 
+            spAuditTableButton.Location = new Point(25, 32);
+            spAuditTableButton.Name = "spAuditTableButton";
+            spAuditTableButton.Size = new Size(136, 25);
+            spAuditTableButton.TabIndex = 11;
+            spAuditTableButton.Text = "Audit table";
+            spAuditTableButton.UseVisualStyleBackColor = true;
+            // 
+            // groupBox5
+            // 
+            groupBox5.Controls.Add(spDeleteByPKButton);
+            groupBox5.Controls.Add(spUpdateByPKButton);
+            groupBox5.Controls.Add(spInsertButton);
+            groupBox5.Controls.Add(SelectByPKButton);
+            groupBox5.Controls.Add(spSelectAllButton);
+            groupBox5.Location = new Point(19, 12);
+            groupBox5.Name = "groupBox5";
+            groupBox5.Size = new Size(732, 96);
+            groupBox5.TabIndex = 11;
+            groupBox5.TabStop = false;
+            groupBox5.Text = "CRUD";
+            // 
+            // spDeleteByPKButton
+            // 
+            spDeleteByPKButton.Location = new Point(302, 22);
+            spDeleteByPKButton.Name = "spDeleteByPKButton";
+            spDeleteByPKButton.Size = new Size(136, 25);
+            spDeleteByPKButton.TabIndex = 9;
+            spDeleteByPKButton.Text = "Delete by PK";
+            spDeleteByPKButton.UseVisualStyleBackColor = true;
+            // 
+            // spUpdateByPKButton
+            // 
+            spUpdateByPKButton.Location = new Point(586, 22);
+            spUpdateByPKButton.Name = "spUpdateByPKButton";
+            spUpdateByPKButton.Size = new Size(136, 25);
+            spUpdateByPKButton.TabIndex = 8;
+            spUpdateByPKButton.Text = "Update by PK";
+            spUpdateByPKButton.UseVisualStyleBackColor = true;
+            // 
+            // spInsertButton
+            // 
+            spInsertButton.Location = new Point(444, 22);
+            spInsertButton.Name = "spInsertButton";
+            spInsertButton.Size = new Size(136, 25);
+            spInsertButton.TabIndex = 7;
+            spInsertButton.Text = "Insert";
+            spInsertButton.UseVisualStyleBackColor = true;
+            // 
+            // SelectByPKButton
+            // 
+            SelectByPKButton.Location = new Point(160, 22);
+            SelectByPKButton.Name = "SelectByPKButton";
+            SelectByPKButton.Size = new Size(136, 25);
+            SelectByPKButton.TabIndex = 6;
+            SelectByPKButton.Text = "Select by PK";
+            SelectByPKButton.UseVisualStyleBackColor = true;
+            // 
+            // spSelectAllButton
+            // 
+            spSelectAllButton.Location = new Point(18, 22);
+            spSelectAllButton.Name = "spSelectAllButton";
+            spSelectAllButton.Size = new Size(136, 25);
+            spSelectAllButton.TabIndex = 5;
+            spSelectAllButton.Text = "Select All";
+            spSelectAllButton.UseVisualStyleBackColor = true;
+            // 
             // tabPage2
             // 
             tabPage2.Controls.Add(groupBox3);
@@ -363,7 +479,7 @@
             // groupBox1
             // 
             groupBox1.Controls.Add(DomainGenerateEntityButton);
-            groupBox1.Controls.Add(EntityNameTextBox);
+            groupBox1.Controls.Add(DomainEntityNameTextBox);
             groupBox1.Controls.Add(label6);
             groupBox1.Controls.Add(EntityInherithsFromTextBox);
             groupBox1.Controls.Add(label5);
@@ -386,12 +502,12 @@
             DomainGenerateEntityButton.UseVisualStyleBackColor = true;
             DomainGenerateEntityButton.Click += DomainGenerateEntityButton_Click;
             // 
-            // EntityNameTextBox
+            // DomainEntityNameTextBox
             // 
-            EntityNameTextBox.Location = new Point(189, 61);
-            EntityNameTextBox.Name = "EntityNameTextBox";
-            EntityNameTextBox.Size = new Size(161, 23);
-            EntityNameTextBox.TabIndex = 10;
+            DomainEntityNameTextBox.Location = new Point(189, 61);
+            DomainEntityNameTextBox.Name = "DomainEntityNameTextBox";
+            DomainEntityNameTextBox.Size = new Size(161, 23);
+            DomainEntityNameTextBox.TabIndex = 10;
             // 
             // label6
             // 
@@ -453,6 +569,7 @@
             // 
             // tabPage3
             // 
+            tabPage3.Controls.Add(groupBox7);
             tabPage3.Controls.Add(groupBox4);
             tabPage3.Controls.Add(ApplicationNamespaceTextBox);
             tabPage3.Controls.Add(label12);
@@ -462,6 +579,97 @@
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Application";
             tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // groupBox7
+            // 
+            groupBox7.Controls.Add(ApplicationRepositoryInterfaceButton);
+            groupBox7.Controls.Add(ApplicationEntityNameTextBox);
+            groupBox7.Controls.Add(label8);
+            groupBox7.Location = new Point(13, 39);
+            groupBox7.Name = "groupBox7";
+            groupBox7.Size = new Size(366, 345);
+            groupBox7.TabIndex = 15;
+            groupBox7.TabStop = false;
+            groupBox7.Text = "Entity";
+            // 
+            // ApplicationRepositoryInterfaceButton
+            // 
+            ApplicationRepositoryInterfaceButton.Location = new Point(6, 53);
+            ApplicationRepositoryInterfaceButton.Name = "ApplicationRepositoryInterfaceButton";
+            ApplicationRepositoryInterfaceButton.Size = new Size(344, 24);
+            ApplicationRepositoryInterfaceButton.TabIndex = 14;
+            ApplicationRepositoryInterfaceButton.Text = "Commons - Interfaces -Repositories - Repository";
+            ApplicationRepositoryInterfaceButton.UseVisualStyleBackColor = true;
+            ApplicationRepositoryInterfaceButton.Click += ApplicationRepositoryInterfaceButton_Click;
+            // 
+            // ApplicationEntityNameTextBox
+            // 
+            ApplicationEntityNameTextBox.Location = new Point(189, 22);
+            ApplicationEntityNameTextBox.Name = "ApplicationEntityNameTextBox";
+            ApplicationEntityNameTextBox.Size = new Size(161, 23);
+            ApplicationEntityNameTextBox.TabIndex = 10;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(6, 21);
+            label8.Name = "label8";
+            label8.Size = new Size(80, 15);
+            label8.TabIndex = 13;
+            label8.Text = "Entitity name:";
+            // 
+            // groupBox4
+            // 
+            groupBox4.Controls.Add(ApplicatioConfigureServicesButton);
+            groupBox4.Controls.Add(ApplicationCommonsAttributeTraceAndTimeInterceptorButton);
+            groupBox4.Controls.Add(ApplicationCommonsAttributeTraceAndTimeButton);
+            groupBox4.Controls.Add(ApplicationGlobalVariablesBLLAndConstantsButton);
+            groupBox4.Location = new Point(401, 39);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Size = new Size(363, 157);
+            groupBox4.TabIndex = 14;
+            groupBox4.TabStop = false;
+            groupBox4.Text = "Miscellaneous";
+            // 
+            // ApplicatioConfigureServicesButton
+            // 
+            ApplicatioConfigureServicesButton.Location = new Point(6, 112);
+            ApplicatioConfigureServicesButton.Name = "ApplicatioConfigureServicesButton";
+            ApplicatioConfigureServicesButton.Size = new Size(351, 24);
+            ApplicatioConfigureServicesButton.TabIndex = 20;
+            ApplicatioConfigureServicesButton.Text = "ConfigureServices";
+            ApplicatioConfigureServicesButton.UseVisualStyleBackColor = true;
+            ApplicatioConfigureServicesButton.Click += ApplicatioConfigureServicesButton_Click;
+            // 
+            // ApplicationCommonsAttributeTraceAndTimeInterceptorButton
+            // 
+            ApplicationCommonsAttributeTraceAndTimeInterceptorButton.Location = new Point(6, 82);
+            ApplicationCommonsAttributeTraceAndTimeInterceptorButton.Name = "ApplicationCommonsAttributeTraceAndTimeInterceptorButton";
+            ApplicationCommonsAttributeTraceAndTimeInterceptorButton.Size = new Size(351, 24);
+            ApplicationCommonsAttributeTraceAndTimeInterceptorButton.TabIndex = 19;
+            ApplicationCommonsAttributeTraceAndTimeInterceptorButton.Text = "Commons  - Attributes -TraceAndTimeAtrributeInterceptor";
+            ApplicationCommonsAttributeTraceAndTimeInterceptorButton.UseVisualStyleBackColor = true;
+            ApplicationCommonsAttributeTraceAndTimeInterceptorButton.Click += ApplicationCommonsAttributeTraceAndTimeInterceptorButton_Click;
+            // 
+            // ApplicationCommonsAttributeTraceAndTimeButton
+            // 
+            ApplicationCommonsAttributeTraceAndTimeButton.Location = new Point(6, 52);
+            ApplicationCommonsAttributeTraceAndTimeButton.Name = "ApplicationCommonsAttributeTraceAndTimeButton";
+            ApplicationCommonsAttributeTraceAndTimeButton.Size = new Size(351, 24);
+            ApplicationCommonsAttributeTraceAndTimeButton.TabIndex = 18;
+            ApplicationCommonsAttributeTraceAndTimeButton.Text = "Commons  - Attributes -TraceAndTimeAtrribute";
+            ApplicationCommonsAttributeTraceAndTimeButton.UseVisualStyleBackColor = true;
+            ApplicationCommonsAttributeTraceAndTimeButton.Click += ApplicationCommonsAttributeTraceAndTimeButton_Click;
+            // 
+            // ApplicationGlobalVariablesBLLAndConstantsButton
+            // 
+            ApplicationGlobalVariablesBLLAndConstantsButton.Location = new Point(6, 22);
+            ApplicationGlobalVariablesBLLAndConstantsButton.Name = "ApplicationGlobalVariablesBLLAndConstantsButton";
+            ApplicationGlobalVariablesBLLAndConstantsButton.Size = new Size(351, 24);
+            ApplicationGlobalVariablesBLLAndConstantsButton.TabIndex = 17;
+            ApplicationGlobalVariablesBLLAndConstantsButton.Text = "BLL  - Global variables and constants";
+            ApplicationGlobalVariablesBLLAndConstantsButton.UseVisualStyleBackColor = true;
+            ApplicationGlobalVariablesBLLAndConstantsButton.Click += ApplicationGlobalVariablesBLLAndConstantsButton_Click;
             // 
             // ApplicationNamespaceTextBox
             // 
@@ -478,133 +686,6 @@
             label12.Size = new Size(136, 15);
             label12.TabIndex = 12;
             label12.Text = "Application Namespace:";
-            // 
-            // groupBox4
-            // 
-            groupBox4.Controls.Add(ApplicationGlobalVariablesBLLAndConstantsButton);
-            groupBox4.Location = new Point(13, 221);
-            groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(363, 111);
-            groupBox4.TabIndex = 14;
-            groupBox4.TabStop = false;
-            groupBox4.Text = "Miscellaneous";
-            // 
-            // ApplicationGlobalVariablesBLLAndConstantsButton
-            // 
-            ApplicationGlobalVariablesBLLAndConstantsButton.Location = new Point(6, 22);
-            ApplicationGlobalVariablesBLLAndConstantsButton.Name = "ApplicationGlobalVariablesBLLAndConstantsButton";
-            ApplicationGlobalVariablesBLLAndConstantsButton.Size = new Size(238, 24);
-            ApplicationGlobalVariablesBLLAndConstantsButton.TabIndex = 17;
-            ApplicationGlobalVariablesBLLAndConstantsButton.Text = "BLL  - Global variables and constants";
-            ApplicationGlobalVariablesBLLAndConstantsButton.UseVisualStyleBackColor = true;
-            // 
-            // groupBox5
-            // 
-            groupBox5.Controls.Add(spDeleteByPKButton);
-            groupBox5.Controls.Add(spUpdateByPKButton);
-            groupBox5.Controls.Add(spInsertButton);
-            groupBox5.Controls.Add(SelectByPKButton);
-            groupBox5.Controls.Add(spSelectAllButton);
-            groupBox5.Location = new Point(19, 12);
-            groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(732, 96);
-            groupBox5.TabIndex = 11;
-            groupBox5.TabStop = false;
-            groupBox5.Text = "CRUD";
-            // 
-            // spDeleteByPKButton
-            // 
-            spDeleteByPKButton.Location = new Point(302, 22);
-            spDeleteByPKButton.Name = "spDeleteByPKButton";
-            spDeleteByPKButton.Size = new Size(136, 25);
-            spDeleteByPKButton.TabIndex = 9;
-            spDeleteByPKButton.Text = "Delete by PK";
-            spDeleteByPKButton.UseVisualStyleBackColor = true;
-            // 
-            // spUpdateByPKButton
-            // 
-            spUpdateByPKButton.Location = new Point(586, 22);
-            spUpdateByPKButton.Name = "spUpdateByPKButton";
-            spUpdateByPKButton.Size = new Size(136, 25);
-            spUpdateByPKButton.TabIndex = 8;
-            spUpdateByPKButton.Text = "Update by PK";
-            spUpdateByPKButton.UseVisualStyleBackColor = true;
-            // 
-            // spInsertButton
-            // 
-            spInsertButton.Location = new Point(444, 22);
-            spInsertButton.Name = "spInsertButton";
-            spInsertButton.Size = new Size(136, 25);
-            spInsertButton.TabIndex = 7;
-            spInsertButton.Text = "Insert";
-            spInsertButton.UseVisualStyleBackColor = true;
-            // 
-            // SelectByPKButton
-            // 
-            SelectByPKButton.Location = new Point(160, 22);
-            SelectByPKButton.Name = "SelectByPKButton";
-            SelectByPKButton.Size = new Size(136, 25);
-            SelectByPKButton.TabIndex = 6;
-            SelectByPKButton.Text = "Select by PK";
-            SelectByPKButton.UseVisualStyleBackColor = true;
-            // 
-            // spSelectAllButton
-            // 
-            spSelectAllButton.Location = new Point(18, 22);
-            spSelectAllButton.Name = "spSelectAllButton";
-            spSelectAllButton.Size = new Size(136, 25);
-            spSelectAllButton.TabIndex = 5;
-            spSelectAllButton.Text = "Select All";
-            spSelectAllButton.UseVisualStyleBackColor = true;
-            // 
-            // groupBox6
-            // 
-            groupBox6.Controls.Add(spAuditUpdateButton);
-            groupBox6.Controls.Add(spAuditDeleteButton);
-            groupBox6.Controls.Add(spAuditInsertButton);
-            groupBox6.Controls.Add(spAuditTableButton);
-            groupBox6.Location = new Point(19, 114);
-            groupBox6.Name = "groupBox6";
-            groupBox6.Size = new Size(732, 90);
-            groupBox6.TabIndex = 12;
-            groupBox6.TabStop = false;
-            groupBox6.Text = "Audit";
-            // 
-            // spAuditUpdateButton
-            // 
-            spAuditUpdateButton.Location = new Point(451, 32);
-            spAuditUpdateButton.Name = "spAuditUpdateButton";
-            spAuditUpdateButton.Size = new Size(136, 25);
-            spAuditUpdateButton.TabIndex = 14;
-            spAuditUpdateButton.Text = "Update audit trigger";
-            spAuditUpdateButton.UseVisualStyleBackColor = true;
-            // 
-            // spAuditDeleteButton
-            // 
-            spAuditDeleteButton.Location = new Point(309, 32);
-            spAuditDeleteButton.Name = "spAuditDeleteButton";
-            spAuditDeleteButton.Size = new Size(136, 25);
-            spAuditDeleteButton.TabIndex = 13;
-            spAuditDeleteButton.Text = "Delete audit trigger";
-            spAuditDeleteButton.UseVisualStyleBackColor = true;
-            // 
-            // spAuditInsertButton
-            // 
-            spAuditInsertButton.Location = new Point(167, 32);
-            spAuditInsertButton.Name = "spAuditInsertButton";
-            spAuditInsertButton.Size = new Size(136, 25);
-            spAuditInsertButton.TabIndex = 12;
-            spAuditInsertButton.Text = "Insert audit trigger";
-            spAuditInsertButton.UseVisualStyleBackColor = true;
-            // 
-            // spAuditTableButton
-            // 
-            spAuditTableButton.Location = new Point(25, 32);
-            spAuditTableButton.Name = "spAuditTableButton";
-            spAuditTableButton.Size = new Size(136, 25);
-            spAuditTableButton.TabIndex = 11;
-            spAuditTableButton.Text = "Audit table";
-            spAuditTableButton.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -633,6 +714,8 @@
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
             tabPage4.ResumeLayout(false);
+            groupBox6.ResumeLayout(false);
+            groupBox5.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
             groupBox3.ResumeLayout(false);
@@ -643,9 +726,9 @@
             groupBox1.PerformLayout();
             tabPage3.ResumeLayout(false);
             tabPage3.PerformLayout();
+            groupBox7.ResumeLayout(false);
+            groupBox7.PerformLayout();
             groupBox4.ResumeLayout(false);
-            groupBox5.ResumeLayout(false);
-            groupBox6.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -673,7 +756,7 @@
         private Label label3;
         private GroupBox groupBox1;
         private Button DomainGenerateEntityButton;
-        private TextBox EntityNameTextBox;
+        private TextBox DomainEntityNameTextBox;
         private Label label6;
         private TextBox EntityInherithsFromTextBox;
         private Label label5;
@@ -702,5 +785,12 @@
         private Button spAuditDeleteButton;
         private Button spAuditInsertButton;
         private Button spAuditTableButton;
+        private Button ApplicationCommonsAttributeTraceAndTimeButton;
+        private Button ApplicationCommonsAttributeTraceAndTimeInterceptorButton;
+        private Button ApplicatioConfigureServicesButton;
+        private GroupBox groupBox7;
+        private Button ApplicationRepositoryInterfaceButton;
+        private TextBox ApplicationEntityNameTextBox;
+        private Label label8;
     }
 }
