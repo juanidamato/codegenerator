@@ -49,6 +49,7 @@
             ConnectionStringTextBox.Location = new Point(150, 44);
             ConnectionStringTextBox.Margin = new Padding(3, 2, 3, 2);
             ConnectionStringTextBox.Name = "ConnectionStringTextBox";
+            ConnectionStringTextBox.PasswordChar = '*';
             ConnectionStringTextBox.Size = new Size(484, 23);
             ConnectionStringTextBox.TabIndex = 1;
             // 

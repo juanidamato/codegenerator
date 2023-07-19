@@ -23,8 +23,8 @@ namespace codegenerator
             ILogger<ODBCConnect> logger,
             DatabaseUtilities dbUtil)
         {
-            _logger=logger;
-            _dbUtil=dbUtil;
+            _logger = logger;
+            _dbUtil = dbUtil;
 
             InitializeComponent();
 
@@ -43,7 +43,7 @@ namespace codegenerator
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex,"Error in ODBCConnect constructor");
+                _logger.LogError(ex, "Error in ODBCConnect constructor");
             }
 
             ConnectionStringTextBox.Text = connectionString;

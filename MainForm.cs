@@ -3,6 +3,7 @@ using codegenerator.Models;
 using codegenerator.Models.ViewModels;
 using System.Diagnostics;
 using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
 
 namespace codegenerator
@@ -124,6 +125,7 @@ namespace codegenerator
         {
             List<SQLTableFieldModel> fieldList;
             KeyValueItem item;
+            bool isNullable;
 
             SetupNewGrid();
             SetupOtherValues();
@@ -133,11 +135,20 @@ namespace codegenerator
             {
                 foreach (var field in fieldList)
                 {
+                    if (field.isnullable == 0)
+                    {
+                        isNullable = false;
+                    }
+                    else
+                    {
+                        isNullable = true;
+                    }
+                 
                     dataGridView1.Rows.Add(
                         field.isPrimaryKey ? "*" + field.name : field.name,
                         field.fieldType,
                         CalculateFieldSizeString(field),
-                        field.isnullable == 0 ? false : true,
+                        isNullable,
                         field.isIdentity);
                     //false);
                     //todo remove
@@ -247,93 +258,98 @@ namespace codegenerator
 
         private void GenerateEntityButton_Click(object sender, EventArgs e)
         {
-            string code;
+            StringBuilder code=new StringBuilder("");
             List<SQLTableFieldModel> fieldList;
             KeyValueItem item;
             GeneratedCodeForm form = new GeneratedCodeForm();
 
-            code = $"namespace {GeneralNamespaceTextBox.Text}.{EntitiesNamespaceSuffixTextBox.Text}" + Environment.NewLine;
-            code = code + "{" + Environment.NewLine;
-            code = code + $"    public class {EntityNameTextBox.Text}";
+            code.Append($"namespace {GeneralNamespaceTextBox.Text}.{EntitiesNamespaceSuffixTextBox.Text}" + Environment.NewLine);
+            code.Append("{" + Environment.NewLine);
+            code.Append($"    public class {EntityNameTextBox.Text}Entity");
             if (!string.IsNullOrWhiteSpace(EntityInherithsFromTextBox.Text))
             {
-                code = code + $" : {EntityInherithsFromTextBox.Text}" + Environment.NewLine;
+                code.Append($" : {EntityInherithsFromTextBox.Text}" + Environment.NewLine);
             }
             else
             {
-                code = code + Environment.NewLine;
+                code.Append(Environment.NewLine);
             }
-            code = code + "    {" + Environment.NewLine;
+            code.Append( "    {" + Environment.NewLine);
             item = (KeyValueItem)tablesListBox.SelectedItem;
             fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value), item.Text);
             if (fieldList != null)
             {
                 foreach (var field in fieldList)
                 {
-                    code = code + $"         public {MapSQLTypeToCType(field)}" + (field.isnullable == 1 ? "?" : "") + $" {field.name}" + " {get;set;}" + Environment.NewLine;
+                    code.Append($"         public {MapSQLTypeToCType(field)}" + (field.isnullable == 1 ? "?" : "") + $" {field.name}" + " {get;set;}");
+                    if (MapSQLTypeToCType(field)=="string" && field.isnullable == 0)
+                    {
+                        code.Append(" = string.Empty;");
+                    }
+                    code.Append(Environment.NewLine);
                 }
             }
-            code = code + "    }" + Environment.NewLine;
-            code = code + "}" + Environment.NewLine;
-            form.GeneratedCodeText = code;
+            code.Append("    }" + Environment.NewLine);
+            code.Append("}" + Environment.NewLine);
+            form.GeneratedCodeText = code.ToString();
             form.Show();
         }
 
         private void spSelectAllButton_Click(object sender, EventArgs e)
         {
-            string code;
-            string orderby;
+            StringBuilder code = new StringBuilder("");
+            StringBuilder orderby=new StringBuilder("");
             List<SQLTableFieldModel> fieldList;
             KeyValueItem item;
             GeneratedCodeForm form = new GeneratedCodeForm();
             DateTime Today = DateTime.Now;
             item = (KeyValueItem)tablesListBox.SelectedItem;
             fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value), item.Text);
-            orderby = "";
+           
             if (fieldList != null)
             {
                 foreach (var field in fieldList)
                 {
                     if (field.isPrimaryKey)
                     {
-                        if (orderby != "")
+                        if (orderby.ToString() != "")
                         {
-                            orderby = orderby + ",";
+                            orderby.Append( ",");
                         }
-                        orderby = orderby + $"{field.name}";
+                        orderby.Append($"{field.name}");
                     }
                 }
             }
-            code = "SET ANSI_NULLS ON" + Environment.NewLine;
-            code = code + "GO" + Environment.NewLine;
-            code = code + "SET QUOTED_IDENTIFIER ON" + Environment.NewLine;
-            code = code + "GO" + Environment.NewLine;
-            code = code + "-- =============================================" + Environment.NewLine;
-            code = code + "-- Author:" + AuthorTextBox.Text.Trim() + Environment.NewLine;
-            code = code + "-- Create date:" + Today.Year.ToString() + "-" + Today.Month.ToString("00") + "-" + Today.Day.ToString("00") + Environment.NewLine;
-            code = code + "-- Description:Select all records from table " + item.Text + Environment.NewLine;
-            code = code + "-- Generated code by juanidamato/codegenerator" + Environment.NewLine;
-            code = code + $"CREATE PROCEDURE [dbo].[{item.Text}_Select_All]" + Environment.NewLine;
-            code = code + "AS" + Environment.NewLine;
-            code = code + "BEGIN" + Environment.NewLine;
-            code = code + "" + Environment.NewLine;
-            code = code + "     SET NOCOUNT OFF;" + Environment.NewLine;
-            code = code + "" + Environment.NewLine;
-            code = code + $"     select * from [{item.Text}]" + Environment.NewLine;
-            if (orderby != "")
+            code.Append("SET ANSI_NULLS ON" + Environment.NewLine);
+            code.Append( "GO" + Environment.NewLine);
+            code.Append( "SET QUOTED_IDENTIFIER ON" + Environment.NewLine);
+            code.Append( "GO" + Environment.NewLine);
+            code.Append( "-- =============================================" + Environment.NewLine);
+            code.Append( "-- Author:" + AuthorTextBox.Text.Trim() + Environment.NewLine);
+            code.Append( "-- Create date:" + Today.Year.ToString() + "-" + Today.Month.ToString("00") + "-" + Today.Day.ToString("00") + Environment.NewLine);
+            code.Append( "-- Description:Select all records from table " + item.Text + Environment.NewLine);
+            code.Append( "-- Generated code by juanidamato/codegenerator" + Environment.NewLine);
+            code.Append( $"CREATE PROCEDURE [dbo].[{item.Text}_Select_All]" + Environment.NewLine);
+            code.Append( "AS" + Environment.NewLine);
+            code.Append( "BEGIN" + Environment.NewLine);
+            code.Append( "" + Environment.NewLine);
+            code.Append( "     SET NOCOUNT OFF;" + Environment.NewLine);
+            code.Append( "" + Environment.NewLine);
+            code.Append($"     select * from [{item.Text}]" + Environment.NewLine);
+            if (orderby.ToString() != "")
             {
-                code = code + "     order by " + orderby + Environment.NewLine;
+                code.Append("     order by " + orderby.ToString() + Environment.NewLine);
             }
-            code = code + "END" + Environment.NewLine;
-            form.GeneratedCodeText = code;
+            code.Append("END" + Environment.NewLine);
+            form.GeneratedCodeText = code.ToString();
             form.Show();
         }
 
         private void spSelectByPKButton_Click(object sender, EventArgs e)
         {
-            string code;
-            string parametersKey;
-            string whereClause = "";
+            StringBuilder code = new StringBuilder("");
+            StringBuilder parametersKey = new StringBuilder("");
+            StringBuilder whereClause = new StringBuilder("");
             int KeyCount;
             List<SQLTableFieldModel> fieldList;
             KeyValueItem item;
@@ -341,71 +357,72 @@ namespace codegenerator
             DateTime Today = DateTime.Now;
             item = (KeyValueItem)tablesListBox.SelectedItem;
             fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value), item.Text);
-            parametersKey = "";
-            whereClause = "     where ";
+            whereClause.Append("     where ");
             if (fieldList != null)
             {
                 foreach (var field in fieldList)
                 {
                     if (field.isPrimaryKey)
                     {
-                        if (parametersKey != "")
+                        if (parametersKey.ToString() != "")
                         {
-                            parametersKey = parametersKey + "," + Environment.NewLine;
+                            parametersKey.Append( "," + Environment.NewLine);
                         }
-                        parametersKey = parametersKey + $"      @{field.name} {CalculateFieldTypeString(field)}";
-                        if (whereClause != "     where ")
+                        parametersKey.Append($"      @{field.name} {CalculateFieldTypeString(field)}");
+                        if (whereClause.ToString() != "     where ")
                         {
-                            whereClause = whereClause + Environment.NewLine;
-                            whereClause = whereClause + "     and ";
+                            whereClause.Append( Environment.NewLine);
+                            whereClause.Append ("     and ");
                         }
-                        whereClause = whereClause + $"{field.name}=@{field.name}";
+                        whereClause.Append($"{field.name}=@{field.name}");
                     }
                 }
-                parametersKey = parametersKey + Environment.NewLine;
+                parametersKey.Append(Environment.NewLine);
             }
             KeyCount = (from oneField in fieldList
-                        where oneField.isPrimaryKey == true
+                        where oneField.isPrimaryKey
                         select oneField).Count();
             if (KeyCount == 0)
             {
                 MessageBox.Show("This table does not contains primary keys", "Error", MessageBoxButtons.OK);
                 return;
             }
-            code = "SET ANSI_NULLS ON" + Environment.NewLine;
-            code = code + "GO" + Environment.NewLine;
-            code = code + "SET QUOTED_IDENTIFIER ON" + Environment.NewLine;
-            code = code + "GO" + Environment.NewLine;
-            code = code + "-- =============================================" + Environment.NewLine;
-            code = code + "-- Author:" + AuthorTextBox.Text.Trim() + Environment.NewLine;
-            code = code + "-- Create date:" + Today.Year.ToString() + "-" + Today.Month.ToString("00") + "-" + Today.Day.ToString("00") + Environment.NewLine;
-            code = code + "-- Description:Select one record by primary key from table " + item.Text + Environment.NewLine;
-            code = code + "-- Generated code by juanidamato/codegenerator" + Environment.NewLine;
-            code = code + $"CREATE PROCEDURE [dbo].[{item.Text}_Select_ByPK]" + Environment.NewLine;
-            code = code + parametersKey;
-            code = code + "AS" + Environment.NewLine;
-            code = code + "BEGIN" + Environment.NewLine;
-            code = code + "" + Environment.NewLine;
-            code = code + "     SET NOCOUNT OFF;" + Environment.NewLine;
-            code = code + "" + Environment.NewLine;
-            code = code + $"     select * from [{item.Text}]" + Environment.NewLine;
-            code = code + $"{whereClause}" + Environment.NewLine;
-            code = code + "END" + Environment.NewLine;
-            form.GeneratedCodeText = code;
+            code.Append( "SET ANSI_NULLS ON" + Environment.NewLine);
+            code.Append( "GO" + Environment.NewLine);
+            code.Append( "SET QUOTED_IDENTIFIER ON" + Environment.NewLine);
+            code.Append( "GO" + Environment.NewLine);
+            code.Append( "-- =============================================" + Environment.NewLine);
+            code.Append( "-- Author:" + AuthorTextBox.Text.Trim() + Environment.NewLine);
+            code.Append( "-- Create date:" + Today.Year.ToString() + "-" + Today.Month.ToString("00") + "-" + Today.Day.ToString("00") + Environment.NewLine);
+            code.Append( "-- Description:Select one record by primary key from table " + item.Text + Environment.NewLine);
+            code.Append( "-- Generated code by juanidamato/codegenerator" + Environment.NewLine);
+            code.Append( $"CREATE PROCEDURE [dbo].[{item.Text}_Select_ByPK]" + Environment.NewLine);
+            code.Append( parametersKey);
+            code.Append( "AS" + Environment.NewLine);
+            code.Append( "BEGIN" + Environment.NewLine);
+            code.Append( "" + Environment.NewLine);
+            code.Append( "     SET NOCOUNT OFF;" + Environment.NewLine);
+            code.Append( "" + Environment.NewLine);
+            code.Append( $"     select * from [{item.Text}]" + Environment.NewLine);
+            code.Append( $"{whereClause}" + Environment.NewLine);
+            code.Append("END" + Environment.NewLine);
+            form.GeneratedCodeText = code.ToString();
             form.Show();
         }
 
         private void spInsertButton_Click(object sender, EventArgs e)
         {
-            string code;
-            string parametersInsert;
+            StringBuilder code = new StringBuilder("");
+            StringBuilder parametersInsert = new StringBuilder("");
+            StringBuilder fieldsInsert = new StringBuilder("");
+            StringBuilder valuesInsert = new StringBuilder("");
             List<SQLTableFieldModel> fieldList;
             KeyValueItem item;
             GeneratedCodeForm form = new GeneratedCodeForm();
             DateTime Today = DateTime.Now;
             item = (KeyValueItem)tablesListBox.SelectedItem;
             fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value), item.Text);
-            parametersInsert = "";
+          
             if (fieldList != null)
             {
                 foreach (var field in fieldList)
@@ -413,60 +430,76 @@ namespace codegenerator
                     //todo datefields
                     if (!field.isIdentity)
                     {
-                        if (parametersInsert != "")
+                        if (parametersInsert.ToString() != "")
                         {
-                            parametersInsert = parametersInsert + "," + Environment.NewLine;
+                            parametersInsert.Append( "," + Environment.NewLine);
                         }
-                        parametersInsert = parametersInsert + $"      @{field.name} {CalculateFieldTypeString(field)}";
+                        parametersInsert.Append($"      @{field.name} {CalculateFieldTypeString(field)}");
 
+                        if (fieldsInsert.ToString() != "")
+                        {
+                            fieldsInsert.Append("," + Environment.NewLine);
+                        }
+                        fieldsInsert.Append($"      {field.name}");
+
+                        if (valuesInsert.ToString() != "")
+                        {
+                            valuesInsert.Append("," + Environment.NewLine);
+                        }
+                        valuesInsert.Append($"      @{field.name}");
                     }
+
                 }
-                parametersInsert = parametersInsert + Environment.NewLine;
+                parametersInsert.Append(Environment.NewLine);
+                fieldsInsert.Append(Environment.NewLine);
+                valuesInsert.Append(Environment.NewLine);
             }
-            code = "SET ANSI_NULLS ON" + Environment.NewLine;
-            code = code + "GO" + Environment.NewLine;
-            code = code + "SET QUOTED_IDENTIFIER ON" + Environment.NewLine;
-            code = code + "GO" + Environment.NewLine;
-            code = code + "-- =============================================" + Environment.NewLine;
-            code = code + "-- Author:" + AuthorTextBox.Text.Trim() + Environment.NewLine;
-            code = code + "-- Create date:" + Today.Year.ToString() + "-" + Today.Month.ToString("00") + "-" + Today.Day.ToString("00") + Environment.NewLine;
-            code = code + "-- Description:Insert one record into table " + item.Text + Environment.NewLine;
-            code = code + "-- Generated code by juanidamato/codegenerator" + Environment.NewLine;
-            code = code + $"CREATE PROCEDURE [dbo].[{item.Text}_Insert]" + Environment.NewLine;
-            code = code + "AS" + Environment.NewLine;
-            code = code + "BEGIN" + Environment.NewLine;
-            code = code + parametersInsert;
-            code = code + "" + Environment.NewLine;
-            code = code + "     SET NOCOUNT ON;" + Environment.NewLine;
-            code = code + "" + Environment.NewLine;
-            code = code + $"     insert into [{item.Text}]" + Environment.NewLine;
-            code = code + $"     (" + Environment.NewLine;
-            code = code + $"     )" + Environment.NewLine;
-            code = code + $"     values" + Environment.NewLine;
-            code = code + $"     (" + Environment.NewLine;
-            code = code + $"     )" + Environment.NewLine;
-            code = code + Environment.NewLine;
-            code = code + "     SET NOCOUNT OFF;" + Environment.NewLine;
-            code = code + Environment.NewLine;
-            code = code + $"     IF @@ROWCOUNT=1" + Environment.NewLine;
-            code = code + $"     BEGIN" + Environment.NewLine;
-            code = code + $"        select 1 as 'R'" + Environment.NewLine;
-            code = code + $"     END" + Environment.NewLine;
-            code = code + $"     ELSE" + Environment.NewLine;
-            code = code + $"     BEGIN" + Environment.NewLine;
-            code = code + $"        select -1 as 'R'" + Environment.NewLine;
-            code = code + $"     END" + Environment.NewLine;
-            code = code + "END" + Environment.NewLine;
-            form.GeneratedCodeText = code;
+            code.Append( "SET ANSI_NULLS ON" + Environment.NewLine);
+            code.Append( "GO" + Environment.NewLine);
+            code.Append( "SET QUOTED_IDENTIFIER ON" + Environment.NewLine);
+            code.Append( "GO" + Environment.NewLine);
+            code.Append( "-- =============================================" + Environment.NewLine);
+            code.Append( "-- Author:" + AuthorTextBox.Text.Trim() + Environment.NewLine);
+            code.Append( "-- Create date:" + Today.Year.ToString() + "-" + Today.Month.ToString("00") + "-" + Today.Day.ToString("00") + Environment.NewLine);
+            code.Append( "-- Description:Insert one record into table " + item.Text + Environment.NewLine);
+            code.Append( "-- Generated code by juanidamato/codegenerator" + Environment.NewLine);
+            code.Append( $"CREATE PROCEDURE [dbo].[{item.Text}_Insert]" + Environment.NewLine);
+            code.Append( parametersInsert.ToString());
+            code.Append( "AS" + Environment.NewLine);
+            code.Append( "BEGIN" + Environment.NewLine);
+            code.Append( "" + Environment.NewLine);
+            code.Append( "     SET NOCOUNT ON;" + Environment.NewLine);
+            code.Append( "" + Environment.NewLine);
+            code.Append( $"     insert into [{item.Text}]" + Environment.NewLine);
+            code.Append( $"     (" + Environment.NewLine);
+            code.Append(fieldsInsert.ToString());
+            code.Append( $"     )" + Environment.NewLine);
+            code.Append( $"     values" + Environment.NewLine);
+            code.Append( $"     (" + Environment.NewLine);
+            code.Append(valuesInsert.ToString());
+            code.Append( $"     )" + Environment.NewLine);
+            code.Append( Environment.NewLine);
+            code.Append( "     SET NOCOUNT OFF;" + Environment.NewLine);
+            code.Append( Environment.NewLine);
+            code.Append( $"     IF @@ROWCOUNT=1" + Environment.NewLine);
+            code.Append( $"     BEGIN" + Environment.NewLine);
+            code.Append( $"        select 1 as 'R'" + Environment.NewLine);
+            code.Append( $"     END" + Environment.NewLine);
+            code.Append( $"     ELSE" + Environment.NewLine);
+            code.Append( $"     BEGIN" + Environment.NewLine);
+            code.Append( $"        select -1 as 'R'" + Environment.NewLine);
+            code.Append( $"     END" + Environment.NewLine);
+            code.Append("END" + Environment.NewLine);
+            form.GeneratedCodeText = code.ToString();
             form.Show();
         }
 
         private void spUpdateByPKButton_Click(object sender, EventArgs e)
         {
-            string code;
-            string parametersUpdate;
-            string parametersSet;
-            string whereClause = "";
+            StringBuilder code = new StringBuilder("");
+            StringBuilder parametersUpdate = new StringBuilder("");
+            StringBuilder parametersSet = new StringBuilder("");
+            StringBuilder whereClause = new StringBuilder("");
             int KeyCount;
             List<SQLTableFieldModel> fieldList;
             KeyValueItem item;
@@ -474,89 +507,89 @@ namespace codegenerator
             DateTime Today = DateTime.Now;
             item = (KeyValueItem)tablesListBox.SelectedItem;
             fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value), item.Text);
-            parametersUpdate = "";
-            parametersSet = "";
-            whereClause = "     where ";
+           
+            whereClause.Append( "     where ");
             if (fieldList != null)
             {
                 foreach (var field in fieldList)
                 {
                     //todo datefields
-                    if (parametersUpdate != "")
+                    if (parametersUpdate.ToString() != "")
                     {
-                        parametersUpdate = parametersUpdate + "," + Environment.NewLine;
+                        parametersUpdate.Append( "," + Environment.NewLine);
                     }
-                    parametersUpdate = parametersUpdate + $"      @{field.name} {CalculateFieldTypeString(field)}";
+                    parametersUpdate.Append($"      @{field.name} {CalculateFieldTypeString(field)}");
                     if (field.isPrimaryKey)
                     {
-                        if (whereClause != "     where ")
+                        if (whereClause.ToString() != "     where ")
                         {
-                            whereClause = whereClause + Environment.NewLine;
-                            whereClause = whereClause + "     and ";
+                            whereClause.Append( Environment.NewLine);
+                            whereClause.Append("     and ");
                         }
-                        whereClause = whereClause + $"{field.name}=@{field.name}";
+                        whereClause.Append($"{field.name}=@{field.name}");
                     }
                     else
                     {
-                        if (parametersSet != "")
+                        if (parametersSet.ToString() != "")
                         {
-                            parametersSet = parametersSet + ",";
-                            parametersSet = parametersSet + Environment.NewLine;
+                            parametersSet.Append(",");
+                            parametersSet.Append(Environment.NewLine);
                         }
-                        parametersSet = parametersSet + $"          {field.name}=@{field.name}";
+                        parametersSet.Append( $"          {field.name}=@{field.name}");
                     }
                 }
-                parametersUpdate = parametersUpdate + Environment.NewLine;
+                parametersUpdate.Append(Environment.NewLine);
+                whereClause.Append(Environment.NewLine);
             }
             KeyCount = (from oneField in fieldList
-                        where oneField.isPrimaryKey == true
+                        where oneField.isPrimaryKey
                         select oneField).Count();
             if (KeyCount == 0)
             {
                 MessageBox.Show("This table does not contains primary keys", "Error", MessageBoxButtons.OK);
                 return;
             }
-            code = "SET ANSI_NULLS ON" + Environment.NewLine;
-            code = code + "GO" + Environment.NewLine;
-            code = code + "SET QUOTED_IDENTIFIER ON" + Environment.NewLine;
-            code = code + "GO" + Environment.NewLine;
-            code = code + "-- =============================================" + Environment.NewLine;
-            code = code + "-- Author:" + AuthorTextBox.Text.Trim() + Environment.NewLine;
-            code = code + "-- Create date:" + Today.Year.ToString() + "-" + Today.Month.ToString("00") + "-" + Today.Day.ToString("00") + Environment.NewLine;
-            code = code + "-- Description:Update one record by primary key from table " + item.Text + Environment.NewLine;
-            code = code + "-- Generated code by juanidamato/codegenerator" + Environment.NewLine;
-            code = code + $"CREATE PROCEDURE [dbo].[{item.Text}_Update_ByPK]" + Environment.NewLine;
-            code = code + "AS" + Environment.NewLine;
-            code = code + "BEGIN" + Environment.NewLine;
-            code = code + parametersUpdate;
-            code = code + "" + Environment.NewLine;
-            code = code + "     SET NOCOUNT ON;" + Environment.NewLine;
-            code = code + "" + Environment.NewLine;
-            code = code + $"     update [{item.Text}]" + Environment.NewLine;
-            code = code + $"     SET" + Environment.NewLine;
-            code = code + $"{parametersSet}" + Environment.NewLine;
-            code = code + $"{whereClause}" + Environment.NewLine;
-            code = code + Environment.NewLine;
-            code = code + "     SET NOCOUNT OFF;" + Environment.NewLine;
-            code = code + Environment.NewLine;
-            code = code + $"     IF @@ROWCOUNT=1" + Environment.NewLine;
-            code = code + $"     BEGIN" + Environment.NewLine;
-            code = code + $"        select 1 as 'R'" + Environment.NewLine;
-            code = code + $"     END" + Environment.NewLine;
-            code = code + $"     ELSE" + Environment.NewLine;
-            code = code + $"     BEGIN" + Environment.NewLine;
-            code = code + $"        select -1 as 'R'" + Environment.NewLine;
-            code = code + $"     END" + Environment.NewLine;
-            code = code + "END" + Environment.NewLine;
-            form.GeneratedCodeText = code;
+            code.Append("SET ANSI_NULLS ON" + Environment.NewLine);
+            code.Append("GO" + Environment.NewLine);
+            code.Append( "SET QUOTED_IDENTIFIER ON" + Environment.NewLine);
+            code.Append( "GO" + Environment.NewLine);
+            code.Append( "-- =============================================" + Environment.NewLine);
+            code.Append( "-- Author:" + AuthorTextBox.Text.Trim() + Environment.NewLine);
+            code.Append( "-- Create date:" + Today.Year.ToString() + "-" + Today.Month.ToString("00") + "-" + Today.Day.ToString("00") + Environment.NewLine);
+            code.Append( "-- Description:Update one record by primary key from table " + item.Text + Environment.NewLine);
+            code.Append( "-- Generated code by juanidamato/codegenerator" + Environment.NewLine);
+            code.Append( $"CREATE PROCEDURE [dbo].[{item.Text}_Update_ByPK]" + Environment.NewLine);
+            code.Append( parametersUpdate.ToString());
+            code.Append( "AS" + Environment.NewLine);
+            code.Append( "BEGIN" + Environment.NewLine);
+            code.Append( "" + Environment.NewLine);
+            code.Append( "     SET NOCOUNT ON;" + Environment.NewLine);
+            code.Append( "" + Environment.NewLine);
+            code.Append( $"     update [{item.Text}]" + Environment.NewLine);
+            code.Append( $"     SET" + Environment.NewLine);
+            code.Append( $"{parametersSet}" + Environment.NewLine);
+            code.Append( $"{whereClause}" + Environment.NewLine);
+            code.Append( Environment.NewLine);
+            code.Append( "     SET NOCOUNT OFF;" + Environment.NewLine);
+            code.Append( Environment.NewLine);
+            code.Append( $"     IF @@ROWCOUNT=1" + Environment.NewLine);
+            code.Append( $"     BEGIN" + Environment.NewLine);
+            code.Append( $"        select 1 as 'R'" + Environment.NewLine);
+            code.Append( $"     END" + Environment.NewLine);
+            code.Append( $"     ELSE" + Environment.NewLine);
+            code.Append( $"     BEGIN" + Environment.NewLine);
+            code.Append( $"        select -1 as 'R'" + Environment.NewLine);
+            code.Append( $"     END" + Environment.NewLine);
+            code.Append("END" + Environment.NewLine);
+            form.GeneratedCodeText = code.ToString();
             form.Show();
         }
 
         private void spDeleteByPKButton_Click(object sender, EventArgs e)
         {
-            string code;
-            string parametersKey;
-            string whereClause = "";
+            StringBuilder code = new StringBuilder("");
+            StringBuilder parametersKey = new StringBuilder(""); 
+            StringBuilder whereClause = new StringBuilder("");
             int KeyCount;
             List<SQLTableFieldModel> fieldList;
             KeyValueItem item;
@@ -564,320 +597,314 @@ namespace codegenerator
             DateTime Today = DateTime.Now;
             item = (KeyValueItem)tablesListBox.SelectedItem;
             fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value), item.Text);
-            parametersKey = "";
-            whereClause = "     where ";
+            whereClause.Append( "     where ");
             if (fieldList != null)
             {
                 foreach (var field in fieldList)
                 {
                     if (field.isPrimaryKey)
                     {
-                        if (parametersKey != "")
+                        if (parametersKey.ToString() != "")
                         {
-                            parametersKey = parametersKey + "," + Environment.NewLine;
+                            parametersKey.Append( "," + Environment.NewLine);
                         }
-                        parametersKey = parametersKey + $"      @{field.name} {CalculateFieldTypeString(field)}";
-                        if (whereClause != "     where ")
+                        parametersKey.Append($"      @{field.name} {CalculateFieldTypeString(field)}");
+                        if (whereClause.ToString() != "     where ")
                         {
-                            whereClause = whereClause + Environment.NewLine;
-                            whereClause = whereClause + "     and ";
+                            whereClause.Append( Environment.NewLine);
+                            whereClause.Append("     and ");
                         }
-                        whereClause = whereClause + $"{field.name}=@{field.name}";
+                        whereClause.Append($"{field.name}=@{field.name}");
                     }
                 }
-                parametersKey = parametersKey + Environment.NewLine;
+                parametersKey.Append(Environment.NewLine);
             }
             KeyCount = (from oneField in fieldList
-                        where oneField.isPrimaryKey == true
+                        where oneField.isPrimaryKey 
                         select oneField).Count();
             if (KeyCount == 0)
             {
                 MessageBox.Show("This table does not contains primary keys", "Error", MessageBoxButtons.OK);
                 return;
             }
-            code = "SET ANSI_NULLS ON" + Environment.NewLine;
-            code = code + "GO" + Environment.NewLine;
-            code = code + "SET QUOTED_IDENTIFIER ON" + Environment.NewLine;
-            code = code + "GO" + Environment.NewLine;
-            code = code + "-- =============================================" + Environment.NewLine;
-            code = code + "-- Author:" + AuthorTextBox.Text.Trim() + Environment.NewLine;
-            code = code + "-- Create date:" + Today.Year.ToString() + "-" + Today.Month.ToString("00") + "-" + Today.Day.ToString("00") + Environment.NewLine;
-            code = code + "-- Description:Delete one record by primary key from table " + item.Text + Environment.NewLine;
-            code = code + "-- Generated code by juanidamato/codegenerator" + Environment.NewLine;
-            code = code + $"CREATE PROCEDURE [dbo].[{item.Text}_Delete_ByPK]" + Environment.NewLine;
-            code = code + parametersKey;
-            code = code + "AS" + Environment.NewLine;
-            code = code + "BEGIN" + Environment.NewLine;
-            code = code + "" + Environment.NewLine;
-            code = code + "     SET NOCOUNT OFF;" + Environment.NewLine;
-            code = code + "" + Environment.NewLine;
-            code = code + $"     delete [{item.Text}]" + Environment.NewLine;
-            code = code + $"{whereClause}" + Environment.NewLine;
-            code = code + Environment.NewLine;
-            code = code + "     SET NOCOUNT OFF;" + Environment.NewLine;
-            code = code + Environment.NewLine;
-            code = code + $"     IF @@ROWCOUNT=1" + Environment.NewLine;
-            code = code + $"     BEGIN" + Environment.NewLine;
-            code = code + $"        select 1 as 'R'" + Environment.NewLine;
-            code = code + $"     END" + Environment.NewLine;
-            code = code + $"     ELSE" + Environment.NewLine;
-            code = code + $"     BEGIN" + Environment.NewLine;
-            code = code + $"        select -1 as 'R'" + Environment.NewLine;
-            code = code + $"     END" + Environment.NewLine;
-            code = code + "END" + Environment.NewLine;
-            form.GeneratedCodeText = code;
+            code.Append( "SET ANSI_NULLS ON" + Environment.NewLine);
+            code.Append( "GO" + Environment.NewLine);
+            code.Append( "SET QUOTED_IDENTIFIER ON" + Environment.NewLine);
+            code.Append( "GO" + Environment.NewLine);
+            code.Append( "-- =============================================" + Environment.NewLine);
+            code.Append( "-- Author:" + AuthorTextBox.Text.Trim() + Environment.NewLine);
+            code.Append( "-- Create date:" + Today.Year.ToString() + "-" + Today.Month.ToString("00") + "-" + Today.Day.ToString("00") + Environment.NewLine);
+            code.Append( "-- Description:Delete one record by primary key from table " + item.Text + Environment.NewLine);
+            code.Append( "-- Generated code by juanidamato/codegenerator" + Environment.NewLine);
+            code.Append( $"CREATE PROCEDURE [dbo].[{item.Text}_Delete_ByPK]" + Environment.NewLine);
+            code.Append( parametersKey);
+            code.Append( "AS" + Environment.NewLine);
+            code.Append( "BEGIN" + Environment.NewLine);
+            code.Append( "" + Environment.NewLine);
+            code.Append( "     SET NOCOUNT OFF;" + Environment.NewLine);
+            code.Append( "" + Environment.NewLine);
+            code.Append( $"     delete [{item.Text}]" + Environment.NewLine);
+            code.Append( $"{whereClause}" + Environment.NewLine);
+            code.Append( Environment.NewLine);
+            code.Append( "     SET NOCOUNT OFF;" + Environment.NewLine);
+            code.Append( Environment.NewLine);
+            code.Append( $"     IF @@ROWCOUNT=1" + Environment.NewLine);
+            code.Append( $"     BEGIN" + Environment.NewLine);
+            code.Append( $"        select 1 as 'R'" + Environment.NewLine);
+            code.Append( $"     END" + Environment.NewLine);
+            code.Append( $"     ELSE" + Environment.NewLine);
+            code.Append($"     BEGIN" + Environment.NewLine);
+            code.Append( $"        select -1 as 'R'" + Environment.NewLine);
+            code.Append( $"     END" + Environment.NewLine);
+            code.Append("END" + Environment.NewLine);
+            form.GeneratedCodeText = code.ToString();
             form.Show();
         }
 
         private void spAuditTableButton_Click(object sender, EventArgs e)
         {
-            string code;
+            StringBuilder code = new StringBuilder("");
             GeneratedCodeForm form = new GeneratedCodeForm();
-            DateTime Today = DateTime.Now;
 
-            code = "SET ANSI_NULLS ON" + Environment.NewLine;
-            code = code + "GO" + Environment.NewLine;
-            code = code + "SET QUOTED_IDENTIFIER ON" + Environment.NewLine;
-            code = code + "GO" + Environment.NewLine;
-            code = code + $"CREATE TABLE [dbo].[AuditLogs]" + Environment.NewLine;
-            code = code + "(" + Environment.NewLine;
-            code = code + "     [IdAudit] [int] IDENTITY(1,1) NOT NULL," + Environment.NewLine;
-            code = code + "     [InsertDate] [datetime] NOT NULL," + Environment.NewLine;
-            code = code + "     [CurrentUser] [nvarchar](50) NOT NULL," + Environment.NewLine;
-            code = code + "     [AuditTable] [nvarchar](50) NOT NULL," + Environment.NewLine;
-            code = code + "     [Operation] [nvarchar](20) NOT NULL," + Environment.NewLine;
-            code = code + "     [recordId] [nvarchar](20) NOT NULL," + Environment.NewLine;
-            code = code + "     [NewData] [nvarchar](max) NULL," + Environment.NewLine;
-            code = code + "     [OldData] [nvarchar](max) NULL," + Environment.NewLine;
-            code = code + "     CONSTRAINT [PK_AuditLogs] PRIMARY KEY CLUSTERED " + Environment.NewLine;
-            code = code + "     (" + Environment.NewLine;
-            code = code + "         [IdAudit] ASC" + Environment.NewLine;
-            code = code + "     )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]" + Environment.NewLine;
-            code = code + ") ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]" + Environment.NewLine;
-            code = code + "GO" + Environment.NewLine;
-            form.GeneratedCodeText = code;
+
+            code.Append("SET ANSI_NULLS ON" + Environment.NewLine);
+            code.Append( "GO" + Environment.NewLine);
+            code.Append( "SET QUOTED_IDENTIFIER ON" + Environment.NewLine);
+            code.Append( "GO" + Environment.NewLine);
+            code.Append( $"CREATE TABLE [dbo].[AuditLogs]" + Environment.NewLine);
+            code.Append( "(" + Environment.NewLine);
+            code.Append( "     [IdAudit] [int] IDENTITY(1,1) NOT NULL," + Environment.NewLine);
+            code.Append( "     [InsertDate] [datetime] NOT NULL," + Environment.NewLine);
+            code.Append( "     [CurrentUser] [nvarchar](50) NOT NULL," + Environment.NewLine);
+            code.Append( "     [AuditTable] [nvarchar](50) NOT NULL," + Environment.NewLine);
+            code.Append( "     [Operation] [nvarchar](20) NOT NULL," + Environment.NewLine);
+            code.Append( "     [recordId] [nvarchar](20) NOT NULL," + Environment.NewLine);
+            code.Append( "     [NewData] [nvarchar](max) NULL," + Environment.NewLine);
+            code.Append( "     [OldData] [nvarchar](max) NULL," + Environment.NewLine);
+            code.Append( "     CONSTRAINT [PK_AuditLogs] PRIMARY KEY CLUSTERED " + Environment.NewLine);
+            code.Append( "     (" + Environment.NewLine);
+            code.Append( "         [IdAudit] ASC" + Environment.NewLine);
+            code.Append( "     )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]" + Environment.NewLine);
+            code.Append( ") ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]" + Environment.NewLine);
+            code.Append("GO" + Environment.NewLine);
+            form.GeneratedCodeText = code.ToString();
             form.Show();
         }
 
         private void spAuditInsertButton_Click(object sender, EventArgs e)
         {
-            string code;
-            string selectClause = "";
+            StringBuilder code = new StringBuilder("");
+            StringBuilder selectClause = new StringBuilder("");
             int KeyCount;
             List<SQLTableFieldModel> fieldList;
             KeyValueItem item;
             GeneratedCodeForm form = new GeneratedCodeForm();
-            DateTime Today = DateTime.Now;
             item = (KeyValueItem)tablesListBox.SelectedItem;
             fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value), item.Text);
             KeyCount = (from oneField in fieldList
-                        where oneField.isPrimaryKey == true
+                        where oneField.isPrimaryKey
                         select oneField).Count();
             if (KeyCount != 1)
             {
                 MessageBox.Show("This table does contains more than one primary key field", "Error", MessageBoxButtons.OK);
                 return;
             }
-            selectClause = "";
+
             if (fieldList != null)
             {
                 foreach (var field in fieldList)
                 {
                     if (field.isPrimaryKey)
                     {
-                        selectClause = selectClause + $"{field.name}";
+                        selectClause.Append( $"{field.name}");
                         break;
                     }
                 }
             }
 
-            code = "SET ANSI_NULLS ON" + Environment.NewLine;
-            code = code + "GO" + Environment.NewLine;
-            code = code + "SET QUOTED_IDENTIFIER ON" + Environment.NewLine;
-            code = code + "GO" + Environment.NewLine;
-            code = code + $"CREATE TRIGGER [dbo].[TR_{item.Text}_Insert_AuditLog] ON {item.Text}" + Environment.NewLine;
-            code = code + "FOR INSERT AS" + Environment.NewLine;
-            code = code + "BEGIN" + Environment.NewLine;
-            code = code + "" + Environment.NewLine;
-            code = code + "     SET NOCOUNT OFF;" + Environment.NewLine;
-            code = code + "" + Environment.NewLine;
-            code = code + $"     DECLARE @CurrentUser nvarchar(50)" + Environment.NewLine;
-            code = code + $"     SELECT @CurrentUser = CAST(SESSION_CONTEXT(N'CurrentUser') AS nvarchar(50))" + Environment.NewLine;
-            code = code + Environment.NewLine;
-            code = code + $"     IF  @CurrentUser is null" + Environment.NewLine;
-            code = code + $"     BEGIN" + Environment.NewLine;
-            code = code + $"        SET @CurrentUser=''" + Environment.NewLine;
-            code = code + $"     END" + Environment.NewLine;
-            code = code + Environment.NewLine;
-            code = code + $"     INSERT into AuditLogs (" + Environment.NewLine;
-            code = code + $"        InsertDate," + Environment.NewLine;
-            code = code + $"        CurrentUser," + Environment.NewLine;
-            code = code + $"        AuditTable," + Environment.NewLine;
-            code = code + $"        Operation," + Environment.NewLine;
-            code = code + $"        recordId," + Environment.NewLine;
-            code = code + $"        NewData," + Environment.NewLine;
-            code = code + $"        OldData" + Environment.NewLine;
-            code = code + $"     )" + Environment.NewLine;
-            code = code + $"     values" + Environment.NewLine;
-            code = code + $"     (" + Environment.NewLine;
-            code = code + $"        GETUTCDATE()," + Environment.NewLine;
-            code = code + $"        @CurrentUser," + Environment.NewLine;
-            code = code + $"        '{item.Text}'," + Environment.NewLine;
-            code = code + $"        'INSERT'," + Environment.NewLine;
-            code = code + $"        (SELECT  {selectClause} FROM Inserted)," + Environment.NewLine;
-            code = code + $"        (SELECT * FROM Inserted FOR JSON PATH, WITHOUT_ARRAY_WRAPPER)," + Environment.NewLine;
-            code = code + $"        null" + Environment.NewLine;
-            code = code + $"     )" + Environment.NewLine;
-            code = code + "END" + Environment.NewLine;
-            form.GeneratedCodeText = code;
+            code.Append( "SET ANSI_NULLS ON" + Environment.NewLine);
+            code.Append("GO" + Environment.NewLine);
+            code.Append("SET QUOTED_IDENTIFIER ON" + Environment.NewLine);
+            code.Append("GO" + Environment.NewLine);
+            code.Append($"CREATE TRIGGER [dbo].[TR_{item.Text}_Insert_AuditLog] ON {item.Text}" + Environment.NewLine);
+            code.Append("FOR INSERT AS" + Environment.NewLine);
+            code.Append("BEGIN" + Environment.NewLine);
+            code.Append("" + Environment.NewLine);
+            code.Append("     SET NOCOUNT OFF;" + Environment.NewLine);
+            code.Append("" + Environment.NewLine);
+            code.Append($"     DECLARE @CurrentUser nvarchar(50)" + Environment.NewLine);
+            code.Append($"     SELECT @CurrentUser = CAST(SESSION_CONTEXT(N'CurrentUser') AS nvarchar(50))" + Environment.NewLine);
+            code.Append(Environment.NewLine);
+            code.Append($"     IF  @CurrentUser is null" + Environment.NewLine);
+            code.Append($"     BEGIN" + Environment.NewLine);
+            code.Append($"        SET @CurrentUser=''" + Environment.NewLine);
+            code.Append($"     END" + Environment.NewLine);
+            code.Append(Environment.NewLine);
+            code.Append($"     INSERT into AuditLogs (" + Environment.NewLine);
+            code.Append($"        InsertDate," + Environment.NewLine);
+            code.Append($"        CurrentUser," + Environment.NewLine);
+            code.Append($"        AuditTable," + Environment.NewLine);
+            code.Append($"        Operation," + Environment.NewLine);
+            code.Append($"        recordId," + Environment.NewLine);
+            code.Append($"        NewData," + Environment.NewLine);
+            code.Append($"        OldData" + Environment.NewLine);
+            code.Append($"     )" + Environment.NewLine);
+            code.Append($"     values" + Environment.NewLine);
+            code.Append($"     (" + Environment.NewLine);
+            code.Append($"        GETUTCDATE()," + Environment.NewLine);
+            code.Append($"        @CurrentUser," + Environment.NewLine);
+            code.Append($"        '{item.Text}'," + Environment.NewLine);
+            code.Append($"        'INSERT'," + Environment.NewLine);
+            code.Append($"        (SELECT  {selectClause} FROM Inserted)," + Environment.NewLine);
+            code.Append($"        (SELECT * FROM Inserted FOR JSON PATH, WITHOUT_ARRAY_WRAPPER)," + Environment.NewLine);
+            code.Append($"        null" + Environment.NewLine);
+            code.Append($"     )" + Environment.NewLine);
+            code.Append("END" + Environment.NewLine);
+            form.GeneratedCodeText = code.ToString();
             form.Show();
         }
 
         private void spAuditDeleteButton_Click(object sender, EventArgs e)
         {
-            string code;
-            string selectClause = "";
+            StringBuilder code = new StringBuilder("");
+            StringBuilder selectClause = new StringBuilder("");
             int KeyCount;
             List<SQLTableFieldModel> fieldList;
             KeyValueItem item;
             GeneratedCodeForm form = new GeneratedCodeForm();
-            DateTime Today = DateTime.Now;
             item = (KeyValueItem)tablesListBox.SelectedItem;
             fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value), item.Text);
             KeyCount = (from oneField in fieldList
-                        where oneField.isPrimaryKey == true
+                        where oneField.isPrimaryKey
                         select oneField).Count();
             if (KeyCount != 1)
             {
                 MessageBox.Show("This table does contains more than one primary key field", "Error", MessageBoxButtons.OK);
                 return;
             }
-            selectClause = "";
             if (fieldList != null)
             {
                 foreach (var field in fieldList)
                 {
                     if (field.isPrimaryKey)
                     {
-                        selectClause = selectClause + $"{field.name}";
+                        selectClause.Append( $"{field.name}");
                         break;
                     }
                 }
             }
 
-            code = "SET ANSI_NULLS ON" + Environment.NewLine;
-            code = code + "GO" + Environment.NewLine;
-            code = code + "SET QUOTED_IDENTIFIER ON" + Environment.NewLine;
-            code = code + "GO" + Environment.NewLine;
-            code = code + $"CREATE TRIGGER [dbo].[TR_{item.Text}_Delete_AuditLog] ON {item.Text}" + Environment.NewLine;
-            code = code + "FOR DELETE AS" + Environment.NewLine;
-            code = code + "BEGIN" + Environment.NewLine;
-            code = code + "" + Environment.NewLine;
-            code = code + "     SET NOCOUNT OFF;" + Environment.NewLine;
-            code = code + "" + Environment.NewLine;
-            code = code + $"     DECLARE @CurrentUser nvarchar(50)" + Environment.NewLine;
-            code = code + $"     SELECT @CurrentUser = CAST(SESSION_CONTEXT(N'CurrentUser') AS nvarchar(50))" + Environment.NewLine;
-            code = code + Environment.NewLine;
-            code = code + $"     IF  @CurrentUser is null" + Environment.NewLine;
-            code = code + $"     BEGIN" + Environment.NewLine;
-            code = code + $"        SET @CurrentUser=''" + Environment.NewLine;
-            code = code + $"     END" + Environment.NewLine;
-            code = code + Environment.NewLine;
-            code = code + $"     INSERT into AuditLogs (" + Environment.NewLine;
-            code = code + $"        InsertDate," + Environment.NewLine;
-            code = code + $"        CurrentUser," + Environment.NewLine;
-            code = code + $"        AuditTable," + Environment.NewLine;
-            code = code + $"        Operation," + Environment.NewLine;
-            code = code + $"        recordId," + Environment.NewLine;
-            code = code + $"        NewData," + Environment.NewLine;
-            code = code + $"        OldData" + Environment.NewLine;
-            code = code + $"     )" + Environment.NewLine;
-            code = code + $"     values" + Environment.NewLine;
-            code = code + $"     (" + Environment.NewLine;
-            code = code + $"        GETUTCDATE()," + Environment.NewLine;
-            code = code + $"        @CurrentUser," + Environment.NewLine;
-            code = code + $"        '{item.Text}'," + Environment.NewLine;
-            code = code + $"        'DELETE'," + Environment.NewLine;
-            code = code + $"        (SELECT  {selectClause} FROM Deleted)," + Environment.NewLine;
-            code = code + $"        null," + Environment.NewLine;
-            code = code + $"        (SELECT * FROM Deleted FOR JSON PATH, WITHOUT_ARRAY_WRAPPER)" + Environment.NewLine;
-            code = code + $"     )" + Environment.NewLine;
-            code = code + "END" + Environment.NewLine;
-            form.GeneratedCodeText = code;
+            code.Append( "SET ANSI_NULLS ON" + Environment.NewLine);
+            code.Append( "GO" + Environment.NewLine);
+            code.Append( "SET QUOTED_IDENTIFIER ON" + Environment.NewLine);
+            code.Append( "GO" + Environment.NewLine);
+            code.Append( $"CREATE TRIGGER [dbo].[TR_{item.Text}_Delete_AuditLog] ON {item.Text}" + Environment.NewLine);
+            code.Append( "FOR DELETE AS" + Environment.NewLine);
+            code.Append( "BEGIN" + Environment.NewLine);
+            code.Append( "" + Environment.NewLine);
+            code.Append( "     SET NOCOUNT OFF;" + Environment.NewLine);
+            code.Append( "" + Environment.NewLine);
+            code.Append( $"     DECLARE @CurrentUser nvarchar(50)" + Environment.NewLine);
+            code.Append( $"     SELECT @CurrentUser = CAST(SESSION_CONTEXT(N'CurrentUser') AS nvarchar(50))" + Environment.NewLine);
+            code.Append( Environment.NewLine);
+            code.Append( $"     IF  @CurrentUser is null" + Environment.NewLine);
+            code.Append( $"     BEGIN" + Environment.NewLine);
+            code.Append( $"        SET @CurrentUser=''" + Environment.NewLine);
+            code.Append( $"     END" + Environment.NewLine);
+            code.Append( Environment.NewLine);
+            code.Append( $"     INSERT into AuditLogs (" + Environment.NewLine);
+            code.Append( $"        InsertDate," + Environment.NewLine);
+            code.Append( $"        CurrentUser," + Environment.NewLine);
+            code.Append( $"        AuditTable," + Environment.NewLine);
+            code.Append( $"        Operation," + Environment.NewLine);
+            code.Append($"        recordId," + Environment.NewLine);
+            code.Append($"        NewData," + Environment.NewLine);
+            code.Append($"        OldData" + Environment.NewLine);
+            code.Append($"     )" + Environment.NewLine);
+            code.Append($"     values" + Environment.NewLine);
+            code.Append($"     (" + Environment.NewLine);
+            code.Append($"        GETUTCDATE()," + Environment.NewLine);
+            code.Append($"        @CurrentUser," + Environment.NewLine);
+            code.Append($"        '{item.Text}'," + Environment.NewLine);
+            code.Append($"        'DELETE'," + Environment.NewLine);
+            code.Append($"        (SELECT  {selectClause} FROM Deleted)," + Environment.NewLine);
+            code.Append($"        null," + Environment.NewLine);
+            code.Append($"        (SELECT * FROM Deleted FOR JSON PATH, WITHOUT_ARRAY_WRAPPER)" + Environment.NewLine);
+            code.Append($"     )" + Environment.NewLine);
+            code.Append("END" + Environment.NewLine);
+            form.GeneratedCodeText = code.ToString();
             form.Show();
         }
 
         private void spAuditUpdateButton_Click(object sender, EventArgs e)
         {
-            string code;
-            string selectClause = "";
+            StringBuilder code = new StringBuilder("");
+            StringBuilder selectClause = new StringBuilder("");
             int KeyCount;
             List<SQLTableFieldModel> fieldList;
             KeyValueItem item;
             GeneratedCodeForm form = new GeneratedCodeForm();
-            DateTime Today = DateTime.Now;
             item = (KeyValueItem)tablesListBox.SelectedItem;
             fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value), item.Text);
             KeyCount = (from oneField in fieldList
-                        where oneField.isPrimaryKey == true
+                        where oneField.isPrimaryKey
                         select oneField).Count();
             if (KeyCount != 1)
             {
                 MessageBox.Show("This table does contains more than one primary key field", "Error", MessageBoxButtons.OK);
                 return;
             }
-            selectClause = "";
             if (fieldList != null)
             {
                 foreach (var field in fieldList)
                 {
                     if (field.isPrimaryKey)
                     {
-                        selectClause = selectClause + $"{field.name}";
+                        selectClause.Append( $"{field.name}");
                         break;
                     }
                 }
             }
 
-            code = "SET ANSI_NULLS ON" + Environment.NewLine;
-            code = code + "GO" + Environment.NewLine;
-            code = code + "SET QUOTED_IDENTIFIER ON" + Environment.NewLine;
-            code = code + "GO" + Environment.NewLine;
-            code = code + $"CREATE TRIGGER [dbo].[TR_{item.Text}_Update_AuditLog] ON {item.Text}" + Environment.NewLine;
-            code = code + "FOR UPDATE AS" + Environment.NewLine;
-            code = code + "BEGIN" + Environment.NewLine;
-            code = code + "" + Environment.NewLine;
-            code = code + "     SET NOCOUNT OFF;" + Environment.NewLine;
-            code = code + "" + Environment.NewLine;
-            code = code + $"     DECLARE @CurrentUser nvarchar(50)" + Environment.NewLine;
-            code = code + $"     SELECT @CurrentUser = CAST(SESSION_CONTEXT(N'CurrentUser') AS nvarchar(50))" + Environment.NewLine;
-            code = code + Environment.NewLine;
-            code = code + $"     IF  @CurrentUser is null" + Environment.NewLine;
-            code = code + $"     BEGIN" + Environment.NewLine;
-            code = code + $"        SET @CurrentUser=''" + Environment.NewLine;
-            code = code + $"     END" + Environment.NewLine;
-            code = code + Environment.NewLine;
-            code = code + $"     INSERT into AuditLogs (" + Environment.NewLine;
-            code = code + $"        InsertDate," + Environment.NewLine;
-            code = code + $"        CurrentUser," + Environment.NewLine;
-            code = code + $"        AuditTable," + Environment.NewLine;
-            code = code + $"        Operation," + Environment.NewLine;
-            code = code + $"        recordId," + Environment.NewLine;
-            code = code + $"        NewData," + Environment.NewLine;
-            code = code + $"        OldData" + Environment.NewLine;
-            code = code + $"     )" + Environment.NewLine;
-            code = code + $"     values" + Environment.NewLine;
-            code = code + $"     (" + Environment.NewLine;
-            code = code + $"        GETUTCDATE()," + Environment.NewLine;
-            code = code + $"        @CurrentUser," + Environment.NewLine;
-            code = code + $"        '{item.Text}'," + Environment.NewLine;
-            code = code + $"        'UPDATE'," + Environment.NewLine;
-            code = code + $"        (SELECT  {selectClause} FROM Inserted)," + Environment.NewLine;
-            code = code + $"        (SELECT * FROM Inserted FOR JSON PATH, WITHOUT_ARRAY_WRAPPER)," + Environment.NewLine;
-            code = code + $"        (SELECT * FROM Deleted FOR JSON PATH, WITHOUT_ARRAY_WRAPPER)" + Environment.NewLine;
-            code = code + $"     )" + Environment.NewLine;
-            code = code + "END" + Environment.NewLine;
-            form.GeneratedCodeText = code;
+            code.Append(  "SET ANSI_NULLS ON" + Environment.NewLine);
+            code.Append(  "GO" + Environment.NewLine);
+            code.Append(  "SET QUOTED_IDENTIFIER ON" + Environment.NewLine);
+            code.Append(  "GO" + Environment.NewLine);
+            code.Append(  $"CREATE TRIGGER [dbo].[TR_{item.Text}_Update_AuditLog] ON {item.Text}" + Environment.NewLine);
+            code.Append(  "FOR UPDATE AS" + Environment.NewLine);
+            code.Append(  "BEGIN" + Environment.NewLine);
+            code.Append(  "" + Environment.NewLine);
+            code.Append(  "     SET NOCOUNT OFF;" + Environment.NewLine);
+            code.Append(  "" + Environment.NewLine);
+            code.Append(  $"     DECLARE @CurrentUser nvarchar(50)" + Environment.NewLine);
+            code.Append(  $"     SELECT @CurrentUser = CAST(SESSION_CONTEXT(N'CurrentUser') AS nvarchar(50))" + Environment.NewLine);
+            code.Append(  Environment.NewLine);
+            code.Append(  $"     IF  @CurrentUser is null" + Environment.NewLine);
+            code.Append(  $"     BEGIN" + Environment.NewLine);
+            code.Append(  $"        SET @CurrentUser=''" + Environment.NewLine);
+            code.Append(  $"     END" + Environment.NewLine);
+            code.Append(  Environment.NewLine);
+            code.Append(  $"     INSERT into AuditLogs (" + Environment.NewLine);
+            code.Append(  $"        InsertDate," + Environment.NewLine);
+            code.Append(  $"        CurrentUser," + Environment.NewLine);
+            code.Append(  $"        AuditTable," + Environment.NewLine);
+            code.Append(  $"        Operation," + Environment.NewLine);
+            code.Append(  $"        recordId," + Environment.NewLine);
+            code.Append($"        NewData," + Environment.NewLine);
+           code.Append( $"        OldData" + Environment.NewLine);
+           code.Append( $"     )" + Environment.NewLine);
+           code.Append( $"     values" + Environment.NewLine);
+           code.Append( $"     (" + Environment.NewLine);
+           code.Append( $"        GETUTCDATE()," + Environment.NewLine);
+           code.Append( $"        @CurrentUser," + Environment.NewLine);
+           code.Append( $"        '{item.Text}'," + Environment.NewLine);
+           code.Append( $"        'UPDATE'," + Environment.NewLine);
+           code.Append( $"        (SELECT  {selectClause} FROM Inserted)," + Environment.NewLine);
+           code.Append( $"        (SELECT * FROM Inserted FOR JSON PATH, WITHOUT_ARRAY_WRAPPER)," + Environment.NewLine);
+           code.Append( $"        (SELECT * FROM Deleted FOR JSON PATH, WITHOUT_ARRAY_WRAPPER)" + Environment.NewLine);
+            code.Append($"     )" + Environment.NewLine);
+            code.Append("END" + Environment.NewLine);
+            form.GeneratedCodeText = code.ToString();
             form.Show();
         }
     }
