@@ -58,13 +58,9 @@
             tabPage2 = new TabPage();
             groupBox3 = new GroupBox();
             DomainCommonsOperationStatusModelButton = new Button();
-            CommonsNamespaceSuffixTextBox = new TextBox();
-            label11 = new Label();
             DomainCommonsOperationResultModelButton = new Button();
             groupBox2 = new GroupBox();
             DomainEnumsOperationResultCodesButton = new Button();
-            EnumsNamespaceSuffixTextBox = new TextBox();
-            label10 = new Label();
             groupBox1 = new GroupBox();
             DomainGenerateEntityButton = new Button();
             DomainEntityNameTextBox = new TextBox();
@@ -77,16 +73,24 @@
             label3 = new Label();
             tabPage3 = new TabPage();
             groupBox7 = new GroupBox();
+            ApplicationManagerInterfaceButton = new Button();
             ApplicationRepositoryInterfaceButton = new Button();
             ApplicationEntityNameTextBox = new TextBox();
             label8 = new Label();
             groupBox4 = new GroupBox();
+            ApplicationCommonsInterfacesUtilsReverseHashButton = new Button();
+            button4 = new Button();
+            button3 = new Button();
+            button2 = new Button();
+            button1 = new Button();
+            ApplicationCommonsInterfacesInfrastructureDatabaseHelperButton = new Button();
             ApplicatioConfigureServicesButton = new Button();
             ApplicationCommonsAttributeTraceAndTimeInterceptorButton = new Button();
             ApplicationCommonsAttributeTraceAndTimeButton = new Button();
             ApplicationGlobalVariablesBLLAndConstantsButton = new Button();
             ApplicationNamespaceTextBox = new TextBox();
             label12 = new Label();
+            tabPage5 = new TabPage();
             panel1.SuspendLayout();
             panel3.SuspendLayout();
             panel2.SuspendLayout();
@@ -219,6 +223,7 @@
             tabControl1.Controls.Add(tabPage4);
             tabControl1.Controls.Add(tabPage2);
             tabControl1.Controls.Add(tabPage3);
+            tabControl1.Controls.Add(tabPage5);
             tabControl1.Location = new Point(3, 3);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
@@ -243,6 +248,7 @@
             AuthorTextBox.Name = "AuthorTextBox";
             AuthorTextBox.Size = new Size(413, 23);
             AuthorTextBox.TabIndex = 3;
+            AuthorTextBox.TextChanged += AuthorTextBox_TextChanged;
             // 
             // label7
             // 
@@ -390,48 +396,29 @@
             // groupBox3
             // 
             groupBox3.Controls.Add(DomainCommonsOperationStatusModelButton);
-            groupBox3.Controls.Add(CommonsNamespaceSuffixTextBox);
-            groupBox3.Controls.Add(label11);
             groupBox3.Controls.Add(DomainCommonsOperationResultModelButton);
             groupBox3.Location = new Point(15, 193);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(368, 121);
+            groupBox3.Size = new Size(368, 93);
             groupBox3.TabIndex = 16;
             groupBox3.TabStop = false;
             groupBox3.Text = "Commons";
             // 
             // DomainCommonsOperationStatusModelButton
             // 
-            DomainCommonsOperationStatusModelButton.Location = new Point(191, 90);
+            DomainCommonsOperationStatusModelButton.Location = new Point(6, 52);
             DomainCommonsOperationStatusModelButton.Name = "DomainCommonsOperationStatusModelButton";
-            DomainCommonsOperationStatusModelButton.Size = new Size(161, 24);
+            DomainCommonsOperationStatusModelButton.Size = new Size(344, 24);
             DomainCommonsOperationStatusModelButton.TabIndex = 18;
             DomainCommonsOperationStatusModelButton.Text = "OperationStatusModel";
             DomainCommonsOperationStatusModelButton.UseVisualStyleBackColor = true;
             DomainCommonsOperationStatusModelButton.Click += DomainCommonsOperationStatusModelButton_Click;
             // 
-            // CommonsNamespaceSuffixTextBox
-            // 
-            CommonsNamespaceSuffixTextBox.Location = new Point(191, 31);
-            CommonsNamespaceSuffixTextBox.Name = "CommonsNamespaceSuffixTextBox";
-            CommonsNamespaceSuffixTextBox.Size = new Size(161, 23);
-            CommonsNamespaceSuffixTextBox.TabIndex = 17;
-            CommonsNamespaceSuffixTextBox.Text = "Commons";
-            // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Location = new Point(8, 31);
-            label11.Name = "label11";
-            label11.Size = new Size(161, 15);
-            label11.TabIndex = 16;
-            label11.Text = "Commons namespace suffix:";
-            // 
             // DomainCommonsOperationResultModelButton
             // 
-            DomainCommonsOperationResultModelButton.Location = new Point(191, 60);
+            DomainCommonsOperationResultModelButton.Location = new Point(6, 22);
             DomainCommonsOperationResultModelButton.Name = "DomainCommonsOperationResultModelButton";
-            DomainCommonsOperationResultModelButton.Size = new Size(161, 24);
+            DomainCommonsOperationResultModelButton.Size = new Size(344, 24);
             DomainCommonsOperationResultModelButton.TabIndex = 8;
             DomainCommonsOperationResultModelButton.Text = "OperationResultModel";
             DomainCommonsOperationResultModelButton.UseVisualStyleBackColor = true;
@@ -440,41 +427,22 @@
             // groupBox2
             // 
             groupBox2.Controls.Add(DomainEnumsOperationResultCodesButton);
-            groupBox2.Controls.Add(EnumsNamespaceSuffixTextBox);
-            groupBox2.Controls.Add(label10);
             groupBox2.Location = new Point(390, 35);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(366, 152);
+            groupBox2.Size = new Size(366, 75);
             groupBox2.TabIndex = 15;
             groupBox2.TabStop = false;
             groupBox2.Text = "Enums";
             // 
             // DomainEnumsOperationResultCodesButton
             // 
-            DomainEnumsOperationResultCodesButton.Location = new Point(189, 61);
+            DomainEnumsOperationResultCodesButton.Location = new Point(6, 22);
             DomainEnumsOperationResultCodesButton.Name = "DomainEnumsOperationResultCodesButton";
-            DomainEnumsOperationResultCodesButton.Size = new Size(161, 24);
+            DomainEnumsOperationResultCodesButton.Size = new Size(354, 24);
             DomainEnumsOperationResultCodesButton.TabIndex = 16;
             DomainEnumsOperationResultCodesButton.Text = "OperationResultCodes";
             DomainEnumsOperationResultCodesButton.UseVisualStyleBackColor = true;
             DomainEnumsOperationResultCodesButton.Click += DomainEnumsOperationResultCodesButton_Click;
-            // 
-            // EnumsNamespaceSuffixTextBox
-            // 
-            EnumsNamespaceSuffixTextBox.Location = new Point(189, 32);
-            EnumsNamespaceSuffixTextBox.Name = "EnumsNamespaceSuffixTextBox";
-            EnumsNamespaceSuffixTextBox.Size = new Size(161, 23);
-            EnumsNamespaceSuffixTextBox.TabIndex = 15;
-            EnumsNamespaceSuffixTextBox.Text = "Enums";
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Location = new Point(6, 32);
-            label10.Name = "label10";
-            label10.Size = new Size(141, 15);
-            label10.TabIndex = 14;
-            label10.Text = "Enums namespace suffix:";
             // 
             // groupBox1
             // 
@@ -524,6 +492,7 @@
             EntityInherithsFromTextBox.Name = "EntityInherithsFromTextBox";
             EntityInherithsFromTextBox.Size = new Size(161, 23);
             EntityInherithsFromTextBox.TabIndex = 12;
+            EntityInherithsFromTextBox.TextChanged += EntityInherithsFromTextBox_TextChanged;
             // 
             // label5
             // 
@@ -540,7 +509,7 @@
             EntitiesNamespaceSuffixTextBox.Name = "EntitiesNamespaceSuffixTextBox";
             EntitiesNamespaceSuffixTextBox.Size = new Size(161, 23);
             EntitiesNamespaceSuffixTextBox.TabIndex = 9;
-            EntitiesNamespaceSuffixTextBox.Text = "Entities";
+            EntitiesNamespaceSuffixTextBox.TextChanged += EntitiesNamespaceSuffixTextBox_TextChanged;
             // 
             // label4
             // 
@@ -557,6 +526,7 @@
             DomainNamespaceTextBox.Name = "DomainNamespaceTextBox";
             DomainNamespaceTextBox.Size = new Size(363, 23);
             DomainNamespaceTextBox.TabIndex = 11;
+            DomainNamespaceTextBox.TextChanged += DomainNamespaceTextBox_TextChanged;
             // 
             // label3
             // 
@@ -582,6 +552,7 @@
             // 
             // groupBox7
             // 
+            groupBox7.Controls.Add(ApplicationManagerInterfaceButton);
             groupBox7.Controls.Add(ApplicationRepositoryInterfaceButton);
             groupBox7.Controls.Add(ApplicationEntityNameTextBox);
             groupBox7.Controls.Add(label8);
@@ -592,6 +563,17 @@
             groupBox7.TabStop = false;
             groupBox7.Text = "Entity";
             // 
+            // ApplicationManagerInterfaceButton
+            // 
+            ApplicationManagerInterfaceButton.Location = new Point(6, 83);
+            ApplicationManagerInterfaceButton.Name = "ApplicationManagerInterfaceButton";
+            ApplicationManagerInterfaceButton.Size = new Size(344, 24);
+            ApplicationManagerInterfaceButton.TabIndex = 15;
+            ApplicationManagerInterfaceButton.Text = "Commons - Interfaces -BLL - Manager";
+            ApplicationManagerInterfaceButton.TextAlign = ContentAlignment.MiddleLeft;
+            ApplicationManagerInterfaceButton.UseVisualStyleBackColor = true;
+            ApplicationManagerInterfaceButton.Click += ApplicationManagerInterfaceButton_Click;
+            // 
             // ApplicationRepositoryInterfaceButton
             // 
             ApplicationRepositoryInterfaceButton.Location = new Point(6, 53);
@@ -599,6 +581,7 @@
             ApplicationRepositoryInterfaceButton.Size = new Size(344, 24);
             ApplicationRepositoryInterfaceButton.TabIndex = 14;
             ApplicationRepositoryInterfaceButton.Text = "Commons - Interfaces -Repositories - Repository";
+            ApplicationRepositoryInterfaceButton.TextAlign = ContentAlignment.MiddleLeft;
             ApplicationRepositoryInterfaceButton.UseVisualStyleBackColor = true;
             ApplicationRepositoryInterfaceButton.Click += ApplicationRepositoryInterfaceButton_Click;
             // 
@@ -620,24 +603,93 @@
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(ApplicationCommonsInterfacesUtilsReverseHashButton);
+            groupBox4.Controls.Add(button4);
+            groupBox4.Controls.Add(button3);
+            groupBox4.Controls.Add(button2);
+            groupBox4.Controls.Add(button1);
+            groupBox4.Controls.Add(ApplicationCommonsInterfacesInfrastructureDatabaseHelperButton);
             groupBox4.Controls.Add(ApplicatioConfigureServicesButton);
             groupBox4.Controls.Add(ApplicationCommonsAttributeTraceAndTimeInterceptorButton);
             groupBox4.Controls.Add(ApplicationCommonsAttributeTraceAndTimeButton);
             groupBox4.Controls.Add(ApplicationGlobalVariablesBLLAndConstantsButton);
             groupBox4.Location = new Point(401, 39);
             groupBox4.Name = "groupBox4";
-            groupBox4.Size = new Size(363, 157);
+            groupBox4.Size = new Size(402, 345);
             groupBox4.TabIndex = 14;
             groupBox4.TabStop = false;
             groupBox4.Text = "Miscellaneous";
             // 
+            // ApplicationCommonsInterfacesUtilsReverseHashButton
+            // 
+            ApplicationCommonsInterfacesUtilsReverseHashButton.Location = new Point(6, 262);
+            ApplicationCommonsInterfacesUtilsReverseHashButton.Name = "ApplicationCommonsInterfacesUtilsReverseHashButton";
+            ApplicationCommonsInterfacesUtilsReverseHashButton.Size = new Size(390, 24);
+            ApplicationCommonsInterfacesUtilsReverseHashButton.TabIndex = 26;
+            ApplicationCommonsInterfacesUtilsReverseHashButton.Text = "Commons  - Interfaces - Utils - IReverseHash";
+            ApplicationCommonsInterfacesUtilsReverseHashButton.TextAlign = ContentAlignment.MiddleLeft;
+            ApplicationCommonsInterfacesUtilsReverseHashButton.UseVisualStyleBackColor = true;
+            ApplicationCommonsInterfacesUtilsReverseHashButton.Click += ApplicationCommonsInterfacesUtilsReverseHashButton_Click;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(6, 232);
+            button4.Name = "button4";
+            button4.Size = new Size(390, 24);
+            button4.TabIndex = 25;
+            button4.Text = "Commons  - Interfaces - Infrastructure - IStorageHelper";
+            button4.TextAlign = ContentAlignment.MiddleLeft;
+            button4.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            button3.Location = new Point(6, 202);
+            button3.Name = "button3";
+            button3.Size = new Size(390, 24);
+            button3.TabIndex = 24;
+            button3.Text = "Commons  - Interfaces - Infrastructure - IQueueHelper";
+            button3.TextAlign = ContentAlignment.MiddleLeft;
+            button3.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(6, 172);
+            button2.Name = "button2";
+            button2.Size = new Size(390, 24);
+            button2.TabIndex = 23;
+            button2.Text = "Commons  - Interfaces - Infrastructure - IPublisherSubscriptionHelper";
+            button2.TextAlign = ContentAlignment.MiddleLeft;
+            button2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(6, 142);
+            button1.Name = "button1";
+            button1.Size = new Size(390, 24);
+            button1.TabIndex = 22;
+            button1.Text = "Commons  - Interfaces - Infrastructure - ICacheHelper";
+            button1.TextAlign = ContentAlignment.MiddleLeft;
+            button1.UseVisualStyleBackColor = true;
+            // 
+            // ApplicationCommonsInterfacesInfrastructureDatabaseHelperButton
+            // 
+            ApplicationCommonsInterfacesInfrastructureDatabaseHelperButton.Location = new Point(6, 112);
+            ApplicationCommonsInterfacesInfrastructureDatabaseHelperButton.Name = "ApplicationCommonsInterfacesInfrastructureDatabaseHelperButton";
+            ApplicationCommonsInterfacesInfrastructureDatabaseHelperButton.Size = new Size(390, 24);
+            ApplicationCommonsInterfacesInfrastructureDatabaseHelperButton.TabIndex = 21;
+            ApplicationCommonsInterfacesInfrastructureDatabaseHelperButton.Text = "Commons  - Interfaces - Infrastructure - IDatabaseHelper";
+            ApplicationCommonsInterfacesInfrastructureDatabaseHelperButton.TextAlign = ContentAlignment.MiddleLeft;
+            ApplicationCommonsInterfacesInfrastructureDatabaseHelperButton.UseVisualStyleBackColor = true;
+            ApplicationCommonsInterfacesInfrastructureDatabaseHelperButton.Click += ApplicationCommonsInterfacesInfrastructureDatabaseHelperButton_Click;
+            // 
             // ApplicatioConfigureServicesButton
             // 
-            ApplicatioConfigureServicesButton.Location = new Point(6, 112);
+            ApplicatioConfigureServicesButton.Location = new Point(6, 315);
             ApplicatioConfigureServicesButton.Name = "ApplicatioConfigureServicesButton";
-            ApplicatioConfigureServicesButton.Size = new Size(351, 24);
+            ApplicatioConfigureServicesButton.Size = new Size(390, 24);
             ApplicatioConfigureServicesButton.TabIndex = 20;
             ApplicatioConfigureServicesButton.Text = "ConfigureServices";
+            ApplicatioConfigureServicesButton.TextAlign = ContentAlignment.MiddleLeft;
             ApplicatioConfigureServicesButton.UseVisualStyleBackColor = true;
             ApplicatioConfigureServicesButton.Click += ApplicatioConfigureServicesButton_Click;
             // 
@@ -645,9 +697,10 @@
             // 
             ApplicationCommonsAttributeTraceAndTimeInterceptorButton.Location = new Point(6, 82);
             ApplicationCommonsAttributeTraceAndTimeInterceptorButton.Name = "ApplicationCommonsAttributeTraceAndTimeInterceptorButton";
-            ApplicationCommonsAttributeTraceAndTimeInterceptorButton.Size = new Size(351, 24);
+            ApplicationCommonsAttributeTraceAndTimeInterceptorButton.Size = new Size(390, 24);
             ApplicationCommonsAttributeTraceAndTimeInterceptorButton.TabIndex = 19;
             ApplicationCommonsAttributeTraceAndTimeInterceptorButton.Text = "Commons  - Attributes -TraceAndTimeAtrributeInterceptor";
+            ApplicationCommonsAttributeTraceAndTimeInterceptorButton.TextAlign = ContentAlignment.MiddleLeft;
             ApplicationCommonsAttributeTraceAndTimeInterceptorButton.UseVisualStyleBackColor = true;
             ApplicationCommonsAttributeTraceAndTimeInterceptorButton.Click += ApplicationCommonsAttributeTraceAndTimeInterceptorButton_Click;
             // 
@@ -655,9 +708,10 @@
             // 
             ApplicationCommonsAttributeTraceAndTimeButton.Location = new Point(6, 52);
             ApplicationCommonsAttributeTraceAndTimeButton.Name = "ApplicationCommonsAttributeTraceAndTimeButton";
-            ApplicationCommonsAttributeTraceAndTimeButton.Size = new Size(351, 24);
+            ApplicationCommonsAttributeTraceAndTimeButton.Size = new Size(390, 24);
             ApplicationCommonsAttributeTraceAndTimeButton.TabIndex = 18;
             ApplicationCommonsAttributeTraceAndTimeButton.Text = "Commons  - Attributes -TraceAndTimeAtrribute";
+            ApplicationCommonsAttributeTraceAndTimeButton.TextAlign = ContentAlignment.MiddleLeft;
             ApplicationCommonsAttributeTraceAndTimeButton.UseVisualStyleBackColor = true;
             ApplicationCommonsAttributeTraceAndTimeButton.Click += ApplicationCommonsAttributeTraceAndTimeButton_Click;
             // 
@@ -665,9 +719,10 @@
             // 
             ApplicationGlobalVariablesBLLAndConstantsButton.Location = new Point(6, 22);
             ApplicationGlobalVariablesBLLAndConstantsButton.Name = "ApplicationGlobalVariablesBLLAndConstantsButton";
-            ApplicationGlobalVariablesBLLAndConstantsButton.Size = new Size(351, 24);
+            ApplicationGlobalVariablesBLLAndConstantsButton.Size = new Size(390, 24);
             ApplicationGlobalVariablesBLLAndConstantsButton.TabIndex = 17;
             ApplicationGlobalVariablesBLLAndConstantsButton.Text = "BLL  - Global variables and constants";
+            ApplicationGlobalVariablesBLLAndConstantsButton.TextAlign = ContentAlignment.MiddleLeft;
             ApplicationGlobalVariablesBLLAndConstantsButton.UseVisualStyleBackColor = true;
             ApplicationGlobalVariablesBLLAndConstantsButton.Click += ApplicationGlobalVariablesBLLAndConstantsButton_Click;
             // 
@@ -677,6 +732,7 @@
             ApplicationNamespaceTextBox.Name = "ApplicationNamespaceTextBox";
             ApplicationNamespaceTextBox.Size = new Size(363, 23);
             ApplicationNamespaceTextBox.TabIndex = 13;
+            ApplicationNamespaceTextBox.TextChanged += ApplicationNamespaceTextBox_TextChanged;
             // 
             // label12
             // 
@@ -686,6 +742,15 @@
             label12.Size = new Size(136, 15);
             label12.TabIndex = 12;
             label12.Text = "Application Namespace:";
+            // 
+            // tabPage5
+            // 
+            tabPage5.Location = new Point(4, 24);
+            tabPage5.Name = "tabPage5";
+            tabPage5.Size = new Size(819, 451);
+            tabPage5.TabIndex = 4;
+            tabPage5.Text = "Infrastructure";
+            tabPage5.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -719,9 +784,7 @@
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
             groupBox3.ResumeLayout(false);
-            groupBox3.PerformLayout();
             groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             tabPage3.ResumeLayout(false);
@@ -765,10 +828,6 @@
         private GroupBox groupBox3;
         private GroupBox groupBox2;
         private Button DomainEnumsOperationResultCodesButton;
-        private TextBox EnumsNamespaceSuffixTextBox;
-        private Label label10;
-        private TextBox CommonsNamespaceSuffixTextBox;
-        private Label label11;
         private Button DomainCommonsOperationStatusModelButton;
         private TextBox ApplicationNamespaceTextBox;
         private Label label12;
@@ -792,5 +851,13 @@
         private Button ApplicationRepositoryInterfaceButton;
         private TextBox ApplicationEntityNameTextBox;
         private Label label8;
+        private Button ApplicationManagerInterfaceButton;
+        private Button ApplicationCommonsInterfacesInfrastructureDatabaseHelperButton;
+        private Button button4;
+        private Button button3;
+        private Button button2;
+        private Button button1;
+        private Button ApplicationCommonsInterfacesUtilsReverseHashButton;
+        private TabPage tabPage5;
     }
 }

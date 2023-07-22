@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -8,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using codegenerator.BLL;
+using codegenerator.Models;
 using Microsoft.Extensions.Logging;
 
 namespace codegenerator
@@ -30,23 +32,8 @@ namespace codegenerator
 
             returnCode = false;
             connectionString = "";
-            //todo load from file if exists
-            string curr;
-            curr = Path.GetDirectoryName(Application.ExecutablePath);
-            try
-            {
-                if (File.Exists(Path.Combine(curr, "connection.txt")))
-                {
-                    connectionString = File.ReadAllText(Path.Combine(curr, "connection.txt"));
-                    PreserveConnectionStringCheckBox.Checked = true;
-                }
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error in ODBCConnect constructor");
-            }
 
-            ConnectionStringTextBox.Text = connectionString;
+           
 
         }
 
@@ -72,9 +59,8 @@ namespace codegenerator
             }
             if (PreserveConnectionStringCheckBox.Checked)
             {
-                string curr;
-                curr = Path.GetDirectoryName(Application.ExecutablePath);
-                File.WriteAllText(Path.Combine(curr, "connection.txt"), ConnectionStringTextBox.Text);
+                GeneratorConfigurationManager._gConfig.ConnectionString = ConnectionStringTextBox.Text;
+                GeneratorConfigurationManager.SaveToFile();
             }
 
             returnCode = true;
@@ -84,7 +70,12 @@ namespace codegenerator
 
         private void ODBCConnect_Load(object sender, EventArgs e)
         {
-
+            connectionString = GeneratorConfigurationManager._gConfig.ConnectionString;
+            if (!string.IsNullOrEmpty(connectionString))
+            {
+                PreserveConnectionStringCheckBox.Checked = true;
+            }
+            ConnectionStringTextBox.Text = connectionString;
         }
     }
 }

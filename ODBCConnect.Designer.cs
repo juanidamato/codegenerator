@@ -59,9 +59,9 @@
             PreserveConnectionStringCheckBox.Location = new Point(42, 95);
             PreserveConnectionStringCheckBox.Margin = new Padding(3, 2, 3, 2);
             PreserveConnectionStringCheckBox.Name = "PreserveConnectionStringCheckBox";
-            PreserveConnectionStringCheckBox.Size = new Size(572, 19);
+            PreserveConnectionStringCheckBox.Size = new Size(508, 19);
             PreserveConnectionStringCheckBox.TabIndex = 2;
-            PreserveConnectionStringCheckBox.Text = "Preserve connection string (warning: connection string will be saved in a plain \"connection.txt\" text file)";
+            PreserveConnectionStringCheckBox.Text = "Preserve connection string (warning: connection string will be saved in \"config.txt\" text file)";
             PreserveConnectionStringCheckBox.UseVisualStyleBackColor = true;
             // 
             // AcceptButton

@@ -27,9 +27,28 @@ namespace codegenerator
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
+
             if (bolLoading)
             {
+                //read configuration  first
+                GeneratorConfigurationManager.ReadFromFile();
+                AuthorTextBox.Text = GeneratorConfigurationManager._gConfig.Author;
+                DomainNamespaceTextBox.Text = GeneratorConfigurationManager._gConfig.DomainNamespace;
+                EntitiesNamespaceSuffixTextBox.Text = GeneratorConfigurationManager._gConfig.EntitiesSuffixNamespace;
+                if (string.IsNullOrWhiteSpace(EntitiesNamespaceSuffixTextBox.Text))
+                {
+                    EntitiesNamespaceSuffixTextBox.Text = "Entities";
+                    GeneratorConfigurationManager._gConfig.EntitiesSuffixNamespace = EntitiesNamespaceSuffixTextBox.Text;
+                    GeneratorConfigurationManager.SaveToFile();
+                }
+                EntityInherithsFromTextBox.Text = GeneratorConfigurationManager._gConfig.EntitiesInheritsFrom;
+                ApplicationNamespaceTextBox.Text = GeneratorConfigurationManager._gConfig.ApplicationNamespace;
+
+                //flag bolLoading
                 bolLoading = false;
+
+
                 panel6.Dock = DockStyle.Fill;
                 panel5.Dock = DockStyle.Top;
                 panel5.Height = 250;
@@ -50,11 +69,14 @@ namespace codegenerator
                 populateTables();
             }
 
+            Cursor.Current = Cursors.Default;
         }
 
         #region General
         private void SetupNewGrid()
         {
+            Cursor.Current = Cursors.WaitCursor;
+
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
 
@@ -96,20 +118,29 @@ namespace codegenerator
             //col6.CellTemplate = new DataGridViewCheckBoxCell();
             //col6.ReadOnly = false;
             //dataGridView1.Columns.Add(col6);
+
+            Cursor.Current = Cursors.Default;
         }
 
         private void SetupOtherValues()
         {
+            Cursor.Current = Cursors.WaitCursor;
+            
             DomainEntityNameTextBox.Text = ((KeyValueItem)tablesListBox.SelectedItem).Text;
             ApplicationEntityNameTextBox.Text = ((KeyValueItem)tablesListBox.SelectedItem).Text;
+            
+            Cursor.Current = Cursors.Default;
         }
 
         private void populateTables()
         {
+            Cursor.Current = Cursors.WaitCursor;
+
             List<SQLTableModel> tableList = null;
             tableList = _dbUtil.GetDatabaseTables(connectionString);
             if (tableList == null)
             {
+                Cursor.Current = Cursors.Default;
                 MessageBox.Show("No tables were fround on current database", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -121,10 +152,14 @@ namespace codegenerator
                 tablesListBox.Items.Add(item);
             }
             tablesListBox.SelectedIndex = 0;
+
+            Cursor.Current = Cursors.Default;
         }
 
         private void tablesListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
+
             List<SQLTableFieldModel> fieldList;
             KeyValueItem item;
             bool isNullable;
@@ -152,6 +187,7 @@ namespace codegenerator
                         CalculateFieldSizeString(field),
                         isNullable,
                         field.isIdentity);
+
                     //false);
                     //todo remove
                     //just poc
@@ -163,6 +199,8 @@ namespace codegenerator
                     //}
                 }
             }
+
+            Cursor.Current = Cursors.Default;
         }
 
         private string CalculateFieldSizeString(SQLTableFieldModel field)
@@ -453,7 +491,7 @@ namespace codegenerator
             code.Append(Environment.NewLine);
             code.Append($"     IF @@ROWCOUNT=1" + Environment.NewLine);
             code.Append($"     BEGIN" + Environment.NewLine);
-            if(HasIdentity)
+            if (HasIdentity)
             {
                 code.Append($"        select @@SCOPE_IDENTITY() as 'R'" + Environment.NewLine);
             }
@@ -931,7 +969,7 @@ namespace codegenerator
             StringBuilder code = new StringBuilder("");
             GeneratedCodeForm form = new GeneratedCodeForm();
 
-            code.Append($"namespace {DomainNamespaceTextBox.Text}.{EnumsNamespaceSuffixTextBox.Text}" + Environment.NewLine);
+            code.Append($"namespace {DomainNamespaceTextBox.Text}.Enums" + Environment.NewLine);
             code.Append("{" + Environment.NewLine);
             code.Append("       public enum OperationResultCodes" + Environment.NewLine);
             code.Append("       {" + Environment.NewLine);
@@ -955,7 +993,7 @@ namespace codegenerator
             StringBuilder code = new StringBuilder("");
             GeneratedCodeForm form = new GeneratedCodeForm();
 
-            code.Append($"namespace {DomainNamespaceTextBox.Text}.{CommonsNamespaceSuffixTextBox.Text}" + Environment.NewLine);
+            code.Append($"namespace {DomainNamespaceTextBox.Text}.Commons" + Environment.NewLine);
             code.Append("{" + Environment.NewLine);
             code.Append("       public class  OperationResultModel<T>" + Environment.NewLine);
             code.Append("       {" + Environment.NewLine);
@@ -973,7 +1011,7 @@ namespace codegenerator
             StringBuilder code = new StringBuilder("");
             GeneratedCodeForm form = new GeneratedCodeForm();
 
-            code.Append($"namespace {DomainNamespaceTextBox.Text}.{CommonsNamespaceSuffixTextBox.Text}" + Environment.NewLine);
+            code.Append($"namespace {DomainNamespaceTextBox.Text}.Commons" + Environment.NewLine);
             code.Append("{" + Environment.NewLine);
             code.Append("       public class  OperationStatusModel" + Environment.NewLine);
             code.Append("       {" + Environment.NewLine);
@@ -1041,16 +1079,88 @@ namespace codegenerator
             {
                 code.Append($"           public Task<(bool,{ApplicationEntityNameTextBox.Text}Entity?)> GetByPrimaryKeyAsync(" + parametersKey + ");" + Environment.NewLine);
             }
-            code.Append(""+Environment.NewLine);
+            code.Append("" + Environment.NewLine);
             code.Append($"           public Task<(bool,List<{ApplicationEntityNameTextBox.Text}Entity>)> GetAllAsync();" + Environment.NewLine);
-            code.Append(""+Environment.NewLine);
-            code.Append($"           public Task<(bool,int)> InsertAsync("+parametersInsert+");" + Environment.NewLine);
-            code.Append(""+Environment.NewLine);
+            code.Append("" + Environment.NewLine);
+            code.Append($"           public Task<(bool,int)> InsertAsync(" + parametersInsert + ");" + Environment.NewLine);
+            code.Append("" + Environment.NewLine);
             code.Append($"           public Task<(bool,int)> UpdateAsync(" + parametersUpdate + ");" + Environment.NewLine);
-            code.Append(""+Environment.NewLine);
+            code.Append("" + Environment.NewLine);
             if (KeyCount != 0)
             {
                 code.Append($"           public Task<(bool,int)> DeleteByPrimaryKeyAsync(" + parametersKey + ");" + Environment.NewLine);
+            }
+            code.Append(Environment.NewLine);
+            code.Append("       }" + Environment.NewLine);
+            code.Append("}" + Environment.NewLine);
+            form.GeneratedCodeText = code.ToString();
+            form.Show();
+        }
+
+
+        private void ApplicationManagerInterfaceButton_Click(object sender, EventArgs e)
+        {
+            StringBuilder code = new StringBuilder("");
+            StringBuilder parametersKey = new StringBuilder("");
+            StringBuilder parametersInsert = new StringBuilder("");
+            StringBuilder parametersUpdate = new StringBuilder("");
+
+            GeneratedCodeForm form = new GeneratedCodeForm();
+            int KeyCount;
+            List<SQLTableFieldModel> fieldList;
+            KeyValueItem item;
+            item = (KeyValueItem)tablesListBox.SelectedItem;
+            fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value), item.Text);
+            if (fieldList != null)
+            {
+                foreach (var field in fieldList)
+                {
+                    if (field.isPrimaryKey)
+                    {
+                        if (parametersKey.ToString() != "")
+                        {
+                            parametersKey.Append(",");
+                        }
+                        parametersKey.Append($"{MapSQLTypeToCType(field)} {field.name}");
+                    }
+                    //todo dates
+                    if (!field.isIdentity)
+                    {
+                        if (parametersInsert.ToString() != "")
+                        {
+                            parametersInsert.Append(",");
+                        }
+                        parametersInsert.Append($"{MapSQLTypeToCType(field)} {field.name}");
+
+                        if (parametersUpdate.ToString() != "")
+                        {
+                            parametersUpdate.Append(",");
+                        }
+                        parametersUpdate.Append($"{MapSQLTypeToCType(field)} {field.name}");
+                    }
+                }
+            }
+            code.Append($"namespace {ApplicationNamespaceTextBox.Text}.Commons.Interfaces.BLL" + Environment.NewLine);
+            code.Append("{" + Environment.NewLine);
+            code.Append($"       public interface I{ApplicationEntityNameTextBox.Text}Manager" + Environment.NewLine);
+            code.Append("       {" + Environment.NewLine);
+            KeyCount = (from oneField in fieldList
+                        where oneField.isPrimaryKey
+                        select oneField).Count();
+            if (KeyCount != 0)
+            {
+                code.Append($"           public Task<(OperationStatusModel,{ApplicationEntityNameTextBox.Text}Entity?)> GetByPrimaryKeyAsync(" + parametersKey + ");" + Environment.NewLine);
+            }
+            code.Append("" + Environment.NewLine);
+            code.Append($"           public Task<(OperationStatusModel,List<{ApplicationEntityNameTextBox.Text}Entity>)> GetAllAsync();" + Environment.NewLine);
+            code.Append("" + Environment.NewLine);
+            code.Append($"           public Task<(OperationStatusModel)> InsertAsync(" + parametersInsert + ");" + Environment.NewLine);
+            code.Append("" + Environment.NewLine);
+            code.Append($"           public Task<(OperationStatusModel)> UpdateAsync(" + parametersUpdate + ");" + Environment.NewLine);
+            code.Append("" + Environment.NewLine);
+            if (KeyCount != 0)
+            {
+                code.Append($"           public Task<(OperationStatusModel)> DeleteByPrimaryKeyAsync(" + parametersKey + ");" + Environment.NewLine);
             }
             code.Append(Environment.NewLine);
             code.Append("       }" + Environment.NewLine);
@@ -1160,16 +1270,104 @@ namespace codegenerator
             form.Show();
         }
 
+        private void ApplicationCommonsInterfacesInfrastructureDatabaseHelperButton_Click(object sender, EventArgs e)
+        {
+            StringBuilder code = new StringBuilder("");
+            GeneratedCodeForm form = new GeneratedCodeForm();
+
+            code.Append($"namespace {ApplicationNamespaceTextBox.Text}.Commons.Interfaces.Infrastructure" + Environment.NewLine);
+            code.Append("{" + Environment.NewLine);
+            code.Append("       public interface IDatabaseHelper" + Environment.NewLine);
+            code.Append("       {" + Environment.NewLine);
+            code.Append("           public Task<IEnumerable<T>> GetArrayDataAsync<T,U>( string command, U parameters,string currentUser=\"\");" + Environment.NewLine);
+            code.Append("           public Task DoCommandAsync<U>( string command, U parameters, string currentUser = \"\"););" + Environment.NewLine);
+            code.Append("       }" + Environment.NewLine);
+            code.Append("}" + Environment.NewLine);
+            form.GeneratedCodeText = code.ToString();
+            form.Show();
+        }
+
+        private void ApplicationCommonsInterfacesUtilsReverseHashButton_Click(object sender, EventArgs e)
+        {
+            StringBuilder code = new StringBuilder("");
+            GeneratedCodeForm form = new GeneratedCodeForm();
+
+            code.Append($"namespace {ApplicationNamespaceTextBox.Text}.Commons.Interfaces.Utils" + Environment.NewLine);
+            code.Append("{" + Environment.NewLine);
+            code.Append("       public interface IReverseHash" + Environment.NewLine);
+            code.Append("       {" + Environment.NewLine);
+            code.Append("           public void Init(string salt);" + Environment.NewLine);
+            code.Append("           public string Encode(int dataToEncode);" + Environment.NewLine);
+            code.Append("           public int[]  Decode(string dataToDecode);" + Environment.NewLine);
+            code.Append("       }" + Environment.NewLine);
+            code.Append("}" + Environment.NewLine);
+            form.GeneratedCodeText = code.ToString();
+            form.Show();
+        }
+
         private void ApplicatioConfigureServicesButton_Click(object sender, EventArgs e)
         {
             StringBuilder code = new StringBuilder("");
             GeneratedCodeForm form = new GeneratedCodeForm();
+            code.Append("using FluentValidation;" + Environment.NewLine);
+            code.Append("using Microsoft.Extensions.DependencyInjection;" + Environment.NewLine);
+            code.Append("using System.Reflection;" + Environment.NewLine);
+            code.Append("using MediatR;" + Environment.NewLine);
+            code.Append("using System;" + Environment.NewLine);
+            code.Append("using AutoMapper;" + Environment.NewLine);
+            code.Append("using Castle.DynamicProxy;" + Environment.NewLine);
+            code.Append(Environment.NewLine);
 
             code.Append($"namespace {ApplicationNamespaceTextBox.Text}" + Environment.NewLine);
             code.Append("{" + Environment.NewLine);
             code.Append("       public static class ConfigureServices" + Environment.NewLine);
             code.Append("       {" + Environment.NewLine);
+            code.Append($"           public static IServiceCollection Add{ApplicationNamespaceTextBox.Text}Services(this IServiceCollection services)" + Environment.NewLine);
+            code.Append("           {" + Environment.NewLine);
+            code.Append("               services.AddAutoMapper(Assembly.GetExecutingAssembly());" + Environment.NewLine);
+            code.Append("               services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());" + Environment.NewLine);
+            code.Append("               services.AddMediatR(cfg =>" + Environment.NewLine);
+            code.Append("               {" + Environment.NewLine);
+            code.Append("                   cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());" + Environment.NewLine);
+            code.Append("               });" + Environment.NewLine);
+            code.Append("               return services;" + Environment.NewLine);
+            code.Append("           }" + Environment.NewLine);
             code.Append(Environment.NewLine);
+            code.Append(Environment.NewLine);
+            code.Append("           //Website" + Environment.NewLine);
+            code.Append("           //http://codethug.com/2021/03/17/Caching-with-Attributes-in-DotNet-Core5/" + Environment.NewLine);
+            code.Append("           //service collection extension" + Environment.NewLine);
+            code.Append("           public static void AddProxiedTransient<TInterface, TImplementation>" + Environment.NewLine);
+            code.Append("                   (this IServiceCollection services)" + Environment.NewLine);
+            code.Append("                   where TInterface : class" + Environment.NewLine);
+            code.Append("                   where TImplementation : class, TInterface" + Environment.NewLine);
+            code.Append("           {" + Environment.NewLine);
+            code.Append("               // This registers the underlying class" + Environment.NewLine);
+            code.Append("               services.AddTransient<TImplementation>();" + Environment.NewLine);
+            code.Append("               services.AddTransient(typeof(TInterface), serviceProvider =>" + Environment.NewLine);
+            code.Append("               {" + Environment.NewLine);
+            code.Append("                   // Get an instance of the Castle Proxy Generator" + Environment.NewLine);
+            code.Append("                   var proxyGenerator = serviceProvider" + Environment.NewLine);
+            code.Append("                            .GetRequiredService<ProxyGenerator>();" + Environment.NewLine);
+            code.Append("                   // Have DI build out an instance of the class that has methods" + Environment.NewLine);
+            code.Append("                   // you want to cache (this is a normal instance of that class " + Environment.NewLine);
+            code.Append("                   // without caching added)" + Environment.NewLine);
+            code.Append("                   var actual = serviceProvider" + Environment.NewLine);
+            code.Append("                       .GetRequiredService<TImplementation>();" + Environment.NewLine);
+            code.Append("                   // Find all of the interceptors that have been registered," + Environment.NewLine);
+            code.Append("                   // including our caching interceptor.  (you might later add a " + Environment.NewLine);
+            code.Append("                   // logging interceptor, etc.)" + Environment.NewLine);
+            code.Append("                   var interceptors = serviceProvider" + Environment.NewLine);
+            code.Append("                       .GetServices<IInterceptor>().ToArray();" + Environment.NewLine);
+            code.Append("                   // Have Castle Proxy build out a proxy object that implements " + Environment.NewLine);
+            code.Append("                   // your interface, but adds a caching layer on top of the" + Environment.NewLine);
+            code.Append("                   // actual implementation of the class.  This proxy object is" + Environment.NewLine);
+            code.Append("                   // what will then get injected into the class that has a" + Environment.NewLine);
+            code.Append("                   // dependency on TInterface" + Environment.NewLine);
+            code.Append("                   return proxyGenerator.CreateInterfaceProxyWithTarget(" + Environment.NewLine);
+            code.Append("                           typeof(TInterface), actual, interceptors);" + Environment.NewLine);
+            code.Append("               });" + Environment.NewLine);
+            code.Append("           }" + Environment.NewLine);
             code.Append("       }" + Environment.NewLine);
             code.Append("}" + Environment.NewLine);
             form.GeneratedCodeText = code.ToString();
@@ -1177,6 +1375,52 @@ namespace codegenerator
         }
         #endregion
 
-       
+        #region ConfigChange
+        private void AuthorTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (!bolLoading)
+            {
+                GeneratorConfigurationManager._gConfig.Author = AuthorTextBox.Text.Trim();
+                GeneratorConfigurationManager.SaveToFile();
+            }
+        }
+
+        private void DomainNamespaceTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (!bolLoading)
+            {
+                GeneratorConfigurationManager._gConfig.DomainNamespace = DomainNamespaceTextBox.Text.Trim();
+                GeneratorConfigurationManager.SaveToFile();
+            }
+        }
+
+        private void EntitiesNamespaceSuffixTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (!bolLoading)
+            {
+                GeneratorConfigurationManager._gConfig.EntitiesSuffixNamespace = EntitiesNamespaceSuffixTextBox.Text.Trim();
+                GeneratorConfigurationManager.SaveToFile();
+            }
+        }
+
+        private void EntityInherithsFromTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (!bolLoading)
+            {
+                GeneratorConfigurationManager._gConfig.EntitiesInheritsFrom = EntityInherithsFromTextBox.Text.Trim();
+                GeneratorConfigurationManager.SaveToFile();
+            }
+        }
+
+        private void ApplicationNamespaceTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (!bolLoading)
+            {
+                GeneratorConfigurationManager._gConfig.ApplicationNamespace = ApplicationNamespaceTextBox.Text.Trim();
+                GeneratorConfigurationManager.SaveToFile();
+            }
+        }
+
+#endregion
     }
 }
