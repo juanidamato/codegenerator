@@ -1,5 +1,5 @@
 # codegenerator
-<p>Work in progress... not ready yet:( </p>
+<p>Work in progress...  </p>
 
 <p>Code generator generates some artifacts from database tables. Generated artifacts can be used on C# projects with a clean architecture aproach.</p>
 
@@ -7,12 +7,11 @@
   Right now generated artifacts are:
   <li>Stored procedures for CRUD operations</li>
   <li>Entity Domain models</li>
-
+  <li>Repository Interfaces</li>
 </p>
 
 <p>
   Pending artifacts to generate:
-  <li>Repository Interfaces</li>
   <li>Repository Implementations</li>
   <li>Manager BLL Interfaces</li>
   <li>Manager BLL Implementations</li>
@@ -24,31 +23,21 @@
   <li>Controller endpoints</li>
 </p>
 
-# Screen shots
 
-<p>
-  Connection
-</p>
 
-![Screen Shot 2023-07-07 at 2 48 51 PM](https://github.com/juanidamato/codegenerator/assets/16365314/4c70baef-ed0e-4c0d-bb31-94023956196e)
+## Connection
 
-<p>
- Tables and fields
-</p>
+![image](https://github.com/juanidamato/codegenerator/assets/16365314/74266376-33b0-41de-b47f-721f0700f47c)
 
-![Screen Shot 2023-07-07 at 2 54 24 PM](https://github.com/juanidamato/codegenerator/assets/16365314/a4671ff3-7c5f-4109-8e39-602bdbc5344b)
+## Tables and fields
 
-<p>
- Domain entities
-</p>
+![image](https://github.com/juanidamato/codegenerator/assets/16365314/0b648a0e-203e-4747-a35d-17417747e856)
 
-![Screen Shot 2023-07-07 at 2 58 29 PM](https://github.com/juanidamato/codegenerator/assets/16365314/751399ce-facd-48b5-b8a7-d607f67784c8)
+## Stored Procedures
 
-<p>
-   Stored Procedures
-</p>
+![image](https://github.com/juanidamato/codegenerator/assets/16365314/e0d3adc9-b61f-4d80-814d-385c2a27aeea)
 
-![Screen Shot 2023-07-07 at 3 00 16 PM](https://github.com/juanidamato/codegenerator/assets/16365314/89e2c10f-1d8e-4581-9582-74d475bf5350)
+![image](https://github.com/juanidamato/codegenerator/assets/16365314/14068d28-62ee-4943-bd34-0c309818f29f)
 
 
 #### See my other project CodeGeneratorSample in order to check how generated artifacts are connected between each other
