@@ -125,10 +125,10 @@ namespace codegenerator
         private void SetupOtherValues()
         {
             Cursor.Current = Cursors.WaitCursor;
-            
+
             DomainEntityNameTextBox.Text = ((KeyValueItem)tablesListBox.SelectedItem).Text;
             ApplicationEntityNameTextBox.Text = ((KeyValueItem)tablesListBox.SelectedItem).Text;
-            
+
             Cursor.Current = Cursors.Default;
         }
 
@@ -1421,6 +1421,6 @@ namespace codegenerator
             }
         }
 
-#endregion
+        #endregion
     }
 }

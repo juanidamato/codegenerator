@@ -291,6 +291,7 @@
             spAuditUpdateButton.TabIndex = 14;
             spAuditUpdateButton.Text = "Update audit trigger";
             spAuditUpdateButton.UseVisualStyleBackColor = true;
+            spAuditUpdateButton.Click += spAuditUpdateButton_Click;
             // 
             // spAuditDeleteButton
             // 
@@ -300,6 +301,7 @@
             spAuditDeleteButton.TabIndex = 13;
             spAuditDeleteButton.Text = "Delete audit trigger";
             spAuditDeleteButton.UseVisualStyleBackColor = true;
+            spAuditDeleteButton.Click += spAuditDeleteButton_Click;
             // 
             // spAuditInsertButton
             // 
@@ -309,6 +311,7 @@
             spAuditInsertButton.TabIndex = 12;
             spAuditInsertButton.Text = "Insert audit trigger";
             spAuditInsertButton.UseVisualStyleBackColor = true;
+            spAuditInsertButton.Click += spAuditInsertButton_Click;
             // 
             // spAuditTableButton
             // 
@@ -318,6 +321,7 @@
             spAuditTableButton.TabIndex = 11;
             spAuditTableButton.Text = "Audit table";
             spAuditTableButton.UseVisualStyleBackColor = true;
+            spAuditTableButton.Click += spAuditTableButton_Click;
             // 
             // groupBox5
             // 
@@ -341,6 +345,7 @@
             spDeleteByPKButton.TabIndex = 9;
             spDeleteByPKButton.Text = "Delete by PK";
             spDeleteByPKButton.UseVisualStyleBackColor = true;
+            spDeleteByPKButton.Click += spDeleteByPKButton_Click;
             // 
             // spUpdateByPKButton
             // 
@@ -350,6 +355,7 @@
             spUpdateByPKButton.TabIndex = 8;
             spUpdateByPKButton.Text = "Update by PK";
             spUpdateByPKButton.UseVisualStyleBackColor = true;
+            spUpdateByPKButton.Click += spUpdateByPKButton_Click;
             // 
             // spInsertButton
             // 
@@ -359,6 +365,7 @@
             spInsertButton.TabIndex = 7;
             spInsertButton.Text = "Insert";
             spInsertButton.UseVisualStyleBackColor = true;
+            spInsertButton.Click += spInsertButton_Click;
             // 
             // SelectByPKButton
             // 
@@ -368,6 +375,7 @@
             SelectByPKButton.TabIndex = 6;
             SelectByPKButton.Text = "Select by PK";
             SelectByPKButton.UseVisualStyleBackColor = true;
+            SelectByPKButton.Click += spSelectByPKButton_Click;
             // 
             // spSelectAllButton
             // 
@@ -377,6 +385,7 @@
             spSelectAllButton.TabIndex = 5;
             spSelectAllButton.Text = "Select All";
             spSelectAllButton.UseVisualStyleBackColor = true;
+            spSelectAllButton.Click += spSelectAllButton_Click;
             // 
             // tabPage2
             // 
