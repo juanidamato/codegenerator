@@ -1,17 +1,17 @@
 # codegenerator
 <p>Work in progress...  </p>
 
-<p>Code generator generates some artifacts from database tables. Generated artifacts can be used on C# projects with a clean architecture aproach.</p>
+<p>Code generator generates some snippets from database tables. Generated snippets can be used on C# projects with a clean architecture aproach.</p>
 
 <p>
-  Right now generated artifacts are:
+  Right now generated snippets are:
   <li>Stored procedures for CRUD operations</li>
   <li>Entity Domain models</li>
   <li>Repository Interfaces</li>
 </p>
 
 <p>
-  Pending artifacts to generate:
+  Pending snippets to generate:
   <li>Repository Implementations</li>
   <li>Manager BLL Interfaces</li>
   <li>Manager BLL Implementations</li>
