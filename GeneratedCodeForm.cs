@@ -16,6 +16,7 @@ namespace codegenerator
     {
         public string GeneratedCodeText { get; set; }
         private bool bolLoading = true;
+        public string CodeLanguage { get; set; } = string.Empty;
 
         public GeneratedCodeForm()
         {
@@ -45,7 +46,14 @@ namespace codegenerator
                 code.Append("   <link rel='stylesheet' href='a11y-dark.css'>" + Environment.NewLine);
                 code.Append("   </head>" + Environment.NewLine);
                 code.Append("   <body>" + Environment.NewLine);
-                code.Append("   <pre><code>" + GeneratedCodeTextBox.Text + " </code></pre>" + Environment.NewLine);
+                if (string.IsNullOrWhiteSpace(CodeLanguage))
+                {
+                    code.Append("   <pre><code>" + GeneratedCodeTextBox.Text.Replace("<", "&lt;").Replace(">","&gt;") + " </code></pre>" + Environment.NewLine);
+                }
+                else
+                {
+                    code.Append("   <pre><code class='"+ CodeLanguage+"'>" + GeneratedCodeTextBox.Text.Replace("<", "&lt;").Replace(">", "&gt;") + " </code></pre>" + Environment.NewLine);
+                }
                 code.Append("   <script type='text/javascript' src='highlight.min.js'></script>" + Environment.NewLine);
                 code.Append("   <script>hljs.highlightAll();</script>" + Environment.NewLine);
                 code.Append("   </body>" + Environment.NewLine);

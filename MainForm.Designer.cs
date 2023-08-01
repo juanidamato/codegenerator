@@ -73,6 +73,7 @@
             label3 = new Label();
             tabPage3 = new TabPage();
             groupBox7 = new GroupBox();
+            ApplicationManagerImplementationButton = new Button();
             ApplicationManagerInterfaceButton = new Button();
             ApplicationRepositoryInterfaceButton = new Button();
             ApplicationEntityNameTextBox = new TextBox();
@@ -91,6 +92,7 @@
             ApplicationNamespaceTextBox = new TextBox();
             label12 = new Label();
             tabPage5 = new TabPage();
+            ApplicationFeatureQueryAllButton = new Button();
             panel1.SuspendLayout();
             panel3.SuspendLayout();
             panel2.SuspendLayout();
@@ -561,6 +563,8 @@
             // 
             // groupBox7
             // 
+            groupBox7.Controls.Add(ApplicationFeatureQueryAllButton);
+            groupBox7.Controls.Add(ApplicationManagerImplementationButton);
             groupBox7.Controls.Add(ApplicationManagerInterfaceButton);
             groupBox7.Controls.Add(ApplicationRepositoryInterfaceButton);
             groupBox7.Controls.Add(ApplicationEntityNameTextBox);
@@ -571,6 +575,17 @@
             groupBox7.TabIndex = 15;
             groupBox7.TabStop = false;
             groupBox7.Text = "Entity";
+            // 
+            // ApplicationManagerImplementationButton
+            // 
+            ApplicationManagerImplementationButton.Location = new Point(6, 188);
+            ApplicationManagerImplementationButton.Name = "ApplicationManagerImplementationButton";
+            ApplicationManagerImplementationButton.Size = new Size(344, 24);
+            ApplicationManagerImplementationButton.TabIndex = 16;
+            ApplicationManagerImplementationButton.Text = "BLL - Manager";
+            ApplicationManagerImplementationButton.TextAlign = ContentAlignment.MiddleLeft;
+            ApplicationManagerImplementationButton.UseVisualStyleBackColor = true;
+            ApplicationManagerImplementationButton.Click += ApplicationManagerImplementationButton_Click;
             // 
             // ApplicationManagerInterfaceButton
             // 
@@ -761,6 +776,17 @@
             tabPage5.Text = "Infrastructure";
             tabPage5.UseVisualStyleBackColor = true;
             // 
+            // ApplicationFeatureQueryAllButton
+            // 
+            ApplicationFeatureQueryAllButton.Location = new Point(6, 113);
+            ApplicationFeatureQueryAllButton.Name = "ApplicationFeatureQueryAllButton";
+            ApplicationFeatureQueryAllButton.Size = new Size(344, 24);
+            ApplicationFeatureQueryAllButton.TabIndex = 17;
+            ApplicationFeatureQueryAllButton.Text = "Features - Entity -Queries- GetAll";
+            ApplicationFeatureQueryAllButton.TextAlign = ContentAlignment.MiddleLeft;
+            ApplicationFeatureQueryAllButton.UseVisualStyleBackColor = true;
+            ApplicationFeatureQueryAllButton.Click += ApplicationFeatureQueryAllButton_Click;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -868,5 +894,7 @@
         private Button button1;
         private Button ApplicationCommonsInterfacesUtilsReverseHashButton;
         private TabPage tabPage5;
+        private Button ApplicationManagerImplementationButton;
+        private Button ApplicationFeatureQueryAllButton;
     }
 }

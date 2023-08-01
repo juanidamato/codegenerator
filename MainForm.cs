@@ -1,6 +1,6 @@
 ﻿using codegenerator.BLL;
 using codegenerator.Models;
-using codegenerator.Models.ViewModels;
+
 using System.Diagnostics;
 using System.Drawing;
 using System.Text;
@@ -345,6 +345,7 @@ namespace codegenerator
             }
             code.Append("END" + Environment.NewLine);
             form.GeneratedCodeText = code.ToString();
+            form.CodeLanguage = "language-sql";
             form.Show();
         }
 
@@ -410,6 +411,7 @@ namespace codegenerator
             code.Append($"{whereClause}" + Environment.NewLine);
             code.Append("END" + Environment.NewLine);
             form.GeneratedCodeText = code.ToString();
+            form.CodeLanguage = "language-sql";
             form.Show();
         }
 
@@ -493,7 +495,7 @@ namespace codegenerator
             code.Append($"     BEGIN" + Environment.NewLine);
             if (HasIdentity)
             {
-                code.Append($"        select @@SCOPE_IDENTITY() as 'R'" + Environment.NewLine);
+                code.Append($"        select SCOPE_IDENTITY() as 'R'" + Environment.NewLine);
             }
             else
             {
@@ -506,6 +508,7 @@ namespace codegenerator
             code.Append($"     END" + Environment.NewLine);
             code.Append("END" + Environment.NewLine);
             form.GeneratedCodeText = code.ToString();
+            form.CodeLanguage = "language-sql";
             form.Show();
         }
 
@@ -597,6 +600,7 @@ namespace codegenerator
             code.Append($"     END" + Environment.NewLine);
             code.Append("END" + Environment.NewLine);
             form.GeneratedCodeText = code.ToString();
+            form.CodeLanguage = "language-sql";
             form.Show();
         }
 
@@ -673,6 +677,7 @@ namespace codegenerator
             code.Append($"     END" + Environment.NewLine);
             code.Append("END" + Environment.NewLine);
             form.GeneratedCodeText = code.ToString();
+            form.CodeLanguage = "language-sql";
             form.Show();
         }
 
@@ -703,6 +708,7 @@ namespace codegenerator
             code.Append(") ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]" + Environment.NewLine);
             code.Append("GO" + Environment.NewLine);
             form.GeneratedCodeText = code.ToString();
+            form.CodeLanguage = "language-sql";
             form.Show();
         }
 
@@ -776,6 +782,7 @@ namespace codegenerator
             code.Append($"     )" + Environment.NewLine);
             code.Append("END" + Environment.NewLine);
             form.GeneratedCodeText = code.ToString();
+            form.CodeLanguage = "language-sql";
             form.Show();
         }
 
@@ -848,6 +855,7 @@ namespace codegenerator
             code.Append($"     )" + Environment.NewLine);
             code.Append("END" + Environment.NewLine);
             form.GeneratedCodeText = code.ToString();
+            form.CodeLanguage = "language-sql";
             form.Show();
         }
 
@@ -920,6 +928,7 @@ namespace codegenerator
             code.Append($"     )" + Environment.NewLine);
             code.Append("END" + Environment.NewLine);
             form.GeneratedCodeText = code.ToString();
+            form.CodeLanguage = "language-sql";
             form.Show();
         }
         #endregion
@@ -1077,26 +1086,26 @@ namespace codegenerator
                         select oneField).Count();
             if (KeyCount != 0)
             {
-                code.Append($"           public Task<(bool,{ApplicationEntityNameTextBox.Text}Entity?)> GetByPrimaryKeyAsync(" + parametersKey + ");" + Environment.NewLine);
+                code.Append($"           public Task<(bool,{ApplicationEntityNameTextBox.Text}Entity?)> Get{ApplicationEntityNameTextBox.Text}ByPk(" + parametersKey + ");" + Environment.NewLine);
             }
             code.Append("" + Environment.NewLine);
-            code.Append($"           public Task<(bool,List<{ApplicationEntityNameTextBox.Text}Entity>)> GetAllAsync();" + Environment.NewLine);
+            code.Append($"           public Task<(bool,List<{ApplicationEntityNameTextBox.Text}Entity>)> Get{ApplicationEntityNameTextBox.Text}All();" + Environment.NewLine);
             code.Append("" + Environment.NewLine);
-            code.Append($"           public Task<(bool,int)> InsertAsync(" + parametersInsert + ");" + Environment.NewLine);
+            code.Append($"           public Task<(bool,int)> Insert{ApplicationEntityNameTextBox.Text}(" + parametersInsert + ");" + Environment.NewLine);
             code.Append("" + Environment.NewLine);
-            code.Append($"           public Task<(bool,int)> UpdateAsync(" + parametersUpdate + ");" + Environment.NewLine);
+            code.Append($"           public Task<(bool,int)> Update{ApplicationEntityNameTextBox.Text}(" + parametersUpdate + ");" + Environment.NewLine);
             code.Append("" + Environment.NewLine);
             if (KeyCount != 0)
             {
-                code.Append($"           public Task<(bool,int)> DeleteByPrimaryKeyAsync(" + parametersKey + ");" + Environment.NewLine);
+                code.Append($"           public Task<(bool,int)> Delete{ApplicationEntityNameTextBox.Text}ByPk(" + parametersKey + ");" + Environment.NewLine);
             }
             code.Append(Environment.NewLine);
             code.Append("       }" + Environment.NewLine);
             code.Append("}" + Environment.NewLine);
             form.GeneratedCodeText = code.ToString();
+            form.CodeLanguage = "language-csharp";
             form.Show();
         }
-
 
         private void ApplicationManagerInterfaceButton_Click(object sender, EventArgs e)
         {
@@ -1149,25 +1158,110 @@ namespace codegenerator
                         select oneField).Count();
             if (KeyCount != 0)
             {
-                code.Append($"           public Task<(OperationStatusModel,{ApplicationEntityNameTextBox.Text}Entity?)> GetByPrimaryKeyAsync(" + parametersKey + ");" + Environment.NewLine);
+                code.Append($"           public Task<(OperationStatusModel,{ApplicationEntityNameTextBox.Text}Entity?)> Get{ApplicationEntityNameTextBox.Text}ByPk(Get{ApplicationEntityNameTextBox.Text}ByPkQuery request);" + Environment.NewLine);
             }
             code.Append("" + Environment.NewLine);
-            code.Append($"           public Task<(OperationStatusModel,List<{ApplicationEntityNameTextBox.Text}Entity>)> GetAllAsync();" + Environment.NewLine);
+            code.Append($"           public Task<(OperationStatusModel,List<{ApplicationEntityNameTextBox.Text}Entity>)> Get{ApplicationEntityNameTextBox.Text}All();" + Environment.NewLine);
             code.Append("" + Environment.NewLine);
-            code.Append($"           public Task<(OperationStatusModel)> InsertAsync(" + parametersInsert + ");" + Environment.NewLine);
+            code.Append($"           public Task<(OperationStatusModel)> Insert{ApplicationEntityNameTextBox.Text}(Insert{ApplicationEntityNameTextBox.Text}Command request);" + Environment.NewLine);
             code.Append("" + Environment.NewLine);
-            code.Append($"           public Task<(OperationStatusModel)> UpdateAsync(" + parametersUpdate + ");" + Environment.NewLine);
+            code.Append($"           public Task<(OperationStatusModel)> Update{ApplicationEntityNameTextBox.Text}(Update{ApplicationEntityNameTextBox.Text}Command request);" + Environment.NewLine);
             code.Append("" + Environment.NewLine);
             if (KeyCount != 0)
             {
-                code.Append($"           public Task<(OperationStatusModel)> DeleteByPrimaryKeyAsync(" + parametersKey + ");" + Environment.NewLine);
+                code.Append($"           public Task<(OperationStatusModel)> Delete{ApplicationEntityNameTextBox.Text}ByPk(Delete{ApplicationEntityNameTextBox.Text}ByPkCommand request);" + Environment.NewLine);
             }
             code.Append(Environment.NewLine);
             code.Append("       }" + Environment.NewLine);
             code.Append("}" + Environment.NewLine);
             form.GeneratedCodeText = code.ToString();
+            form.CodeLanguage = "language-csharp";
             form.Show();
         }
+
+        private void ApplicationFeatureQueryAllButton_Click(object sender, EventArgs e)
+        {
+            StringBuilder code = new StringBuilder("");
+            GeneratedCodeForm form = new GeneratedCodeForm();
+            List<SQLTableFieldModel> fieldList;
+            KeyValueItem item;
+            item = (KeyValueItem)tablesListBox.SelectedItem;
+            fieldList = _dbUtil.GetTableFields(connectionString, Convert.ToInt32(item.Value), item.Text);
+
+            code.Append($"using AutoMapper;" + Environment.NewLine);
+            code.Append($"using MediatR;" + Environment.NewLine);
+            code.Append($"using FluentValidation;" + Environment.NewLine);
+            code.Append($"using {DomainNamespaceTextBox.Text}.{EntitiesNamespaceSuffixTextBox.Text};" + Environment.NewLine);
+            code.Append($"using {ApplicationNamespaceTextBox.Text}.Commons.Utils;" + Environment.NewLine);
+            code.Append($"using {ApplicationNamespaceTextBox.Text}.Commons.Interfaces.Repositories;" + Environment.NewLine);
+            code.Append($"using {ApplicationNamespaceTextBox.Text}.Commons;" + Environment.NewLine);
+            code.Append($"using System.Diagnostics;" + Environment.NewLine);
+            code.Append($"using {ApplicationNamespaceTextBox.Text}.Commons.Utils;" + Environment.NewLine);
+            code.Append($"using {ApplicationNamespaceTextBox.Text}.Commons.Interfaces.Repositories;" + Environment.NewLine);
+            code.Append($"using {ApplicationNamespaceTextBox.Text}.Commons.Interfaces.BLL;" + Environment.NewLine);
+            code.Append($"using {ApplicationNamespaceTextBox.Text}.Commons;" + Environment.NewLine);
+            code.Append($"using {DomainNamespaceTextBox.Text}.Enums;" + Environment.NewLine);
+            code.Append("" + Environment.NewLine);
+
+            code.Append($"namespace {ApplicationNamespaceTextBox.Text}.Features.{ApplicationEntityNameTextBox.Text}.Queries" + Environment.NewLine);
+            code.Append("{" + Environment.NewLine);
+            code.Append("" + Environment.NewLine);
+            code.Append("       //ViewModel" + Environment.NewLine);
+            code.Append($"       public class Get{ApplicationEntityNameTextBox.Text}AllViewModel" + Environment.NewLine);
+            code.Append("       {" + Environment.NewLine);
+            if (fieldList != null)
+            {
+                foreach (var field in fieldList)
+                {
+                    code.Append($"         public {MapSQLTypeToCType(field)}" + (field.isnullable == 1 ? "?" : "") + $" {field.name}" + " {get;set;}");
+                    if (MapSQLTypeToCType(field) == "string" && field.isnullable == 0)
+                    {
+                        code.Append(" = string.Empty;");
+                    }
+                    code.Append(Environment.NewLine);
+                }
+            }
+            code.Append("       }" + Environment.NewLine);
+            code.Append(Environment.NewLine);
+            code.Append("       //Response" + Environment.NewLine);
+            code.Append($"       public class Get{ApplicationEntityNameTextBox.Text}AllQueryResponse:OperationResultModel<Get{ApplicationEntityNameTextBox.Text}AllViewModel>" + Environment.NewLine);
+            code.Append("       {" + Environment.NewLine);
+            code.Append("       }" + Environment.NewLine);
+            code.Append(Environment.NewLine);
+            code.Append("       //Request" + Environment.NewLine);
+            code.Append($"       public class Get{ApplicationEntityNameTextBox.Text}AllQuery:IRequest<Get{ApplicationEntityNameTextBox.Text}AllQueryResponse>" + Environment.NewLine);
+            code.Append("       {" + Environment.NewLine);
+            code.Append("       }" + Environment.NewLine);
+            code.Append(Environment.NewLine);
+            code.Append("       //Mapper Entity to Response" + Environment.NewLine);
+            code.Append($"       public class Get{ApplicationEntityNameTextBox.Text}AllQueryMapper:Profile" + Environment.NewLine);
+            code.Append("       {" + Environment.NewLine);
+            if (fieldList != null)
+            {
+                code.Append($"          CreateMap<{ApplicationEntityNameTextBox.Text}Entity,Get{ApplicationEntityNameTextBox.Text}AllViewModel>()" + Environment.NewLine);
+                foreach (var field in fieldList)
+                {
+                    code.Append($"               ForMember(dest =>dest.{field.name}");
+                    if (fieldList.Last() == field)
+                    {
+                        code.Append(";"+Environment.NewLine);
+                    }
+                    code.Append(Environment.NewLine);
+                }
+            }
+            code.Append("       }" + Environment.NewLine);
+            code.Append(Environment.NewLine);
+            code.Append("}" + Environment.NewLine);
+            form.GeneratedCodeText = code.ToString();
+            form.CodeLanguage = "language-csharp";
+            form.Show();
+        }
+
+        private void ApplicationManagerImplementationButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
 
         private void ApplicationGlobalVariablesBLLAndConstantsButton_Click(object sender, EventArgs e)
         {
@@ -1182,6 +1276,7 @@ namespace codegenerator
             code.Append("       }" + Environment.NewLine);
             code.Append("}" + Environment.NewLine);
             form.GeneratedCodeText = code.ToString();
+            form.CodeLanguage = "language-csharp";
             form.Show();
         }
 
@@ -1199,6 +1294,7 @@ namespace codegenerator
             code.Append("       }" + Environment.NewLine);
             code.Append("}" + Environment.NewLine);
             form.GeneratedCodeText = code.ToString();
+            form.CodeLanguage = "language-csharp";
             form.Show();
         }
 
@@ -1215,7 +1311,7 @@ namespace codegenerator
             code.Append("using System.Linq;" + Environment.NewLine);
             code.Append("using System.Text;" + Environment.NewLine);
             code.Append("using System.Threading.Tasks;" + Environment.NewLine);
-            code.Append($"using {ApplicationNamespaceTextBox.Text}.BLL" + Environment.NewLine);
+            code.Append($"using {ApplicationNamespaceTextBox.Text}.BLL;" + Environment.NewLine);
             code.Append(Environment.NewLine);
             code.Append($"namespace {ApplicationNamespaceTextBox.Text}.Commons.Attributes" + Environment.NewLine);
             code.Append("{" + Environment.NewLine);
@@ -1230,7 +1326,7 @@ namespace codegenerator
             code.Append(Environment.NewLine);
             code.Append("           public void Intercept(IInvocation invocation)" + Environment.NewLine);
             code.Append("           {" + Environment.NewLine);
-            code.Append("               string methodName=string.Empty();" + Environment.NewLine);
+            code.Append("               string methodName=\"\";" + Environment.NewLine);
             code.Append("               if (invocation.Method.ReflectedType is not null " + Environment.NewLine);
             code.Append("                   && invocation.Method.ReflectedType.Name is not null)" + Environment.NewLine);
             code.Append("               {" + Environment.NewLine);
@@ -1265,8 +1361,8 @@ namespace codegenerator
             code.Append("           }" + Environment.NewLine);
             code.Append("       }" + Environment.NewLine);
             code.Append("}" + Environment.NewLine);
-
             form.GeneratedCodeText = code.ToString();
+            form.CodeLanguage = "language-csharp";
             form.Show();
         }
 
@@ -1284,6 +1380,7 @@ namespace codegenerator
             code.Append("       }" + Environment.NewLine);
             code.Append("}" + Environment.NewLine);
             form.GeneratedCodeText = code.ToString();
+            form.CodeLanguage = "language-csharp";
             form.Show();
         }
 
@@ -1302,6 +1399,7 @@ namespace codegenerator
             code.Append("       }" + Environment.NewLine);
             code.Append("}" + Environment.NewLine);
             form.GeneratedCodeText = code.ToString();
+            form.CodeLanguage = "language-csharp";
             form.Show();
         }
 
@@ -1371,8 +1469,11 @@ namespace codegenerator
             code.Append("       }" + Environment.NewLine);
             code.Append("}" + Environment.NewLine);
             form.GeneratedCodeText = code.ToString();
+            form.CodeLanguage = "language-csharp";
             form.Show();
         }
+
+
         #endregion
 
         #region ConfigChange
@@ -1422,5 +1523,8 @@ namespace codegenerator
         }
 
         #endregion
+
+
+     
     }
 }
